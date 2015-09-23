@@ -13,6 +13,7 @@ addons:
       - xorg-dev
       - libglu1-mesa-dev
       - gcc-4.8
+      - g++-4.8
 
 cache:
   directories:
@@ -23,7 +24,7 @@ install:
   - bash ./ci-install.sh
 
 before_script:
-  - which gcc-4.8
+  - which g++-4.8
   - export CC=/usr/bin/gcc-4.8
   - export CXX=/usr/bin/g++-4.8
   - gcc-4.8 --version
