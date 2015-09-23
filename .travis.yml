@@ -14,12 +14,13 @@ addons:
 cache:
   directories:
     - $HOME/cmake
+    - $HOME/glm
 
 install:
   - bash ./ci-install.sh
 
 before_script:
-  - ./cmake/bin/cmake -DGLM_ROOT_DIR="${HOME}/glm" .
+  - ./cmake/bin/cmake -DGLM_INCLUDE_DIR="${HOME}/glm" .
   - make
 
 script:
