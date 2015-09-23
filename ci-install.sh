@@ -7,3 +7,10 @@ if [ ! -d "$HOME/cmake/bin" ]; then
 else
     echo 'Using cached cmake';
 fi
+
+if [ ! -d "$HOME/glm" ]; then
+    wget https://github.com/g-truc/glm/releases/download/0.9.7.1/glm-0.9.7.1.zip -O /tmp/glm.zip;
+    unzip /tmp/glm.zip;
+else
+    echo 'Using cached GLM';
+fi

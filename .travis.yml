@@ -1,6 +1,5 @@
 language: cpp
 compiler:
-  - gcc
   - clang
 
 addons:
@@ -9,7 +8,6 @@ addons:
       - liblua5.1-0-dev
       - libglfw-dev
       - libglew-dev
-      - libglm-dev
       - xorg-dev
       - libglu1-mesa-dev
 
@@ -21,7 +19,7 @@ install:
   - bash ./ci-install.sh
 
 before_script:
-  - ./cmake/bin/cmake .
+  - ./cmake/bin/cmake -DGLM_ROOT_DIR="${HOME}/glm" .
   - make
 
 script:
