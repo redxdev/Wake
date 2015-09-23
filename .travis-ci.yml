@@ -1,0 +1,18 @@
+language: cpp
+compiler:
+  - gcc
+
+addons:
+  apt:
+    packages:
+      - cmake
+      - liblua5.1-0
+      - libglfw-dev
+      - libglew-dev
+      - libglm-dev
+
+before_script:
+  - cmake .
+
+script:
+  - make

@@ -1,0 +1,9 @@
+#include "wake.h"
+
+namespace wake
+{
+    const char* getVersion()
+    {
+        return "0.1.0-@WAKE_REVISION@";
+    }
+}
