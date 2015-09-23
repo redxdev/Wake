@@ -14,11 +14,13 @@ addons:
       - libglu1-mesa-dev
       - gcc-4.8
       - g++-4.8
+      - unzip
 
 install:
   - bash ./ci-install.sh
 
 before_script:
+  - ls $HOME
   - ls "${HOME}/glm/"
   - ls "${HOME}/glm/glm/"
   - export CC=/usr/bin/gcc-4.8
