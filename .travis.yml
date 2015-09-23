@@ -1,15 +1,18 @@
 language: cpp
 compiler:
-  - clang
+  - gcc
 
 addons:
   apt:
+    sources:
+      - ubuntu-toolchain-r-test
     packages:
       - liblua5.1-0-dev
       - libglfw-dev
       - libglew-dev
       - xorg-dev
       - libglu1-mesa-dev
+      - gcc-4.8
 
 cache:
   directories:
@@ -20,6 +23,9 @@ install:
   - bash ./ci-install.sh
 
 before_script:
+  - export CC=gcc-4.8
+  - export CXX=g++-4.8
+  - gcc-4.8 --version
   - ./cmake/bin/cmake -DGLM_INCLUDE_DIR="${HOME}/glm" .
   - make
 
