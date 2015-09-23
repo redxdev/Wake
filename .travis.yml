@@ -24,11 +24,12 @@ install:
   - bash ./ci-install.sh
 
 before_script:
-  - which g++-4.8
+  - ls "${HOME}/glm/"
+  - ls "${HOME}/glm/glm/"
   - export CC=/usr/bin/gcc-4.8
   - export CXX=/usr/bin/g++-4.8
   - gcc-4.8 --version
-  - ./cmake/bin/cmake -DGLM_INCLUDE_DIR="${HOME}/glm" .
+  - ./cmake/bin/cmake -DGLM_INCLUDE_DIR="${HOME}/glm/" .
   - make
 
 script:
