@@ -10,6 +10,8 @@ addons:
       - libglfw-dev
       - libglew-dev
       - libglm-dev
+      - xorg-dev
+      - libglu1-mesa-dev
 
 cache:
   directories:
