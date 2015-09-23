@@ -27,4 +27,4 @@ before_script:
   - make
 
 script:
-  - cd dist && ./Wake --testing
+  - cd dist && ../Wake --testing
