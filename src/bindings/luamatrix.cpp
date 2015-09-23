@@ -450,6 +450,24 @@ namespace wake
             return 1;
         }
 
+        // This only applies to matrices where #rows == #columns
+        template<typename MatType>
+        static int mat_determinant(lua_State* L)
+        {
+            auto& mat = *checkMatrix<MatType>(L, 1);
+            lua_pushnumber(L, glm::determinant(mat));
+            return 1;
+        }
+
+        // This only applies to matrices where #rows == #columns
+        template<typename MatType>
+        static int mat_inverse(lua_State* L)
+        {
+            auto& mat = *checkMatrix<MatType>(L, 1);
+            pushMatrix<MatType>(L, glm::inverse(mat));
+            return 1;
+        }
+
         template<typename MatType>
         static int mat_apply(lua_State* L)
         {
@@ -1273,8 +1291,14 @@ namespace wake
             {NULL, NULL} \
         }
 
-        MATRIX_LIB_F(matrix2x2, glm::mat2x2);
-        MATRIX_LIB_M(matrix2x2, glm::mat2x2);
+        MATRIX_LIB_F(matrix2x2, glm::mat2x2,
+             {"determinant", mat_determinant<glm::mat2x2>},
+             {"inverse", mat_inverse<glm::mat2x2>}
+        );
+        MATRIX_LIB_M(matrix2x2, glm::mat2x2,
+             {"determinant", mat_determinant<glm::mat2x2>},
+             {"inverse", mat_inverse<glm::mat2x2>}
+        );
 
         int luaopen_matrix2x2(lua_State* L)
         {
@@ -1345,8 +1369,14 @@ namespace wake
 
         W_REGISTER_MODULE(luaopen_matrix3x2);
 
-        MATRIX_LIB_F(matrix3x3, glm::mat3x3);
-        MATRIX_LIB_M(matrix3x3, glm::mat3x3);
+        MATRIX_LIB_F(matrix3x3, glm::mat3x3,
+             {"determinant", mat_determinant<glm::mat3x3>},
+             {"inverse", mat_inverse<glm::mat3x3>}
+        );
+        MATRIX_LIB_M(matrix3x3, glm::mat3x3,
+             {"determinant", mat_determinant<glm::mat3x3>},
+             {"inverse", mat_inverse<glm::mat3x3>}
+        );
 
         int luaopen_matrix3x3(lua_State* L)
         {
@@ -1417,8 +1447,14 @@ namespace wake
 
         W_REGISTER_MODULE(luaopen_matrix4x3);
 
-        MATRIX_LIB_F(matrix4x4, glm::mat4x4);
-        MATRIX_LIB_M(matrix4x4, glm::mat4x4);
+        MATRIX_LIB_F(matrix4x4, glm::mat4x4,
+             {"determinant", mat_determinant<glm::mat4x4>},
+             {"inverse", mat_inverse<glm::mat4x4>}
+        );
+        MATRIX_LIB_M(matrix4x4, glm::mat4x4,
+             {"determinant", mat_determinant<glm::mat4x4>},
+             {"inverse", mat_inverse<glm::mat4x4>}
+        );
 
         int luaopen_matrix4x4(lua_State* L)
         {

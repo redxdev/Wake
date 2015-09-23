@@ -166,3 +166,13 @@ test.test('unary minus', function()
     test.expect_equal(a:get(3, 2), -8)
     test.expect_equal(a:get(3, 3), -9)
 end)
+
+test.test('determinant', function()
+    local m = Matrix3x3.new(1, 2, 3, 4, 5, 6, 7, 8, 9)
+    test.expect_equal(m:determinant(), 0)
+end)
+
+test.test('inverse', function()
+    local m = Matrix3x3.new(2, 1, 0, 2, 0, 0, 0, 0, 1)
+    test.expect_equal(m:inverse(), Matrix3x3.new(0, 0.5, 0, 1, -1, 0, 0, 0, 1))
+end)

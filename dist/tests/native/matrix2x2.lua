@@ -115,3 +115,13 @@ test.test('unary minus', function()
     test.expect_equal(a:get(2, 1), -3)
     test.expect_equal(a:get(2, 2), -4)
 end)
+
+test.test('determinant', function()
+    local m = Matrix2x2.new(1, 2, 3, 4)
+    test.expect_equal(m:determinant(), -2)
+end)
+
+test.test('inverse', function()
+    local m = Matrix2x2.new(1, 2, 3, 4)
+    test.expect_equal(m:inverse(), Matrix2x2.new(-2, 1, 1.5, -0.5))
+end)
