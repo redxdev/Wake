@@ -1,6 +1,7 @@
 language: cpp
 compiler:
   - gcc
+  - clang
 
 addons:
   apt:
@@ -13,6 +14,7 @@ addons:
 
 before_script:
   - cmake .
+  - make
 
 script:
-  - make
+  - ./Wake --testing

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 project(Wake)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
-message(STATUS "Module path: " ${CMAKE_MODULE_PATH})
+set(WAKE_DISTRIBUTION_PATH "${CMAKE_CURRENT_SOURCE_DIR}/dist")
 
 include(GetGitRevisionDescription)
 get_git_head_revision(GIT_REFSPEC GIT_SHA1)
@@ -48,6 +48,3 @@ target_link_libraries(Wake
         ${GLEW_LIBRARIES}
         ${GLFW_LIBRARIES}
 )
-
-enable_testing()
-add_test(WakeTests Wake --testing)
