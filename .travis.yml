@@ -15,16 +15,10 @@ addons:
       - gcc-4.8
       - g++-4.8
 
-cache:
-  directories:
-    - $HOME/cmake
-    - $HOME/glm
-
 install:
   - bash ./ci-install.sh
 
 before_script:
-  - gcc --version
   - ls "${HOME}/glm/"
   - ls "${HOME}/glm/glm/"
   - export CC=/usr/bin/gcc-4.8
