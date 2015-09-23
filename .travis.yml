@@ -6,11 +6,15 @@ compiler:
 addons:
   apt:
     packages:
-      - cmake
       - liblua5.1-0
       - libglfw-dev
       - libglew-dev
       - libglm-dev
+
+install:
+  - wget http://cmake.org/files/v3.3/cmake-3.3.2-Linux-x86_64.tar.gz -O /tmp/cmake.tar.gz
+  - tar -xvf /tmp/cmake.tar.gz
+  - export PATH=$PATH:$PWD/cmake-3.3.2-Linux-x86_64/bin/
 
 before_script:
   - cmake .
