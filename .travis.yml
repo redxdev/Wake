@@ -20,9 +20,6 @@ install:
   - bash ./ci-install.sh
 
 before_script:
-  - ls $HOME
-  - ls "${HOME}/glm/"
-  - ls "${HOME}/glm/glm/"
   - export CC=/usr/bin/gcc-4.8
   - export CXX=/usr/bin/g++-4.8
   - gcc-4.8 --version
@@ -30,4 +27,4 @@ before_script:
   - make
 
 script:
-  - ./Wake --testing
+  - cd dist && ./Wake --testing
