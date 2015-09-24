@@ -154,9 +154,6 @@ namespace wake
         IM_AUTO(BUTTON_6)
         IM_AUTO(BUTTON_7)
         IM_AUTO(BUTTON_8)
-        LEFT = MouseInput::BUTTON_1,
-        RIGHT = MouseInput::BUTTON_2,
-        MIDDLE = MouseInput::BUTTON_3
     };
 #undef IM_AUTO
 

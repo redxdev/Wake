@@ -13,20 +13,19 @@ int main(int argc, char** argv)
     {
         TCLAP::CmdLine cmd("Wake game engine", ' ', wake::getVersion());
 
-        TCLAP::SwitchArg headlessArg("c", "headless", "Run in headless mode.", cmd, false);
-        TCLAP::SwitchArg testingArg("t", "testing", "Run in testing mode (no game loop). Implies headless mode.", cmd,
+        TCLAP::SwitchArg testingArg("t", "testing", "Run in testing mode. This will launch the test scripts instead of the game scripts.", cmd,
                                     false);
 
         cmd.parse(argc, argv);
 
-        if (headlessArg.getValue() || testingArg.getValue())
-        {
-            std::cout << "Running in headless mode." << std::endl;
-        }
-
         if (testingArg.getValue())
         {
             std::cout << "Running in testing mode." << std::endl;
+            wake::setEngineMode(wake::EngineMode::TESTING);
+        }
+        else
+        {
+            wake::setEngineMode(wake::EngineMode::NORMAL);
         }
 
         if (!W_SCRIPT.startup())
@@ -48,7 +47,6 @@ int main(int argc, char** argv)
             // Wake test suite
             ////
 
-            std::cout << "Wake " << wake::getVersion() << " test suite" << std::endl;
             std::cout << "Loading tests..." << std::endl;
             if (!W_SCRIPT.doFile("tests/init.lua"))
             {

@@ -50,6 +50,8 @@ function module.test(name, f)
 end
 
 function module.run_all()
+    out:write('Engine ' .. wake.getVersion() .. ' running in ' .. wake.getEngineMode() .. ' mode.\n\n')
+
     local fail = 0
     local success = 0
     for _,v in ipairs(suites) do
