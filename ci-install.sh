@@ -10,7 +10,7 @@ fi
 
 if [ ! -d "$HOME/glm/glm" ]; then
     wget https://github.com/g-truc/glm/releases/download/0.9.7.1/glm-0.9.7.1.zip -O /tmp/glm.zip;
-    unzip /tmp/glm.zip -d $HOME;
+    unzip /tmp/glm.zip -d .;
 else
     echo 'Using cached GLM';
 fi
@@ -18,10 +18,9 @@ fi
 if [ ! -d "$HOME/glfw/src" ]; then
     wget https://github.com/glfw/glfw/releases/download/3.1.1/glfw-3.1.1.zip -O /tmp/glfw.zip;
     unzip /tmp/glfw -d $HOME;
-    mv $HOME/glfw-3.1.1 $HOME/glfw;
-    cd $HOME/glfw;
-    ls ..
-    ../cmake/bin/cmake .;
+    mv glfw-3.1.1 glfw;
+    ./cmake/bin/cmake glfw;
+    cd glfw
     make;
     cd ..;
 else
