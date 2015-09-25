@@ -19,8 +19,8 @@ if [ ! -d "$HOME/glfw/src" ]; then
     wget https://github.com/glfw/glfw/releases/download/3.1.1/glfw-3.1.1.zip -O /tmp/glfw.zip;
     unzip /tmp/glfw -d .;
     mv glfw-3.1.1 glfw;
-    ./cmake/bin/cmake glfw;
-    cd glfw
+    cd glfw;
+    ../cmake/bin/cmake glfw;
     make;
     cd ..;
 else
