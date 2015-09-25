@@ -8,7 +8,6 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - liblua5.1-0-dev
-      - libglfw-dev
       - libglew-dev
       - xorg-dev
       - libglu1-mesa-dev
@@ -23,7 +22,7 @@ before_script:
   - export CC=/usr/bin/gcc-4.8
   - export CXX=/usr/bin/g++-4.8
   - gcc-4.8 --version
-  - ./cmake/bin/cmake -DGLM_INCLUDE_DIR="${HOME}/glm/" .
+  - ./cmake/bin/cmake -DGLM_INCLUDE_DIR="${HOME}/glm/" . -DGLFW_INCLUDE_DIR="${HOME}/glfw/include" -DGLFW_glfw_LIBRARY="${HOME}/glfw/src/libglfw3.a"
   - make
 
 script:

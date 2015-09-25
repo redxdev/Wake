@@ -14,3 +14,15 @@ if [ ! -d "$HOME/glm/glm" ]; then
 else
     echo 'Using cached GLM';
 fi
+
+if [ ! -d "$HOME/glfw/src" ]; then
+    wget https://github.com/glfw/glfw/releases/download/3.1.1/glfw-3.1.1.zip -O /tmp/glfw.zip;
+    unzip /tmp/glfw -d $HOME;
+    mv $HOME/glfw-3.1.1 $HOME/glfw;
+    cd $HOME/glfw;
+    ../cmake/bin/cmake .;
+    make;
+    cd ..;
+else
+    echo 'Using cached GLFW';
+fi
