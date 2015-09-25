@@ -195,41 +195,6 @@ if(GLFW_INCLUDE_DIR)
         set (GLFW_INCLUDE_PATH "${GLFW_INCLUDE_DIR}")
     endif(GLFW_glfw_LIBRARY)
 
-
-    # Tease the GLFW_VERSION numbers from the lib headers
-    function(parseVersion FILENAME VARNAME)
-
-        set(PATTERN "^#define ${VARNAME}.*$")
-
-        file(STRINGS "${GLFW_INCLUDE_DIR}/${FILENAME}" TMP REGEX ${PATTERN})
-
-        string(REGEX MATCHALL "[0-9]+" TMP ${TMP})
-
-        set(${VARNAME} ${TMP} PARENT_SCOPE)
-
-    endfunction()
-
-
-    if(EXISTS "${GLFW_INCLUDE_DIR}/GL/glfw.h")
-
-        parseVersion(GL/glfw.h GLFW_VERSION_MAJOR)
-        parseVersion(GL/glfw.h GLFW_VERSION_MINOR)
-        parseVersion(GL/glfw.h GLFW_VERSION_REVISION)
-
-    elseif(EXISTS "${GLFW_INCLUDE_DIR}/GLFW/glfw3.h")
-
-        parseVersion(GLFW/glfw3.h GLFW_VERSION_MAJOR)
-        parseVersion(GLFW/glfw3.h GLFW_VERSION_MINOR)
-        parseVersion(GLFW/glfw3.h GLFW_VERSION_REVISION)
-
-    endif()
-
-    if(${GLFW_VERSION_MAJOR} OR ${GLFW_VERSION_MINOR} OR ${GLFW_VERSION_REVISION})
-        set(GLFW_VERSION "${GLFW_VERSION_MAJOR}.${GLFW_VERSION_MINOR}.${GLFW_VERSION_REVISION}")
-        set(GLFW_VERSION_STRING "${GLFW_VERSION}")
-        mark_as_advanced(GLFW_VERSION)
-    endif()
-
 endif(GLFW_INCLUDE_DIR)
 
 include(FindPackageHandleStandardArgs)
