@@ -20,7 +20,7 @@ if [ ! -d "$HOME/glfw/src" ]; then
     unzip /tmp/glfw -d .;
     mv glfw-3.1.1 glfw;
     cd glfw;
-    ../cmake/bin/cmake glfw;
+    ../cmake/bin/cmake .;
     make;
     cd ..;
 else
