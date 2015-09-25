@@ -17,12 +17,14 @@ addons:
 
 install:
   - bash ./ci-install.sh
+  - pwd
 
 before_script:
   - export CC=/usr/bin/gcc-4.8
   - export CXX=/usr/bin/g++-4.8
   - gcc-4.8 --version
-  - ./cmake/bin/cmake -DGLM_INCLUDE_DIR="${HOME}/glm/" . -DGLFW_INCLUDE_DIR="${HOME}/glfw/include" -DGLFW_glfw_LIBRARY="${HOME}/glfw/src/libglfw3.a"
+  - pwd
+  - ./cmake/bin/cmake -DGLM_INCLUDE_DIR="./glm/" . -DGLFW_INCLUDE_DIR="./glfw/include" -DGLFW_glfw_LIBRARY="./glfw/src/libglfw3.a"
   - make
 
 script:
