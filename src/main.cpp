@@ -3,9 +3,7 @@
 
 #include "wake.h"
 #include "scriptmanager.h"
-
-
-using namespace std;
+#include "engine.h"
 
 int main(int argc, char** argv)
 {
@@ -44,7 +42,7 @@ int main(int argc, char** argv)
         if (testingArg.getValue())
         {
             ////
-            // Wake test suite
+            // Test suite
             ////
 
             std::cout << "Loading tests..." << std::endl;
@@ -71,6 +69,9 @@ int main(int argc, char** argv)
             }
 
             bool result = lua_toboolean(state, -1) != 0;
+
+            W_SCRIPT.shutdown();
+
             if (result)
             {
                 std::cout << "All tests passed successfully." << std::endl;
@@ -84,6 +85,16 @@ int main(int argc, char** argv)
         }
         else
         {
+            ////
+            // Normal Execution
+            ////
+
+            if (!W_ENGINE.startup())
+            {
+                std::cout << "Unable to start engine." << std::endl;
+                return 1;
+            }
+
             if (!W_SCRIPT.doFile("game/init.lua"))
             {
                 std::cout << "Unable to start game." << std::endl;
@@ -91,6 +102,7 @@ int main(int argc, char** argv)
                 return 1;
             }
 
+            W_ENGINE.shutdown();
             W_SCRIPT.shutdown();
         }
     }

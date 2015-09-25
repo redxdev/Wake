@@ -1,5 +1,6 @@
 #pragma once
 
+#include "event.h"
 #include "util.h"
 
 namespace wake

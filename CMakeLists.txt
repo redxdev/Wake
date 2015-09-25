@@ -35,6 +35,7 @@ set(SOURCE_FILES
         "src/pushvalue.cpp"
         "src/moduleregistry.cpp"
         "src/scriptmanager.cpp"
+        "src/engine.cpp"
         "src/bindings/luawake.cpp"
         "src/bindings/luaevent.cpp"
         "src/bindings/luamatrix.cpp"

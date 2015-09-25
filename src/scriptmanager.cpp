@@ -41,11 +41,8 @@ namespace wake
 
     bool ScriptManager::initializeScripts()
     {
-        std::cout << "Loading configuration..." << std::endl;
-        if (!doFile("config/cfg.lua"))
-            return false;
+        return doFile("config/cfg.lua");
 
-        return true;
     }
 
     void ScriptManager::setPath(const char* path)
