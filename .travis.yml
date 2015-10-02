@@ -15,6 +15,7 @@ addons:
       - g++-4.8
       - unzip
       - libxinerama-dev
+      - libxinerama1
 
 install:
   - bash ./ci-install.sh
