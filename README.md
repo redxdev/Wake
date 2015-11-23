@@ -1,7 +1,5 @@
 # Wake
 
-[![Build Status](https://travis-ci.org/redxdev/Wake.svg)](https://travis-ci.org/redxdev/Wake)
-
 Wake is a small game engine written in C++ and Lua.
 
 ## License
