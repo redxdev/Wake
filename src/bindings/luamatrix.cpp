@@ -1243,6 +1243,8 @@ namespace wake
             luaL_register(L, NULL, vector4_m);
 
             luaL_register(L, VectorInfo<glm::vec4>::type(), vector4_f);
+
+            return 1;
         }
 
         W_REGISTER_MODULE(luaopen_vector4);
