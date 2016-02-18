@@ -6,20 +6,29 @@ namespace wake
 {
     namespace binding
     {
-        static int tick(lua_State* L)
+        static int stop(lua_State* L)
         {
-            pushValue(L, W_ENGINE.TickEvent);
+            W_ENGINE.stop();
             return 1;
         }
 
         static const struct luaL_reg wakelib_f[] = {
-                {"tick",	tick},
+                {"stop",    stop},
                 {NULL, NULL}
         };
 
         int luaopen_engine(lua_State* L)
         {
             luaL_register(L, "engine", wakelib_f);
+
+            lua_pushstring(L, "tick");
+            pushValue(L, W_ENGINE.TickEvent);
+            lua_settable(L, -3);
+
+            lua_pushstring(L, "quit");
+            pushValue(L, W_ENGINE.QuitEvent);
+            lua_settable(L, -3);
+
             return 1;
         }
 

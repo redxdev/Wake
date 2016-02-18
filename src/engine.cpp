@@ -64,22 +64,49 @@ namespace wake
 
 	bool Engine::run()
 	{
+        if (running)
+        {
+            std::cout << "Cannot run() while already running!" << std::endl;
+            return false;
+        }
+
 		if (!window)
 		{
 			std::cout << "Cannot run engine with uninitialized window (did startup succeed?)" << std::endl;
 			return false;
 		}
 
-		while (!glfwWindowShouldClose(window))
+        running = true;
+
+        double lastTime = glfwGetTime();
+
+		while (running && !glfwWindowShouldClose(window))
 		{
-			TickEvent.call(glfwGetTime());
+            double frameTime = glfwGetTime() - lastTime;
+            lastTime = glfwGetTime();
+
+			TickEvent.call(frameTime);
 
 			glfwSwapBuffers(window);
 			glfwPollEvents();
 		}
 
+        running = false;
+
+        QuitEvent.call();
+
 		return true;
 	}
+
+    bool Engine::isRunning() const
+    {
+        return running;
+    }
+
+    void Engine::stop()
+    {
+        running = false;
+    }
 
 	Engine::Engine()
     {

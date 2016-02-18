@@ -14,6 +14,7 @@ namespace wake
 
     public:
 		Event<double> TickEvent;
+        Event<> QuitEvent;
 
         bool startup();
 
@@ -21,11 +22,17 @@ namespace wake
 
 		bool run();
 
+        bool isRunning() const;
+
+        void stop();
+
     private:
         Engine();
 
         ~Engine();
 
         GLFWwindow* window = nullptr;
+
+        bool running = false;
     };
 }
