@@ -58,7 +58,7 @@ function module.run_all()
 
     local fail = 0
     local success = 0
-    for _,v in ipairs(suites) do
+    for _, v in ipairs(suites) do
         if module.run_suite(v) then
             success = success + 1
         else
@@ -81,7 +81,7 @@ function module.run_suite(suite)
 
     out:write('== Suite "' .. suite.name .. '" ==\n')
 
-    for _,v in ipairs(suite.tests) do
+    for _, v in ipairs(suite.tests) do
         if module.run_test(v) then
             insert(current_suite.success, v)
         else
@@ -114,7 +114,7 @@ function module.run_test(test)
             err:write('-- ' .. e .. '\n')
         end
 
-        for _,v in ipairs(test.errors) do
+        for _, v in ipairs(test.errors) do
             err:write('-- ' .. v .. '\n')
         end
 
