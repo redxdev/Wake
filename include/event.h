@@ -15,7 +15,7 @@ namespace wake
 
         virtual void call(Arguments... args) = 0;
 
-        virtual bool equals(Delegate<Arguments...>* other) const;
+        virtual bool equals(Delegate<Arguments...>* other) const = 0;
     };
 
     template<typename... Arguments>
@@ -175,6 +175,7 @@ namespace wake
             while (currentItr != delegates.end())
             {
                 (*currentItr)->call(args...);
+				++currentItr;
             }
         }
 

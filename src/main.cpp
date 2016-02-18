@@ -102,8 +102,17 @@ int main(int argc, char** argv)
                 return 1;
             }
 
+			int result = 0;
+			if (!W_ENGINE.run())
+			{
+				std::cout << "Unable to run game." << std::endl;
+				result = 1;
+			}
+
             W_ENGINE.shutdown();
-            W_SCRIPT.shutdown();
+			W_SCRIPT.shutdown();
+
+			return result;
         }
     }
     catch (TCLAP::ArgException& e)

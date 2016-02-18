@@ -21,6 +21,10 @@ local current_test
 
 local module = {}
 
+if wake.getEngineMode() ~= 'testing' then
+	print("Warning: You are including the test library when in " .. wake.getEngineMode() .. " mode")
+end
+
 local function split_traceback(trace)
     return string.trim(string.explode('\n', trace)[3])
 end

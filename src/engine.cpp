@@ -41,6 +41,7 @@ namespace wake
         }
 
         glfwMakeContextCurrent(window);
+		glfwSwapInterval(1);
 
         if (glewInit() != GLEW_OK)
         {
@@ -61,7 +62,26 @@ namespace wake
         return true;
     }
 
-    Engine::Engine()
+	bool Engine::run()
+	{
+		if (!window)
+		{
+			std::cout << "Cannot run engine with uninitialized window (did startup succeed?)" << std::endl;
+			return false;
+		}
+
+		while (!glfwWindowShouldClose(window))
+		{
+			TickEvent.call(glfwGetTime());
+
+			glfwSwapBuffers(window);
+			glfwPollEvents();
+		}
+
+		return true;
+	}
+
+	Engine::Engine()
     {
 
     }

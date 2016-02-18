@@ -10,6 +10,7 @@ deps/external/
 .vs/
 *.vcxproj
 *.vcxproj.filters
+*.vcxproj.user
 *.sdf
 *.sln
 Win32/
