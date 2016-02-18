@@ -5,3 +5,16 @@ cmake_install.cmake
 install_manifest.txt
 build.wake.cpp
 .idea/
+deps/external/
+
+.vs/
+*.vcxproj
+*.vcxproj.filters
+*.sdf
+*.sln
+Win32/
+dist/*.dll
+Wake.dir/
+*.opendb
+Debug/
+Release/
