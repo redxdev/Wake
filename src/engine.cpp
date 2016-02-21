@@ -108,6 +108,11 @@ namespace wake
         running = false;
     }
 
+    double Engine::getTime() const
+    {
+        return glfwGetTime();
+    }
+
 	Engine::Engine()
     {
 

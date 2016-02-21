@@ -26,7 +26,7 @@ set(INCLUDE_DIRECTORIES
         ${GLEW_INCLUDE_DIRS}
         ${GLFW_INCLUDE_DIR}
         ${GLM_INCLUDE_DIR}
-)
+        )
 
 set(SOURCE_FILES
         "${CMAKE_CURRENT_BINARY_DIR}/build.wake.cpp"
@@ -36,11 +36,13 @@ set(SOURCE_FILES
         "src/moduleregistry.cpp"
         "src/scriptmanager.cpp"
         "src/engine.cpp"
+        "src/shader.cpp"
         "src/bindings/luawake.cpp"
-		"src/bindings/luaengine.cpp"
+        "src/bindings/luaengine.cpp"
         "src/bindings/luaevent.cpp"
         "src/bindings/luamatrix.cpp"
-)
+        "src/bindings/luashader.cpp"
+        )
 
 add_definitions(-DGLM_FORCE_RADIANS)
 
@@ -50,4 +52,4 @@ target_link_libraries(Wake
         ${LUA_LIBRARIES}
         ${GLEW_LIBRARIES}
         ${GLFW_LIBRARIES}
-)
+        )

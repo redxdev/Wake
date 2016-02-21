@@ -6,13 +6,27 @@ namespace wake
 {
     namespace binding
     {
-        static int stop(lua_State* L)
+        static int isRunning(lua_State* L)
         {
-            W_ENGINE.stop();
+            pushValue(L, W_ENGINE.isRunning());
             return 1;
         }
 
+        static int getTime(lua_State* L)
+        {
+            pushValue(L, W_ENGINE.getTime());
+            return 1;
+        }
+
+        static int stop(lua_State* L)
+        {
+            W_ENGINE.stop();
+            return 0;
+        }
+
         static const struct luaL_reg wakelib_f[] = {
+                {"isRunning",   isRunning},
+                {"getTime",     getTime},
                 {"stop",    stop},
                 {NULL, NULL}
         };

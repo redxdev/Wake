@@ -118,7 +118,7 @@ namespace wake
     binding::ILuaEventWrapper* luaW_checkevent(lua_State* L, int narg)
     {
         void* dataPtr = luaL_checkudata(L, narg, W_MT_EVENT);
-        luaL_argcheck(L, dataPtr != nullptr, narg, "'event' expected");
+        luaL_argcheck(L, dataPtr != nullptr, narg, "'Event' expected");
         binding::EventContainer* container = (binding::EventContainer*) dataPtr;
         return container->wrapper;
     }

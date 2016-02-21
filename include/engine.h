@@ -26,6 +26,8 @@ namespace wake
 
         void stop();
 
+        double getTime() const;
+
     private:
         Engine();
 

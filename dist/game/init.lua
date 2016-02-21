@@ -1,4 +1,7 @@
-print "Startup!"
+print("Startup at " .. engine.getTime())
+
+local shader = Shader.new("foo", "bar")
+print(shader)
 
 local time = 10
 local next = time - 1
@@ -15,5 +18,5 @@ engine.tick:bind(function(dt)
 end)
 
 engine.quit:bind(function()
-    print "Quitting!"
+    print("Shutdown at " .. engine.getTime())
 end)
