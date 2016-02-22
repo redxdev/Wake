@@ -16,6 +16,16 @@ namespace wake
     {
     }
 
+    ScriptManager::ScriptManager(const ScriptManager& other)
+    {
+
+    }
+
+    ScriptManager& ScriptManager::operator=(const ScriptManager& other)
+    {
+        return *this;
+    }
+
     ScriptManager::~ScriptManager()
     {
     }

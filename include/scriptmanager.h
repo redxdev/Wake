@@ -29,6 +29,9 @@ namespace wake
 
     private:
         ScriptManager();
+        ScriptManager(const ScriptManager& other);
+
+        ScriptManager& operator=(const ScriptManager& other);
 
         ~ScriptManager();
 

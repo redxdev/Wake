@@ -17,6 +17,16 @@ namespace wake
     {
     }
 
+    ModuleRegistry::ModuleRegistry(const ModuleRegistry& other)
+    {
+
+    }
+
+    ModuleRegistry& ModuleRegistry::operator=(const ModuleRegistry& other)
+    {
+        return *this;
+    }
+
     ModuleRegistry::~ModuleRegistry()
     {
     }

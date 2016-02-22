@@ -30,6 +30,8 @@ namespace wake
 
     private:
         Engine();
+        Engine(const Engine& other);
+        Engine& operator=(const Engine& other);
 
         ~Engine();
 
