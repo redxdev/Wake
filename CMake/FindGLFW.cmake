@@ -26,11 +26,11 @@
 # Once done this will define
 #
 # GLFW_FOUND
-# GLFW_INCLUDE_DIR
+# GLFW_INCLUDE_DIRS
 # GLFW_LIBRARIES
 #
 
-find_path( GLFW_INCLUDE_DIR
+find_path( GLFW_INCLUDE_DIRS
     NAMES
         GLFW/glfw3.h
     HINTS
@@ -182,7 +182,7 @@ endif (WIN32)
 
 set( GLFW_FOUND "NO" )
 
-if(GLFW_INCLUDE_DIR)
+if(GLFW_INCLUDE_DIRS)
 
     if(GLFW_glfw_LIBRARY)
         set( GLFW_LIBRARIES "${GLFW_glfw_LIBRARY}"
@@ -192,23 +192,23 @@ if(GLFW_INCLUDE_DIR)
                             "${GLFW_corevideo_LIBRARY}" )
         set( GLFW_FOUND "YES" )
         set (GLFW_LIBRARY "${GLFW_LIBRARIES}")
-        set (GLFW_INCLUDE_PATH "${GLFW_INCLUDE_DIR}")
+        set (GLFW_INCLUDE_PATH "${GLFW_INCLUDE_DIRS}")
     endif(GLFW_glfw_LIBRARY)
 
-endif(GLFW_INCLUDE_DIR)
+endif(GLFW_INCLUDE_DIRS)
 
 include(FindPackageHandleStandardArgs)
 
 find_package_handle_standard_args(GLFW
     REQUIRED_VARS
-        GLFW_INCLUDE_DIR
+        GLFW_INCLUDE_DIRS
         GLFW_LIBRARIES
     VERSION_VAR
         GLFW_VERSION
 )
 
 mark_as_advanced(
-  GLFW_INCLUDE_DIR
+  GLFW_INCLUDE_DIRS
   GLFW_LIBRARIES
   GLFW_glfw_LIBRARY
   GLFW_cocoa_LIBRARY

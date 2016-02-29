@@ -12,8 +12,14 @@ configure_file("src/build.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/build.wake.cpp" @
 find_package(OpenGL REQUIRED)
 find_package(Lua REQUIRED)
 find_package(GLEW REQUIRED)
-find_package(GLFW REQUIRED)
 find_package(GLM REQUIRED)
+
+if (WIN32 AND NOT CYGWIN)
+    find_package(GLFW REQUIRED)
+else()
+    find_package(PkgConfig REQUIRED)
+    pkg_search_module(GLFW REQUIRED glfw3)
+endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -24,7 +30,7 @@ set(INCLUDE_DIRECTORIES
         ${TCLAP_INCLUDE_DIR}
         ${LUA_INCLUDE_DIR}
         ${GLEW_INCLUDE_DIRS}
-        ${GLFW_INCLUDE_DIR}
+        ${GLFW_INCLUDE_DIRS}
         ${GLM_INCLUDE_DIR}
         )
 
