@@ -11,7 +11,7 @@ cd ..
 
 wget https://github.com/glfw/glfw/releases/download/3.1.2/glfw-3.1.2.zip
 unzip glfw-3.1.2.zip
-cd glfw3.1.2.zip
+cd glfw-3.1.2
 cmake -DBUILD_SHARED_LIBS=0 -DGLFW_BUILD_TESTS=0 -DGLFW_BUILD_DOCS=0 -DGLFW_BUILD_EXAMPLES=0 .
 make
 sudo make install
