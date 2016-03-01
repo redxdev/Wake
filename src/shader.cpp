@@ -220,6 +220,8 @@ namespace wake
         glAttachShader(shaderProgram, vertexShader);
         glAttachShader(shaderProgram, fragmentShader);
         glLinkProgram(shaderProgram);
+        
+        return *this;
     }
 
     Shader::~Shader()
