@@ -6,7 +6,7 @@ set(WAKE_DISTRIBUTION_PATH "${CMAKE_CURRENT_SOURCE_DIR}/dist")
 
 include(GetGitRevisionDescription)
 get_git_head_revision(GIT_REFSPEC GIT_SHA1)
-string(SUBSTRING ${GIT_SHA1} 0 8 WAKE_REVISION)
+string(SUBSTRING ${GIT_SHA1} 0 7 WAKE_REVISION)
 configure_file("src/build.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/build.wake.cpp" @ONLY)
 
 find_package(OpenGL REQUIRED)
