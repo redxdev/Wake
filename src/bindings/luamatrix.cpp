@@ -317,7 +317,6 @@ namespace wake
         {
             const int elements = MatrixInfo<MatType>::elements();
             const int columns = MatrixInfo<MatType>::columns();
-            const int rows = MatrixInfo<MatType>::rows();
 
             int argCount = lua_gettop(L);
             switch (argCount)
@@ -473,7 +472,6 @@ namespace wake
         {
             const int elements = MatrixInfo<MatType>::elements();
             const int columns = MatrixInfo<MatType>::columns();
-            const int rows = MatrixInfo<MatType>::rows();
 
             auto& mat = *checkMatrix<MatType>(L, 1);
             luaL_argcheck(L, lua_isfunction(L, 2), 2, "'function' expected");

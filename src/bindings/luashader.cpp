@@ -63,11 +63,13 @@ namespace wake
         static const struct luaL_reg shaderlib_f[] = {
                 {"new",     shader_new},
                 {"getUniform",  shader_get_uniform},
+                {"use",     shader_use},
                 {NULL, NULL}
         };
 
         static const struct luaL_reg shaderlib_m[] = {
                 {"getUniform",  shader_get_uniform},
+                {"use",     shader_use},
                 {"__gc",    shader_m_gc},
                 {"__tostring",  shader_m_tostring},
                 {NULL, NULL}
