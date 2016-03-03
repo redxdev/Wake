@@ -3,7 +3,7 @@ print("Startup at " .. engine.getTime())
 local shader = Shader.new(
 [[
 #version 150
-in vec2 position;
+layout (location = 0) in vec2 position;
 
 void main()
 {
