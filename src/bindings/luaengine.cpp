@@ -24,10 +24,31 @@ namespace wake
             return 0;
         }
 
+        static int checkGLErrors(lua_State* L)
+        {
+            lua_Debug dbg;
+            lua_getstack(L, 1, &dbg);
+            lua_getinfo(L, "nSl", &dbg);
+            lua_pushboolean(L, wake::checkGLErrors(dbg.short_src, dbg.currentline));
+            return 1;
+        }
+
+        static int setClearColor(lua_State* L)
+        {
+            GLclampf r = (GLclampf) luaL_checknumber(L, 1);
+            GLclampf g = (GLclampf) luaL_checknumber(L, 2);
+            GLclampf b = (GLclampf) luaL_checknumber(L, 2);
+            GLclampf a = (GLclampf) luaL_checknumber(L, 2);
+            W_ENGINE.setClearColor(r, g, b, a);
+            return 0;
+        }
+
         static const struct luaL_reg wakelib_f[] = {
-                {"isRunning",   isRunning},
-                {"getTime",     getTime},
-                {"stop",    stop},
+                {"isRunning",       isRunning},
+                {"getTime",         getTime},
+                {"checkGLErrors",   checkGLErrors},
+                {"stop",            stop},
+                {"setClearColor",   setClearColor},
                 {NULL, NULL}
         };
 

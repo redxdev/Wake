@@ -26,6 +26,12 @@ namespace wake
             return 1;
         }
 
+        static int shader_reset(lua_State* L)
+        {
+            Shader::reset();
+            return 0;
+        }
+
         static int shader_use(lua_State* L)
         {
             Shader* shader = luaW_checkshader(L, 1);
@@ -61,16 +67,17 @@ namespace wake
         }
 
         static const struct luaL_reg shaderlib_f[] = {
-                {"new",     shader_new},
+                {"new",         shader_new},
+                {"reset",       shader_reset},
                 {"getUniform",  shader_get_uniform},
-                {"use",     shader_use},
+                {"use",         shader_use},
                 {NULL, NULL}
         };
 
         static const struct luaL_reg shaderlib_m[] = {
                 {"getUniform",  shader_get_uniform},
-                {"use",     shader_use},
-                {"__gc",    shader_m_gc},
+                {"use",         shader_use},
+                {"__gc",        shader_m_gc},
                 {"__tostring",  shader_m_tostring},
                 {NULL, NULL}
         };
@@ -376,61 +383,61 @@ namespace wake
         }
 
         static const struct luaL_reg uniformlib_f[] = {
-                {"isError",     uniform_is_error},
-                {"set1f",       uniform_set1f},
-                {"set2f",       uniform_set2f},
-                {"set3f",       uniform_set3f},
-                {"set4f",       uniform_set4f},
-                {"set1i",       uniform_set1i},
-                {"set2i",       uniform_set2i},
-                {"set3i",       uniform_set3i},
-                {"set4i",       uniform_set4i},
-                {"set1ui",       uniform_set1ui},
-                {"set2ui",       uniform_set2ui},
-                {"set3ui",       uniform_set3ui},
-                {"set4ui",       uniform_set4ui},
-                {"setVec2",       uniform_setVec2},
-                {"setVec3",       uniform_setVec3},
-                {"setVec4",       uniform_setVec4},
-                {"setMatrix2",       uniform_setMatrix2},
+                {"isError",         uniform_is_error},
+                {"set1f",           uniform_set1f},
+                {"set2f",           uniform_set2f},
+                {"set3f",           uniform_set3f},
+                {"set4f",           uniform_set4f},
+                {"set1i",           uniform_set1i},
+                {"set2i",           uniform_set2i},
+                {"set3i",           uniform_set3i},
+                {"set4i",           uniform_set4i},
+                {"set1ui",          uniform_set1ui},
+                {"set2ui",          uniform_set2ui},
+                {"set3ui",          uniform_set3ui},
+                {"set4ui",          uniform_set4ui},
+                {"setVec2",         uniform_setVec2},
+                {"setVec3",         uniform_setVec3},
+                {"setVec4",         uniform_setVec4},
+                {"setMatrix2",          uniform_setMatrix2},
                 {"setMatrix2x3",       uniform_setMatrix2x3},
                 {"setMatrix2x4",       uniform_setMatrix2x4},
                 {"setMatrix3x2",       uniform_setMatrix3x2},
-                {"setMatrix3",       uniform_setMatrix3},
+                {"setMatrix3",          uniform_setMatrix3},
                 {"setMatrix3x4",       uniform_setMatrix3x4},
                 {"setMatrix4x2",       uniform_setMatrix4x2},
                 {"setMatrix4x3",       uniform_setMatrix4x3},
-                {"setMatrix4",       uniform_setMatrix4},
+                {"setMatrix4",          uniform_setMatrix4},
                 {NULL, NULL}
         };
 
         static const struct luaL_reg uniformlib_m[] = {
-                {"isError",     uniform_is_error},
-                {"set1f",       uniform_set1f},
-                {"set2f",       uniform_set2f},
-                {"set3f",       uniform_set3f},
-                {"set4f",       uniform_set4f},
-                {"set1i",       uniform_set1i},
-                {"set2i",       uniform_set2i},
-                {"set3i",       uniform_set3i},
-                {"set4i",       uniform_set4i},
-                {"set1ui",       uniform_set1ui},
-                {"set2ui",       uniform_set2ui},
-                {"set3ui",       uniform_set3ui},
-                {"set4ui",       uniform_set4ui},
-                {"setVec2",       uniform_setVec2},
-                {"setVec3",       uniform_setVec3},
-                {"setVec4",       uniform_setVec4},
-                {"setMatrix2",       uniform_setMatrix2},
-                {"setMatrix2x3",       uniform_setMatrix2x3},
-                {"setMatrix2x4",       uniform_setMatrix2x4},
-                {"setMatrix3x2",       uniform_setMatrix3x2},
-                {"setMatrix3",       uniform_setMatrix3},
-                {"setMatrix3x4",       uniform_setMatrix3x4},
-                {"setMatrix4x2",       uniform_setMatrix4x2},
-                {"setMatrix4x3",       uniform_setMatrix4x3},
-                {"setMatrix4",       uniform_setMatrix4},
-                {"__tostring",  uniform_m_tostring},
+                {"isError",             uniform_is_error},
+                {"set1f",               uniform_set1f},
+                {"set2f",               uniform_set2f},
+                {"set3f",               uniform_set3f},
+                {"set4f",               uniform_set4f},
+                {"set1i",               uniform_set1i},
+                {"set2i",               uniform_set2i},
+                {"set3i",               uniform_set3i},
+                {"set4i",               uniform_set4i},
+                {"set1ui",              uniform_set1ui},
+                {"set2ui",              uniform_set2ui},
+                {"set3ui",              uniform_set3ui},
+                {"set4ui",              uniform_set4ui},
+                {"setVec2",             uniform_setVec2},
+                {"setVec3",             uniform_setVec3},
+                {"setVec4",             uniform_setVec4},
+                {"setMatrix2",          uniform_setMatrix2},
+                {"setMatrix2x3",        uniform_setMatrix2x3},
+                {"setMatrix2x4",        uniform_setMatrix2x4},
+                {"setMatrix3x2",        uniform_setMatrix3x2},
+                {"setMatrix3",          uniform_setMatrix3},
+                {"setMatrix3x4",        uniform_setMatrix3x4},
+                {"setMatrix4x2",        uniform_setMatrix4x2},
+                {"setMatrix4x3",        uniform_setMatrix4x3},
+                {"setMatrix4",          uniform_setMatrix4},
+                {"__tostring",          uniform_m_tostring},
                 {NULL, NULL}
         };
 

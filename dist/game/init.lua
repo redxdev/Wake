@@ -12,19 +12,20 @@ void main()
 ]],
 [[
 #version 330 core
-uniform vec3 triangleColor;
+uniform vec3 color;
 
 out vec4 outColor;
 
 void main()
 {
-    outColor = vec4(triangleColor, 1.0);
+    outColor = vec4(color, 1.0);
 }
 ]]
 )
 
-local triangleColor = shader:getUniform("triangleColor")
-triangleColor:set3f(1, 0, 0)
+local color = shader:getUniform("color")
+
+engine.setClearColor(1, 1, 1, 1)
 
 local time = 10
 local next = time - 1
@@ -38,6 +39,9 @@ engine.tick:bind(function(dt)
     if time < 0 then
         engine.stop()
     end
+
+    shader:use()
+    color:set3f((math.sin(time)+1)/2, (math.cos(time)+1)/2, ((math.sin(time)+1)/2 + (math.cos(time)+1)/2)/2)
 end)
 
 engine.quit:bind(function()

@@ -28,6 +28,8 @@ namespace wake
 
         double getTime() const;
 
+        void setClearColor(GLclampf r, GLclampf g, GLclampf b, GLclampf a);
+
     private:
         Engine();
         Engine(const Engine& other);

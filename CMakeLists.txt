@@ -54,6 +54,7 @@ set(SOURCE_FILES
         "src/scriptmanager.cpp"
         "src/engine.cpp"
         "src/shader.cpp"
+        "src/glutil.cpp"
         "src/bindings/luawake.cpp"
         "src/bindings/luaengine.cpp"
         "src/bindings/luaevent.cpp"
@@ -69,4 +70,6 @@ target_link_libraries(Wake
         ${LUA_LIBRARIES}
         ${GLEW_LIBRARIES}
         ${GLFW_LIBRARIES}
+        ${OPENGL_gl_LIBRARY}
+        ${OPENGL_glu_LIBRARY}
         )

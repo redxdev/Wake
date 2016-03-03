@@ -1,6 +1,7 @@
 #include "engine.h"
 
 #include <iostream>
+#include <glm/glm.hpp>
 
 namespace wake
 {
@@ -28,7 +29,6 @@ namespace wake
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
         window = glfwCreateWindow(800, 600, "Wake", nullptr, nullptr);
@@ -41,8 +41,10 @@ namespace wake
         }
 
         glfwMakeContextCurrent(window);
-		glfwSwapInterval(1);
 
+        W_GL_CHECK();
+
+        glewExperimental = GL_TRUE;
         if (glewInit() != GLEW_OK)
         {
             std::cout << "Unable to initialize GLEW." << std::endl;
@@ -50,6 +52,14 @@ namespace wake
 
             return false;
         }
+
+        W_GL_CHECK();
+
+        glViewport(0, 0, 800, 600); // TODO: Window size
+
+        setClearColor(0.f, 0.f, 0.f, 1.f);
+
+        W_GL_CHECK();
 
         return true;
     }
@@ -80,15 +90,41 @@ namespace wake
 
         double lastTime = glfwGetTime();
 
+        // <  REMOVE ME >
+        float vertices[] = {
+                0.0f, 0.5f,
+                0.5f, -0.5f,
+                -0.5f, -0.5f
+        };
+        GLuint vao;
+        GLuint vbo;
+
+        glGenBuffers(1, &vbo);
+        glGenVertexArrays(1, &vao);
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+        glBindVertexArray(vao);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+        W_GL_CHECK();
+        // </ REMOVE ME >
+
 		while (running && !glfwWindowShouldClose(window))
 		{
             double frameTime = glfwGetTime() - lastTime;
             lastTime = glfwGetTime();
 
+            glfwPollEvents();
+
+            glClear(GL_COLOR_BUFFER_BIT);
+
 			TickEvent.call(frameTime);
 
-			glfwSwapBuffers(window);
-			glfwPollEvents();
+            glDrawArrays(GL_TRIANGLES, 0, 3); // REMOVE ME
+
+            glfwSwapBuffers(window);
 		}
 
         running = false;
@@ -111,6 +147,11 @@ namespace wake
     double Engine::getTime() const
     {
         return glfwGetTime();
+    }
+
+    void Engine::setClearColor(GLclampf r, GLclampf g, GLclampf b, GLclampf a)
+    {
+        glClearColor(r, g, b, a);
     }
 
 	Engine::Engine()

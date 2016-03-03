@@ -10,8 +10,9 @@ namespace wake
     {
     public:
         Uniform();
-        Uniform(GLint location);
+        Uniform(GLuint shaderProgram, GLint location);
 
+        GLuint getProgram() const;
         GLint getLocation() const;
         bool isError() const;
 
@@ -47,6 +48,7 @@ namespace wake
         void setMatrix4(const glm::mat4x4& m44);
 
     private:
+        GLuint shaderProgram;
         GLint uniformLocation;
     };
 
@@ -54,6 +56,7 @@ namespace wake
     {
     public:
         static Shader* compile(const char* vertexSource, const char* fragmentSource);
+        static void reset();
 
         Shader(const Shader& other);
 
