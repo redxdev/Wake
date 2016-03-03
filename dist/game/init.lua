@@ -2,7 +2,7 @@ print("Startup at " .. engine.getTime())
 
 local shader = Shader.new(
 [[
-#version 150
+#version 330 core
 layout (location = 0) in vec2 position;
 
 void main()
@@ -11,7 +11,7 @@ void main()
 }
 ]],
 [[
-#version 150
+#version 330 core
 uniform vec3 triangleColor;
 
 out vec4 outColor;
