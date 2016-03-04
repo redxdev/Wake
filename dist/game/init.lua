@@ -12,18 +12,18 @@ void main()
 ]],
 [[
 #version 330 core
-uniform vec3 color;
+uniform float time;
 
 out vec4 outColor;
 
 void main()
 {
-    outColor = vec4(color, 1.0);
+    outColor = vec4((sin(time) + 1) / 2, (cos(time) + 1) / 2, ((sin(time) + 1) / 2 + (cos(time) + 1) / 2) / 2, 1.0);
 }
 ]]
 )
 
-local color = shader:getUniform("color")
+local shaderTime = shader:getUniform("time")
 
 engine.setClearColor(1, 1, 1, 1)
 
@@ -41,7 +41,7 @@ engine.tick:bind(function(dt)
     end
 
     shader:use()
-    color:set3f((math.sin(time)+1)/2, (math.cos(time)+1)/2, ((math.sin(time)+1)/2 + (math.cos(time)+1)/2)/2)
+    shaderTime:set1f(engine.getTime())
 end)
 
 engine.quit:bind(function()
