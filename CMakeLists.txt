@@ -32,6 +32,13 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 endif()
 
+if(MINGW)
+    if(CMAKE_BUILD_TYPE MATCHES Release)
+        # Due to a bug in MinGW, we need to define this in release mode.
+        add_definitions(-D__NO_INLINE__)
+    endif()
+endif()
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(TCLAP_INCLUDE_DIR "deps/tclap-1.2.1/include")
