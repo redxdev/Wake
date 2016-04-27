@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-#define W_MT_EVENT ("wake.Event")
+#define W_MT_EVENT ("wake.NativeEvent")
 
 namespace wake
 {

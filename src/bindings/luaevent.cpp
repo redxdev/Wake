@@ -108,7 +108,7 @@ namespace wake
 
             luaL_register(L, NULL, eventlib_m);
 
-            luaL_register(L, "event", eventlib_f);
+            luaL_register(L, "NativeEvent", eventlib_f);
             return 1;
         }
 
@@ -118,7 +118,7 @@ namespace wake
     binding::ILuaEventWrapper* luaW_checkevent(lua_State* L, int narg)
     {
         void* dataPtr = luaL_checkudata(L, narg, W_MT_EVENT);
-        luaL_argcheck(L, dataPtr != nullptr, narg, "'Event' expected");
+        luaL_argcheck(L, dataPtr != nullptr, narg, "'NativeEvent' expected");
         binding::EventContainer* container = (binding::EventContainer*) dataPtr;
         return container->wrapper;
     }

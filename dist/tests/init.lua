@@ -3,7 +3,7 @@
 --
 require('tests/lib/class')
 require('tests/lib/stringutil')
-require('tests/lib/customevent')
+require('tests/lib/event')
 
 require('tests/native/vector2')
 require('tests/native/vector3')

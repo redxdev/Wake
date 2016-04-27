@@ -3,32 +3,32 @@ local class = require('class')
 local table = table
 local ipairs = ipairs
 
-local CEvent = class()
+local Event = class()
 
-function CEvent:construct()
+function Event:construct()
     self.delegates = {}
 end
 
-function CEvent:bind(func)
+function Event:bind(func)
     table.insert(self.delegates, func)
 end
 
-function CEvent:unbind(func)
-    for k,v in ipairs(self.delegates) do
-        if v == func then
-            table.remove(self.delegates, k)
+function Event:unbind(func)
+    for i=#self.delegates,1,-1 do
+        if self.delegates[i] == func then
+            table.remove(self.delegates, i)
         end
     end
 end
 
-function CEvent:clear()
+function Event:clear()
     self.delegates = {}
 end
 
-function CEvent:call(...)
+function Event:call(...)
     for _,v in ipairs(self.delegates) do
         v(...)
     end
 end
 
-return CEvent
+return Event
