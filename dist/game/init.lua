@@ -25,11 +25,13 @@ void main()
 
 local shaderTime = shader:getUniform("time")
 
-local mesh = Mesh.new{
-    Vertex.new({0, 0.5, 0}),
-    Vertex.new({0.5, -0.5, 0}),
-    Vertex.new({-0.5, -0.5, 0})
-}
+local mesh = Mesh.new({
+    Vertex.new{-0.5, -0.5, 0},
+    Vertex.new{0.5, -0.5, 0},
+    Vertex.new{-0.5, 0.5, 0},
+    Vertex.new{0.5, 0.5, 0}},
+    {0, 1, 2, 2, 1, 3}
+)
 
 engine.setClearColor(1, 1, 1, 1)
 
