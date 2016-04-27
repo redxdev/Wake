@@ -38,9 +38,10 @@ namespace wake
     {
     public:
         // If initialize is false, the mesh data will not be sent to OpenGL immediately.
-        Mesh(bool initialize = true);
+        Mesh();
 
-        Mesh(const std::vector<Vertex>& newVertices, bool initialize = true);
+        Mesh(const std::vector<Vertex>& vertices);
+        Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices);
 
         // This will send data to the graphics card immediately if and
         // only if the other mesh doesn't need to be updated as well.
@@ -50,21 +51,25 @@ namespace wake
 
         Mesh& operator=(const Mesh& other);
 
-        void setVertices(const std::vector<Vertex>& newVertices, bool updateImmediately = true);
-
         const std::vector<Vertex>& getVertices() const;
+        void setVertices(const std::vector<Vertex>& vertices, bool updateIndices = false);
+
+        const std::vector<GLuint>& getIndices() const;
+        void setIndices(const std::vector<GLuint>& indices);
 
         void draw();
 
     private:
-        bool needsDataUpdate = false;
-
         std::vector<Vertex> vertices;
+        std::vector<GLuint> indices;
 
         GLuint vao = 0;
         GLuint vbo = 0;
+        GLuint ebo = 0;
 
         void initializeData();
-        void updateGLData(bool force = false);
+
+        void updateVertexBuffer();
+        void updateElementBuffer();
     };
 }

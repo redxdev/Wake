@@ -3,44 +3,50 @@
 
 namespace wake
 {
-    Mesh::Mesh(bool initialize)
+    Mesh::Mesh()
     {
         initializeData();
 
-        needsDataUpdate = true;
-
-        if (initialize)
-        {
-            updateGLData(true);
-        }
+        updateVertexBuffer();
+        updateElementBuffer();
     }
 
-    Mesh::Mesh(const std::vector<Vertex>& newVertices, bool initialize)
+    Mesh::Mesh(const std::vector<Vertex>& vertices)
     {
         initializeData();
 
-        needsDataUpdate = true;
+        this->vertices = vertices;
 
-        vertices = newVertices;
-
-        if (initialize)
+        indices.resize(vertices.size());
+        for (GLuint i = 0; i < vertices.size(); ++i)
         {
-            updateGLData(true);
+            indices[i] = i;
         }
+
+        updateVertexBuffer();
+        updateElementBuffer();
+    }
+
+    Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices)
+    {
+        initializeData();
+
+        this->vertices = vertices;
+        this->indices = indices;
+
+        updateVertexBuffer();
+        updateElementBuffer();
     }
 
     Mesh::Mesh(const Mesh& other)
     {
         initializeData();
 
-        needsDataUpdate = true;
-
         vertices = other.vertices;
+        indices = other.indices;
 
-        if (!other.needsDataUpdate)
-        {
-            updateGLData(true);
-        }
+        updateVertexBuffer();
+        updateElementBuffer();
     }
 
     Mesh::~Mesh()
@@ -56,31 +62,25 @@ namespace wake
             glDeleteBuffers(1, &vbo);
             vbo = 0;
         }
+
+        if (ebo != 0)
+        {
+            glDeleteBuffers(1, &ebo);
+            ebo = 0;
+        }
     }
 
     Mesh& Mesh::operator=(const Mesh& other)
     {
         initializeData();
 
-        needsDataUpdate = true;
-
         vertices = other.vertices;
+        indices = other.indices;
 
-        if (!other.needsDataUpdate)
-        {
-            updateGLData(true);
-        }
+        updateVertexBuffer();
+        updateElementBuffer();
 
         return *this;
-    }
-
-    void Mesh::setVertices(const std::vector<Vertex>& newVertices, bool updateImmediately)
-    {
-        vertices = newVertices;
-        needsDataUpdate = true;
-
-        if (updateImmediately)
-            updateGLData();
     }
 
     const std::vector<Vertex>& Mesh::getVertices() const
@@ -88,19 +88,44 @@ namespace wake
         return vertices;
     }
 
+    void Mesh::setVertices(const std::vector<Vertex>& vertices, bool updateIndices)
+    {
+        this->vertices = vertices;
+
+        updateVertexBuffer();
+
+        if (updateIndices)
+        {
+            indices.resize(vertices.size());
+            for (GLuint i = 0; i < vertices.size(); ++i)
+            {
+                indices[i] = i;
+            }
+
+            updateElementBuffer();
+        }
+    }
+
+    const std::vector<GLuint>& Mesh::getIndices() const
+    {
+        return indices;
+    }
+
+    void Mesh::setIndices(const std::vector<GLuint>& indices)
+    {
+        this->indices = indices;
+
+        updateElementBuffer();
+    }
+
     void Mesh::draw()
     {
-        if (needsDataUpdate)
-        {
-            updateGLData();
-        }
-
         glBindVertexArray(vao);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
-        glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
 
         W_GL_CHECK();
@@ -108,14 +133,15 @@ namespace wake
 
     void Mesh::initializeData()
     {
-        if (vao != 0 || vbo != 0)
+        if (vao != 0 || vbo != 0 || ebo != 0)
         {
-            std::cout << "Mesh::initializeData() was called when vao/vbo were already initialized, not re-initializing" << std::endl;
+            std::cout << "Mesh::initializeData() was called when vao/vbo/ebo were already initialized, not re-initializing" << std::endl;
             return;
         }
 
         glGenVertexArrays(1, &vao);
         glGenBuffers(1, &vbo);
+        glGenBuffers(1, &ebo);
         W_GL_CHECK();
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -137,20 +163,17 @@ namespace wake
         W_GL_CHECK();
     }
 
-    void Mesh::updateGLData(bool force)
+    void Mesh::updateVertexBuffer()
     {
-        if (!force && !needsDataUpdate)
-            return;
-
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        W_GL_CHECK();
-
         glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices.front(), GL_STATIC_DRAW);
         W_GL_CHECK();
+    }
 
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    void Mesh::updateElementBuffer()
+    {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices.front(), GL_STATIC_DRAW);
         W_GL_CHECK();
-
-        needsDataUpdate = false;
     }
 }
