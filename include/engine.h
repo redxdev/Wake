@@ -30,6 +30,13 @@ namespace wake
 
         void setClearColor(GLclampf r, GLclampf g, GLclampf b, GLclampf a);
 
+        void setWindowSize(int width, int height);
+        void setWindowFullscreen(bool fullscreen);
+        void setWindowTitle(const char* title);
+
+        int getWindowWidth() const;
+        int getWindowHeight() const;
+
     private:
         Engine();
         Engine(const Engine& other);
@@ -40,5 +47,10 @@ namespace wake
         GLFWwindow* window = nullptr;
 
         bool running = false;
+
+        int targetWidth = 800;
+        int targetHeight = 600;
+        bool targetFullscreen = false;
+        const char* targetTitle = "Wake";
     };
 }

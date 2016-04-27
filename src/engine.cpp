@@ -31,7 +31,8 @@ namespace wake
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-        window = glfwCreateWindow(800, 600, "Wake", nullptr, nullptr);
+        window = glfwCreateWindow(targetWidth, targetHeight, targetTitle,
+                                  targetFullscreen ? glfwGetPrimaryMonitor() : nullptr, nullptr);
         if (window == nullptr)
         {
             std::cout << "Unable to create window." << std::endl;
@@ -55,7 +56,7 @@ namespace wake
 
         W_GL_CHECK();
 
-        glViewport(0, 0, 800, 600); // TODO: Window size
+        glViewport(0, 0, targetWidth, targetHeight);
 
         setClearColor(0.f, 0.f, 0.f, 1.f);
 
@@ -77,26 +78,26 @@ namespace wake
         return true;
     }
 
-	bool Engine::run()
-	{
+    bool Engine::run()
+    {
         if (running)
         {
             std::cout << "Cannot run() while already running!" << std::endl;
             return false;
         }
 
-		if (!window)
-		{
-			std::cout << "Cannot run engine with uninitialized window (did startup succeed?)" << std::endl;
-			return false;
-		}
+        if (!window)
+        {
+            std::cout << "Cannot run engine with uninitialized window (did startup succeed?)" << std::endl;
+            return false;
+        }
 
         running = true;
 
         double lastTime = glfwGetTime();
 
-		while (running && !glfwWindowShouldClose(window))
-		{
+        while (running && !glfwWindowShouldClose(window))
+        {
             double frameTime = glfwGetTime() - lastTime;
             lastTime = glfwGetTime();
 
@@ -104,17 +105,17 @@ namespace wake
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			TickEvent.call(frameTime);
+            TickEvent.call(frameTime);
 
             glfwSwapBuffers(window);
-		}
+        }
 
         running = false;
 
         QuitEvent.call();
 
-		return true;
-	}
+        return true;
+    }
 
     bool Engine::isRunning() const
     {
@@ -136,7 +137,51 @@ namespace wake
         glClearColor(r, g, b, a);
     }
 
-	Engine::Engine()
+    void Engine::setWindowSize(int width, int height)
+    {
+        targetWidth = width;
+        targetHeight = height;
+
+        if (window != nullptr)
+        {
+            glfwSetWindowSize(window, width, height);
+            glViewport(0, 0, width, height);
+        }
+    }
+
+    void Engine::setWindowFullscreen(bool fullscreen)
+    {
+        targetFullscreen = fullscreen;
+        if (window != nullptr)
+        {
+            std::cout << "Fullscreen mode switching at runtime is not currently supported" << std::endl;
+        }
+    }
+
+    void Engine::setWindowTitle(const char* title)
+    {
+        targetTitle = title;
+        if (window != nullptr)
+        {
+            glfwSetWindowTitle(window, title);
+        }
+    }
+
+    int Engine::getWindowWidth() const
+    {
+        int result;
+        glfwGetWindowSize(window, &result, NULL);
+        return result;
+    }
+
+    int Engine::getWindowHeight() const
+    {
+        int result;
+        glfwGetWindowSize(window, NULL, &result);
+        return result;
+    }
+
+    Engine::Engine()
     {
 
     }

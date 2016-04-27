@@ -43,12 +43,43 @@ namespace wake
             return 0;
         }
 
+        static int setWindowSize(lua_State* L)
+        {
+            int width = luaL_checkinteger(L, 1);
+            int height = luaL_checkinteger(L, 2);
+            W_ENGINE.setWindowSize(width, height);
+            return 0;
+        }
+
+        static int setWindowFullscreen(lua_State* L)
+        {
+            W_ENGINE.setWindowFullscreen(lua_toboolean(L, 1) == 1);
+            return 0;
+        }
+
+        static int setWindowTitle(lua_State* L)
+        {
+            W_ENGINE.setWindowTitle(luaL_checkstring(L, 1));
+            return 0;
+        }
+
+        static int getWindowSize(lua_State* L)
+        {
+            lua_pushinteger(L, W_ENGINE.getWindowWidth());
+            lua_pushinteger(L, W_ENGINE.getWindowHeight());
+            return 2;
+        }
+
         static const struct luaL_reg wakelib_f[] = {
-                {"isRunning",       isRunning},
-                {"getTime",         getTime},
-                {"checkGLErrors",   checkGLErrors},
-                {"stop",            stop},
-                {"setClearColor",   setClearColor},
+                {"isRunning",           isRunning},
+                {"getTime",             getTime},
+                {"checkGLErrors",       checkGLErrors},
+                {"stop",                stop},
+                {"setClearColor",       setClearColor},
+                {"setWindowSize",       setWindowSize},
+                {"setWindowFullscreen", setWindowFullscreen},
+                {"setWindowTitle",      setWindowTitle},
+                {"getWindowSize",       getWindowSize},
                 {NULL, NULL}
         };
 
