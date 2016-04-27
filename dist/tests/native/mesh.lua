@@ -52,7 +52,7 @@ test.test('setters', function()
 
     m:setIndices{1, 2, 3}
     test.assert_equal(#m:getVertices(), 2)
-    test.assert_equal(#m:getIndices(), 2)
+    test.assert_equal(#m:getIndices(), 3)
     test.expect_equal(m:getVertices()[1], Vertex.new{1, 2, 3})
     test.expect_equal(m:getVertices()[2], Vertex.new{4, 5, 6})
     test.expect_equal(m:getIndices()[1], 1)
