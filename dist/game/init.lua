@@ -25,6 +25,12 @@ void main()
 
 local shaderTime = shader:getUniform("time")
 
+local mesh = Mesh.new{
+    Vertex.new({0, 0.5, 0}),
+    Vertex.new({0.5, -0.5, 0}),
+    Vertex.new({-0.5, -0.5, 0})
+}
+
 engine.setClearColor(1, 1, 1, 1)
 
 local time = 10
@@ -42,6 +48,8 @@ engine.tick:bind(function(dt)
 
     shader:use()
     shaderTime:set1f(engine.getTime())
+
+    mesh:draw()
 end)
 
 engine.quit:bind(function()

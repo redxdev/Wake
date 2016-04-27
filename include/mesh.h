@@ -10,22 +10,22 @@ namespace wake
     struct Vertex
     {
         Vertex()
-            : position(0, 0, 0), normal(1, 0, 0), texCoords(0, 0)
+                : position(0, 0, 0), normal(1, 0, 0), texCoords(0, 0)
         {
         }
 
         Vertex(const glm::vec3& position)
-            : position(position), normal(1, 0, 0), texCoords(0, 0)
+                : position(position), normal(1, 0, 0), texCoords(0, 0)
         {
         }
 
         Vertex(const glm::vec3& position, const glm::vec3& normal)
-            : position(position), normal(normal), texCoords(0, 0)
+                : position(position), normal(normal), texCoords(0, 0)
         {
         }
 
-        Vertex(const glm::vec3& position, const glm::vec3& normal, const glm::vec3& texCoords)
-            : position(position), normal(normal), texCoords(texCoords)
+        Vertex(const glm::vec3& position, const glm::vec3& normal, const glm::vec2& texCoords)
+                : position(position), normal(normal), texCoords(texCoords)
         {
         }
 
@@ -41,6 +41,7 @@ namespace wake
         Mesh();
 
         Mesh(const std::vector<Vertex>& vertices);
+
         Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices);
 
         // This will send data to the graphics card immediately if and
@@ -52,9 +53,11 @@ namespace wake
         Mesh& operator=(const Mesh& other);
 
         const std::vector<Vertex>& getVertices() const;
+
         void setVertices(const std::vector<Vertex>& vertices, bool updateIndices = false);
 
         const std::vector<GLuint>& getIndices() const;
+
         void setIndices(const std::vector<GLuint>& indices);
 
         void draw();
@@ -70,6 +73,7 @@ namespace wake
         void initializeData();
 
         void updateVertexBuffer();
+
         void updateElementBuffer();
     };
 }

@@ -67,7 +67,9 @@ set(SOURCE_FILES
         "src/bindings/luaengine.cpp"
         "src/bindings/luaevent.cpp"
         "src/bindings/luamatrix.cpp"
-        "src/bindings/luashader.cpp")
+        "src/bindings/luashader.cpp"
+        "src/bindings/luamesh.cpp"
+        )
 
 add_definitions(-DGLM_FORCE_RADIANS)
 

@@ -135,7 +135,9 @@ namespace wake
     {
         if (vao != 0 || vbo != 0 || ebo != 0)
         {
-            std::cout << "Mesh::initializeData() was called when vao/vbo/ebo were already initialized, not re-initializing" << std::endl;
+            std::cout <<
+            "Mesh::initializeData() was called when vao/vbo/ebo were already initialized, not re-initializing" <<
+            std::endl;
             return;
         }
 
@@ -149,13 +151,13 @@ namespace wake
         W_GL_CHECK();
 
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, position));
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) offsetof(Vertex, position));
 
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, normal));
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) offsetof(Vertex, normal));
 
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, texCoords));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) offsetof(Vertex, texCoords));
 
         W_GL_CHECK();
 

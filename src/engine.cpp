@@ -3,9 +3,6 @@
 #include <iostream>
 #include <glm/glm.hpp>
 
-// REMOVE ME
-#include "mesh.h"
-
 namespace wake
 {
     static void error_callback(int err, const char* description)
@@ -93,16 +90,6 @@ namespace wake
 
         double lastTime = glfwGetTime();
 
-        // <  REMOVE ME >
-        std::vector<Vertex> vertices = {
-                Vertex(glm::vec3(0, 0.5f, 0)),
-                Vertex(glm::vec3(0.5f, -0.5f, 0)),
-                Vertex(glm::vec3(-0.5f, -0.5f, 0))
-        };
-
-        Mesh mesh(vertices);
-        // </ REMOVE ME >
-
 		while (running && !glfwWindowShouldClose(window))
 		{
             double frameTime = glfwGetTime() - lastTime;
@@ -113,8 +100,6 @@ namespace wake
             glClear(GL_COLOR_BUFFER_BIT);
 
 			TickEvent.call(frameTime);
-
-            mesh.draw(); // REMOVE ME
 
             glfwSwapBuffers(window);
 		}
