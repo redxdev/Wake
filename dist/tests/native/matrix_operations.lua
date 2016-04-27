@@ -1,5 +1,4 @@
 local test = require('test')
-local type = type
 
 local Vector2 = Vector2
 local Vector3 = Vector3

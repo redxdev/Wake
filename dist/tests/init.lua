@@ -20,6 +20,9 @@ require('tests/native/matrix4x4')
 
 require('tests/native/matrix_operations')
 
+require('tests/native/vertex')
+require('tests/native/mesh')
+
 --
 -- Do not touch the code below this line.
 --

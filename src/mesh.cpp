@@ -1,5 +1,6 @@
 #include "mesh.h"
 #include <iostream>
+#include "wake.h"
 
 namespace wake
 {
@@ -120,6 +121,11 @@ namespace wake
 
     void Mesh::draw()
     {
+        if (getEngineMode() != EngineMode::Normal)
+        {
+            return;
+        }
+
         glBindVertexArray(vao);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
@@ -133,6 +139,11 @@ namespace wake
 
     void Mesh::initializeData()
     {
+        if (getEngineMode() != EngineMode::Normal)
+        {
+            return;
+        }
+
         if (vao != 0 || vbo != 0 || ebo != 0)
         {
             std::cout <<
@@ -167,6 +178,11 @@ namespace wake
 
     void Mesh::updateVertexBuffer()
     {
+        if (getEngineMode() != EngineMode::Normal)
+        {
+            return;
+        }
+
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices.front(), GL_STATIC_DRAW);
         W_GL_CHECK();
@@ -174,6 +190,11 @@ namespace wake
 
     void Mesh::updateElementBuffer()
     {
+        if (getEngineMode() != EngineMode::Normal)
+        {
+            return;
+        }
+
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices.front(), GL_STATIC_DRAW);
         W_GL_CHECK();

@@ -57,7 +57,7 @@ namespace wake
 
                     std::vector<GLuint> indices;
                     lua_pushnil(L);
-                    while (lua_next(L, 1) != 0)
+                    while (lua_next(L, 2) != 0)
                     {
                         luaL_argcheck(L, lua_isnumber(L, -2), 1, "expected number index");
                         indices.push_back((GLuint) luaL_checkinteger(L, -1));
@@ -282,6 +282,14 @@ namespace wake
             return 1;
         }
 
+        static int vertex_m_eq(lua_State* L)
+        {
+            Vertex* a = luaW_checkvertex(L, 1);
+            Vertex* b = luaW_checkvertex(L, 2);
+
+            return a->position == b->position && a->normal == b->normal && a->texCoords == b->texCoords;
+        }
+
         static const struct luaL_reg vertexlib_f[] = {
                 {"new",          vertex_new},
                 {"getPosition",  vertex_get_position},
@@ -303,6 +311,7 @@ namespace wake
                 {"setTexCoords", vertex_set_tex_coords},
                 {"__gc",         vertex_m_gc},
                 {"__tostring",   vertex_m_tostring},
+                {"__eq",         vertex_m_eq},
                 {NULL, NULL}
         };
 

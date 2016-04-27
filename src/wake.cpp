@@ -4,7 +4,7 @@ namespace wake
 {
     // getVersion() is defined in build.cpp.in
 
-    static EngineMode engineMode = EngineMode::INVALID;
+    static EngineMode engineMode = EngineMode::Invalid;
 
     void setEngineMode(EngineMode mode)
     {

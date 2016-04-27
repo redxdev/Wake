@@ -1,9 +1,6 @@
 local test = require('test')
-local class = require('class')
-local type = type
 local Matrix4x3 = Matrix4x3
 local Vector3 = Vector3
-local tostring = tostring
 
 test.suite('Matrix4x3 Library')
 

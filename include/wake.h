@@ -5,16 +5,11 @@
 
 namespace wake
 {
-    enum class EngineMode : uint8
+    enum class EngineMode
     {
-        // No mode has been set yet
-        INVALID,
-
-        // The engine is running normally
-        NORMAL,
-
-        // The engine is running tests
-        TESTING
+        Invalid, // No mode has been set yet
+        Normal, // The engine is running normally
+        Testing // The engine is running tests
     };
 
     const char* getVersion();

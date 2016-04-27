@@ -10,11 +10,11 @@ int execute(bool testing)
     if (testing)
     {
         std::cout << "Running in testing mode." << std::endl;
-        wake::setEngineMode(wake::EngineMode::TESTING);
+        wake::setEngineMode(wake::EngineMode::Testing);
     }
     else
     {
-        wake::setEngineMode(wake::EngineMode::NORMAL);
+        wake::setEngineMode(wake::EngineMode::Normal);
     }
 
     if (!W_SCRIPT.startup())

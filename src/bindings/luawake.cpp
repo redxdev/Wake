@@ -15,15 +15,15 @@ namespace wake
         {
             switch (wake::getEngineMode())
             {
-                case EngineMode::INVALID:
+                case EngineMode::Invalid:
                     pushValue(L, "invalid");
                     break;
 
-                case EngineMode::NORMAL:
+                case EngineMode::Normal:
                     pushValue(L, "normal");
                     break;
 
-                case EngineMode::TESTING:
+                case EngineMode::Testing:
                     pushValue(L, "testing");
                     break;
             }

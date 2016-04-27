@@ -1,8 +1,5 @@
 local test = require('test')
-local class = require('class')
-local type = type
 local Vector2 = Vector2
-local tostring = tostring
 
 test.suite('Vector2 Library')
 
