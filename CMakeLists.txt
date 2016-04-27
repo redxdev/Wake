@@ -62,12 +62,12 @@ set(SOURCE_FILES
         "src/engine.cpp"
         "src/shader.cpp"
         "src/glutil.cpp"
+        "src/mesh.cpp"
         "src/bindings/luawake.cpp"
         "src/bindings/luaengine.cpp"
         "src/bindings/luaevent.cpp"
         "src/bindings/luamatrix.cpp"
-        "src/bindings/luashader.cpp"
-        )
+        "src/bindings/luashader.cpp")
 
 add_definitions(-DGLM_FORCE_RADIANS)
 
