@@ -2,12 +2,28 @@
 #include "bindings/luamatrix.h"
 #include "moduleregistry.h"
 
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
 
 namespace wake
 {
     namespace binding
     {
+        int degrees(lua_State* L)
+        {
+            lua_Number rad = luaL_checknumber(L, 1);
+            lua_Number deg = glm::degrees(rad);
+            pushValue(L, deg);
+            return 1;
+        }
+
+        int radians(lua_State* L)
+        {
+            lua_Number deg = luaL_checknumber(L, 1);
+            lua_Number rad = glm::radians(deg);
+            pushValue(L, rad);
+            return 1;
+        }
+
         int frustum(lua_State* L)
         {
             lua_Number left = luaL_checknumber(L, 1);
@@ -18,6 +34,17 @@ namespace wake
             lua_Number far = luaL_checknumber(L, 6);
 
             glm::mat4 result = glm::frustum(left, right, bottom, top, near, far);
+            pushValue(L, result);
+            return 1;
+        }
+
+        int lookAt(lua_State* L)
+        {
+            glm::vec3& eye = *luaW_checkvector3(L, 1);
+            glm::vec3& center = *luaW_checkvector3(L, 2);
+            glm::vec3& up = *luaW_checkvector3(L, 3);
+
+            glm::mat4 result = glm::lookAt(eye, center, up);
             pushValue(L, result);
             return 1;
         }
@@ -67,22 +94,38 @@ namespace wake
             return 1;
         }
 
-        int lookAt(lua_State* L)
+        int rotate(lua_State* L)
         {
-            glm::vec3& eye = *luaW_checkvector3(L, 1);
-            glm::vec3& center = *luaW_checkvector3(L, 2);
-            glm::vec3& up = *luaW_checkvector3(L, 3);
+            int argCount = lua_gettop(L);
+            if (argCount <= 2)
+            {
+                lua_Number angle = luaL_checknumber(L, 1);
+                glm::vec3& v = *luaW_checkvector3(L, 2);
 
-            glm::mat4 result = glm::lookAt(eye, center, up);
-            pushValue(L, result);
+                glm::mat4 result = glm::rotate((float) angle, v);
+                pushValue(L, result);
+            }
+            else if (argCount >= 3)
+            {
+                glm::mat4& m = *luaW_checkmatrix4x4(L, 1);
+                lua_Number angle = luaL_checknumber(L, 2);
+                glm::vec3& v = *luaW_checkvector3(L, 3);
+
+                glm::mat4 result = glm::rotate(m, (float) angle, v);
+                pushValue(L, result);
+            }
+
             return 1;
         }
 
         static const struct luaL_reg mathlib_f[] = {
+                {"degrees",     degrees},
+                {"radians",     radians},
                 {"frustum",     frustum},
+                {"lookAt",      lookAt},
                 {"ortho",       ortho},
                 {"perspective", perspective},
-                {"lookAt",      lookAt},
+                {"rotate",      rotate},
                 {NULL, NULL}
         };
 

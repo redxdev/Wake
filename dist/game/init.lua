@@ -66,7 +66,7 @@ local mesh = Mesh.new({
 engine.setClearColor(1, 1, 1, 1)
 
 local view = math.lookAt({4, 3, 3}, {0, 0, 0}, {0, 1, 0})
-local projection = math.perspective(45, 800 / 600, 0.1, 1000)
+local projection = math.perspective(math.radians(45), 800 / 600, 0.1, 1000)
 
 engine.tick:bind(function(dt)
     shader:use()
