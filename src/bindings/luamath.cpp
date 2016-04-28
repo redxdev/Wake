@@ -51,10 +51,19 @@ namespace wake
             lua_Number fovy = luaL_checknumber(L, 1);
             lua_Number aspect = luaL_checknumber(L, 2);
             lua_Number near = luaL_checknumber(L, 3);
-            lua_Number far = luaL_checknumber(L, 4);
 
-            glm::mat4 result = glm::perspective(fovy, aspect, near, far);
-            pushValue(L, result);
+            if (lua_gettop(L) >= 4)
+            {
+                lua_Number far = luaL_checknumber(L, 4);
+                glm::mat4 result = glm::perspective(fovy, aspect, near, far);
+                pushValue(L, result);
+            }
+            else
+            {
+                glm::mat4 result = glm::infinitePerspective(fovy, aspect, near);
+                pushValue(L, result);
+            }
+
             return 1;
         }
 

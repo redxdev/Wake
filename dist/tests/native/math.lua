@@ -35,6 +35,13 @@ test.test('perspective', function()
     for i=1,#expected do
         test.expect_num_equal(expected[i], actual[i], 0.000001)
     end
+
+    pers = math.perspective(45, 4/3, 0.1)
+    expected = {1.344443, 0, 0, 0, 0, 1.792591, 0, 0, 0, 0, -1, -1, 0, 0, -0.2, 0 }
+    actual = pers:table()
+    for i=1,#expected do
+        test.expect_num_equal(expected[i], actual[i], 0.000001)
+    end
 end)
 
 test.test('lookAt', function()
