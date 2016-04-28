@@ -20,8 +20,20 @@ namespace wake
             return 1;
         }
 
+        int lookAt(lua_State* L)
+        {
+            glm::vec3& eye = *luaW_checkvector3(L, 1);
+            glm::vec3& center = *luaW_checkvector3(L, 2);
+            glm::vec3& up = *luaW_checkvector3(L, 3);
+
+            glm::mat4 result = glm::lookAt(eye, center, up);
+            pushValue(L, result);
+            return 1;
+        }
+
         static const struct luaL_reg mathlib_f[] = {
                 {"perspective", perspective},
+                {"lookAt",      lookAt},
                 {NULL, NULL}
         };
 
