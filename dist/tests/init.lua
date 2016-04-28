@@ -21,6 +21,8 @@ require('tests/native/matrix4x4')
 
 require('tests/native/matrix_operations')
 
+require('tests/native/quat')
+
 require('tests/native/math')
 
 require('tests/native/vertex')

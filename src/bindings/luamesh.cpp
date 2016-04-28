@@ -1,3 +1,5 @@
+#include <sstream>
+#include <glm/gtx/string_cast.hpp>
 #include "bindings/luamesh.h"
 #include "bindings/luamatrix.h"
 #include "moduleregistry.h"
@@ -154,7 +156,12 @@ namespace wake
 
         static int mesh_m_tostring(lua_State* L)
         {
-            lua_pushstring(L, "Mesh");
+            Mesh* mesh = luaW_checkmesh(L, 1);
+
+            std::stringstream ss;
+            ss << "Mesh[" << mesh->getVertices().size() << "," << mesh->getIndices().size() << "]";
+            auto str = ss.str();
+            lua_pushstring(L, str.data());
             return 1;
         }
 
@@ -278,7 +285,14 @@ namespace wake
 
         static int vertex_m_tostring(lua_State* L)
         {
-            lua_pushstring(L, "Vertex");
+            Vertex* vertex = luaW_checkvertex(L, 1);
+            std::stringstream ss;
+            ss  << "Vertex("
+                << "{" << vertex->position[0] << "," << vertex->position[1] << "," << vertex->position[2] << "}"
+                << "," << "{" << vertex->normal[0] << "," << vertex->normal[1] << "," << vertex->normal[2] << "}"
+                << "," << "{" << vertex->texCoords[0] << "," << vertex->texCoords[1] << "})";
+            auto str = ss.str();
+            lua_pushstring(L, str.data());
             return 1;
         }
 

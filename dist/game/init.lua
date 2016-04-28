@@ -63,6 +63,8 @@ local mesh = Mesh.new({
     }
 )
 
+print(Vertex.new{1, 2, 3})
+
 engine.setClearColor(1, 1, 1, 1)
 
 local view = math.lookAt({4, 3, 3}, {0, 0, 0}, {0, 1, 0})
