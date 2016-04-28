@@ -105,13 +105,35 @@ namespace wake
                 glm::mat4 result = glm::rotate((float) angle, v);
                 pushValue(L, result);
             }
-            else if (argCount >= 3)
+            else
             {
                 glm::mat4& m = *luaW_checkmatrix4x4(L, 1);
                 lua_Number angle = luaL_checknumber(L, 2);
                 glm::vec3& v = *luaW_checkvector3(L, 3);
 
                 glm::mat4 result = glm::rotate(m, (float) angle, v);
+                pushValue(L, result);
+            }
+
+            return 1;
+        }
+
+        int scale(lua_State* L)
+        {
+            int argCount = lua_gettop(L);
+            if (argCount <= 1)
+            {
+                glm::vec3& v = *luaW_checkvector3(L, 1);
+
+                glm::mat4 result = glm::scale(v);
+                pushValue(L, result);
+            }
+            else
+            {
+                glm::mat4& m = *luaW_checkmatrix4x4(L, 1);
+                glm::vec3& v = *luaW_checkvector3(L, 2);
+
+                glm::mat4 result = glm::scale(m, v);
                 pushValue(L, result);
             }
 
@@ -126,6 +148,7 @@ namespace wake
                 {"ortho",       ortho},
                 {"perspective", perspective},
                 {"rotate",      rotate},
+                {"scale",       scale},
                 {NULL, NULL}
         };
 
