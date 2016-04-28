@@ -140,6 +140,28 @@ namespace wake
             return 1;
         }
 
+        int translate(lua_State* L)
+        {
+            int argCount = lua_gettop(L);
+            if (argCount <= 1)
+            {
+                glm::vec3& v = *luaW_checkvector3(L, 1);
+
+                glm::mat4 result = glm::translate(v);
+                pushValue(L, result);
+            }
+            else
+            {
+                glm::mat4& m = *luaW_checkmatrix4x4(L, 1);
+                glm::vec3& v = *luaW_checkvector3(L, 2);
+
+                glm::mat4 result = glm::translate(m, v);
+                pushValue(L, result);
+            }
+
+            return 1;
+        }
+
         static const struct luaL_reg mathlib_f[] = {
                 {"degrees",     degrees},
                 {"radians",     radians},
@@ -149,6 +171,7 @@ namespace wake
                 {"perspective", perspective},
                 {"rotate",      rotate},
                 {"scale",       scale},
+                {"translate",   translate},
                 {NULL, NULL}
         };
 

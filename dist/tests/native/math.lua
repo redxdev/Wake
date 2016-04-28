@@ -79,14 +79,30 @@ end)
 
 test.test('scale', function()
     local mat = math.scale({2, 3, 4})
-    local expected = {2, 0, 0, 0, 0, 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 1 }
+    local expected = {2, 0, 0, 0, 0, 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 1}
     local actual = mat:table()
     for i=1,#expected do
         test.expect_num_equal(expected[i], actual[i], 0.000001)
     end
 
     mat = math.scale(Matrix4x4.new(), {2, 3, 4})
-    expected = {2, 0, 0, 0, 0, 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 1 }
+    expected = {2, 0, 0, 0, 0, 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 1}
+    actual = mat:table()
+    for i=1,#expected do
+        test.expect_num_equal(expected[i], actual[i], 0.000001)
+    end
+end)
+
+test.test('translate', function()
+    local mat = math.translate({1, 2, 3})
+    local expected = {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 2, 3, 1}
+    local actual = mat:table()
+    for i=1,#expected do
+        test.expect_num_equal(expected[i], actual[i], 0.000001)
+    end
+
+    mat = math.translate(Matrix4x4.new(), {1, 2, 3})
+    expected = {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 2, 3, 1}
     actual = mat:table()
     for i=1,#expected do
         test.expect_num_equal(expected[i], actual[i], 0.000001)
