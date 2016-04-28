@@ -162,6 +162,45 @@ namespace wake
             return 1;
         }
 
+        int clamp(lua_State* L)
+        {
+            if (lua_isnumber(L, 1))
+            {
+                lua_Number x = luaL_checknumber(L, 1);
+                lua_Number min = luaL_checknumber(L, 2);
+                lua_Number max = luaL_checknumber(L, 3);
+                pushValue(L, glm::clamp(x, min, max));
+                return 1;
+            }
+            else if (checkMetatable(L, 1, VectorInfo<glm::vec2>::metatable()))
+            {
+                auto& x = *luaW_checkvector2(L, 1);
+                auto& min = *luaW_checkvector2(L, 2);
+                auto& max = *luaW_checkvector2(L, 3);
+                pushValue(L, glm::clamp(x, min, max));
+                return 1;
+            }
+            else if (checkMetatable(L, 1, VectorInfo<glm::vec3>::metatable()))
+            {
+                auto& x = *luaW_checkvector3(L, 1);
+                auto& min = *luaW_checkvector3(L, 2);
+                auto& max = *luaW_checkvector3(L, 3);
+                pushValue(L, glm::clamp(x, min, max));
+                return 1;
+            }
+            else if (checkMetatable(L, 1, VectorInfo<glm::vec4>::metatable()))
+            {
+                auto& x = *luaW_checkvector4(L, 1);
+                auto& min = *luaW_checkvector4(L, 2);
+                auto& max = *luaW_checkvector4(L, 3);
+                pushValue(L, glm::clamp(x, min, max));
+                return 1;
+            }
+
+            luaL_error(L, "Unknown type passed to math.clamp");
+            return 0;
+        }
+
         static const struct luaL_reg mathlib_f[] = {
                 {"degrees",     degrees},
                 {"radians",     radians},
@@ -172,6 +211,7 @@ namespace wake
                 {"rotate",      rotate},
                 {"scale",       scale},
                 {"translate",   translate},
+                {"clamp",       clamp},
                 {NULL, NULL}
         };
 

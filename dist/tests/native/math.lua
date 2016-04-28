@@ -1,5 +1,8 @@
 local test = require('test')
 local math = math
+local Vector2 = Vector2
+local Vector3 = Vector3
+local Vector4 = Vector4
 
 test.suite('Math Extension Library')
 
@@ -107,4 +110,18 @@ test.test('translate', function()
     for i=1,#expected do
         test.expect_num_equal(expected[i], actual[i], 0.000001)
     end
+end)
+
+test.test('clamp', function()
+    test.expect_equal(math.clamp(1, 2, 6), 2)
+    test.expect_equal(math.clamp(7, 2, 6), 6)
+
+    test.expect_equal(math.clamp(Vector2.new(1, 2), {2, 3}, {6, 7}), Vector2.new(2, 3))
+    test.expect_equal(math.clamp(Vector2.new(8, 9), {2, 3}, {6, 7}), Vector2.new(6, 7))
+
+    test.expect_equal(math.clamp(Vector3.new(1, 2, 3), {2, 3, 4}, {6, 7, 8}), Vector3.new(2, 3, 4))
+    test.expect_equal(math.clamp(Vector3.new(8, 9, 10), {2, 3, 4}, {6, 7, 8}), Vector3.new(6, 7, 8))
+
+    test.expect_equal(math.clamp(Vector4.new(1, 2, 3, 4), {2, 3, 4, 5}, {6, 7, 8, 9}), Vector4.new(2, 3, 4, 5))
+    test.expect_equal(math.clamp(Vector4.new(8, 9, 10, 11), {2, 3, 4, 5}, {6, 7, 8, 9}), Vector4.new(6, 7, 8, 9))
 end)
