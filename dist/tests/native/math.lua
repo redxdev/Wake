@@ -3,6 +3,15 @@ local math = math
 
 test.suite('Math Extension Library')
 
+test.test('frustum', function()
+    local frustum = math.frustum(100, 200, 10, 20, 0.1, 1000)
+    local expected = {0.002, 0, 0, 0, 0, 0.02, 0, 0, 3, 3, -1.0002, -1, 0, 0, -0.20002, 0 }
+    local actual = frustum:table()
+    for i=1,#expected do
+        test.expect_num_equal(expected[i], actual[i], 0.000001)
+    end
+end)
+
 test.test('ortho', function()
     local ortho = math.ortho(0, 800, 0, 600)
     local expected = {0.0025, 0, 0, 0, 0, 0.003333, 0, 0, 0, 0, -1, 0, -1, -1, 0, 1}
