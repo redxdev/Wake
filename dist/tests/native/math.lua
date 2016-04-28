@@ -3,6 +3,22 @@ local math = math
 
 test.suite('Math Extension Library')
 
+test.test('ortho', function()
+    local ortho = math.ortho(0, 800, 0, 600)
+    local expected = {0.0025, 0, 0, 0, 0, 0.003333, 0, 0, 0, 0, -1, 0, -1, -1, 0, 1}
+    local actual = ortho:table()
+    for i=1,#expected do
+        test.expect_num_equal(expected[i], actual[i], 0.000001)
+    end
+
+    ortho = math.ortho(0, 800, 0, 600, 0.1, 1000)
+    local expected = {0.0025, 0, 0, 0, 0, 0.003333, 0, 0, 0, 0, -0.002, 0, -1, -1, -1.0002, 1}
+    local actual = ortho:table()
+    for i=1,#expected do
+        test.expect_num_equal(expected[i], actual[i], 0.000001)
+    end
+end)
+
 test.test('perspective', function()
     local pers = math.perspective(45, 4/3, 0.1, 1000)
     local expected = {1.344443, 0, 0, 0, 0, 1.792591, 0, 0, 0, 0, -1.0002, -1, 0, 0, -0.20002, 0 }

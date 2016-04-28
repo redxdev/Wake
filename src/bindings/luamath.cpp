@@ -8,6 +8,30 @@ namespace wake
 {
     namespace binding
     {
+        int ortho(lua_State* L)
+        {
+            lua_Number left = luaL_checknumber(L, 1);
+            lua_Number right = luaL_checknumber(L, 2);
+            lua_Number bottom = luaL_checknumber(L, 3);
+            lua_Number top = luaL_checknumber(L, 4);
+
+            if (lua_gettop(L) >= 6)
+            {
+                lua_Number zNear = luaL_checknumber(L, 5);
+                lua_Number zFar = luaL_checknumber(L, 6);
+
+                glm::mat4 result = glm::ortho(left, right, bottom, top, zNear, zFar);
+                pushValue(L, result);
+            }
+            else
+            {
+                glm::mat4 result = glm::ortho(left, right, bottom, top);
+                pushValue(L, result);
+            }
+
+            return 1;
+        }
+
         int perspective(lua_State* L)
         {
             lua_Number fovy = luaL_checknumber(L, 1);
@@ -32,6 +56,7 @@ namespace wake
         }
 
         static const struct luaL_reg mathlib_f[] = {
+                {"ortho",       ortho},
                 {"perspective", perspective},
                 {"lookAt",      lookAt},
                 {NULL, NULL}

@@ -7,10 +7,11 @@ layout (location = 0) in vec3 position;
 
 uniform mat4 view;
 uniform mat4 projection;
+uniform mat4 model;
 
 void main()
 {
-    gl_Position = projection * view * vec4(position, 1.0);
+    gl_Position = projection * view * model * vec4(position, 1.0);
 }
 ]],
 [[
@@ -29,6 +30,7 @@ void main()
 local shaderTime = shader:getUniform("time")
 local shaderView = shader:getUniform("view")
 local shaderProj = shader:getUniform("projection")
+local shaderModel = shader:getUniform("model")
 
 local mesh = Mesh.new({
     Vertex.new{-1, -1, 1},
@@ -66,23 +68,20 @@ engine.setClearColor(1, 1, 1, 1)
 local view = math.lookAt({4, 3, 3}, {0, 0, 0}, {0, 1, 0})
 local projection = math.perspective(45, 800 / 600, 0.1, 1000)
 
-local time = 10
-local next = time - 1
 engine.tick:bind(function(dt)
-    time = time - dt
-    if time < next then
-        print(next)
-        next = next - 1
-    end
-
-    if time < 0 then
-        engine.stop()
-    end
-
     shader:use()
     shaderTime:set1f(engine.getTime())
     shaderView:setMatrix4(view)
     shaderProj:setMatrix4(projection)
+
+    local rot = engine.getTime() / 2
+    local mat = Matrix4x4.new(
+    1, 0, 0, 0,
+    0, math.cos(rot), -math.sin(rot), 0,
+    0, math.sin(rot), math.cos(rot), 0,
+    0, 0, 0, 1
+    )
+    shaderModel:setMatrix4(mat)
 
     mesh:draw()
 end)
