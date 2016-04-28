@@ -125,3 +125,22 @@ test.test('clamp', function()
     test.expect_equal(math.clamp(Vector4.new(1, 2, 3, 4), {2, 3, 4, 5}, {6, 7, 8, 9}), Vector4.new(2, 3, 4, 5))
     test.expect_equal(math.clamp(Vector4.new(8, 9, 10, 11), {2, 3, 4, 5}, {6, 7, 8, 9}), Vector4.new(6, 7, 8, 9))
 end)
+
+test.test('fract', function()
+    test.expect_num_equal(math.fract(1.2345), 0.2345, 0.0001)
+
+    local r = math.fract(Vector2.new(1.2345, 1.2345))
+    test.expect_num_equal(r:get(1), 0.2345, 0.0001)
+    test.expect_num_equal(r:get(2), 0.2345, 0.0001)
+
+    r = math.fract(Vector3.new(1.2345, 1.2345, 1.2345))
+    test.expect_num_equal(r:get(1), 0.2345, 0.0001)
+    test.expect_num_equal(r:get(2), 0.2345, 0.0001)
+    test.expect_num_equal(r:get(3), 0.2345, 0.0001)
+
+    r = math.fract(Vector4.new(1.2345, 1.2345, 1.2345, 1.2345))
+    test.expect_num_equal(r:get(1), 0.2345, 0.0001)
+    test.expect_num_equal(r:get(2), 0.2345, 0.0001)
+    test.expect_num_equal(r:get(3), 0.2345, 0.0001)
+    test.expect_num_equal(r:get(4), 0.2345, 0.0001)
+end)
