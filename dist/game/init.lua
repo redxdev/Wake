@@ -75,12 +75,8 @@ engine.tick:bind(function(dt)
     shaderProj:setMatrix4(projection)
 
     local rot = engine.getTime() / 2
-    local mat = Matrix4x4.new(
-    1, 0, 0, 0,
-    0, math.cos(rot), -math.sin(rot), 0,
-    0, math.sin(rot), math.cos(rot), 0,
-    0, 0, 0, 1
-    )
+    local mat = math.rotate(rot, {1, 0, 0})
+    mat = math.translate(mat, {math.sin(engine.getTime() / 2) * 2, 0, 0})
     shaderModel:setMatrix4(mat)
 
     mesh:draw()
