@@ -112,6 +112,21 @@ test.test('translate', function()
     end
 end)
 
+test.test('abs', function()
+    test.expect_equal(math.abs(10), 10)
+    test.expect_equal(math.abs(-10), 10)
+
+    test.expect_equal(math.abs(Vector2.new(10, 20)), Vector2.new(10, 20))
+    test.expect_equal(math.abs(Vector2.new(-10, -20)), Vector2.new(10, 20))
+
+    test.expect_equal(math.abs(Vector3.new(10, 20, 30)), Vector3.new(10, 20, 30))
+    test.expect_equal(math.abs(Vector3.new(-10, -20, -30)), Vector3.new(10, 20, 30))
+
+
+    test.expect_equal(math.abs(Vector4.new(10, 20, 30, 40)), Vector4.new(10, 20, 30, 40))
+    test.expect_equal(math.abs(Vector4.new(-10, -20, -30, -40)), Vector4.new(10, 20, 30, 40))
+end)
+
 test.test('clamp', function()
     test.expect_equal(math.clamp(1, 2, 6), 2)
     test.expect_equal(math.clamp(7, 2, 6), 6)

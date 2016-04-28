@@ -162,6 +162,37 @@ namespace wake
             return 1;
         }
 
+        int abs(lua_State* L)
+        {
+            if (lua_isnumber(L, 1))
+            {
+                lua_Number x = luaL_checknumber(L, 1);
+                pushValue(L, glm::abs(x));
+                return 1;
+            }
+            else if (checkMetatable(L, 1, VectorInfo<glm::vec2>::metatable()))
+            {
+                auto& x = *luaW_checkvector2(L, 1);
+                pushValue(L, glm::abs(x));
+                return 1;
+            }
+            else if (checkMetatable(L, 1, VectorInfo<glm::vec3>::metatable()))
+            {
+                auto& x = *luaW_checkvector3(L, 1);
+                pushValue(L, glm::abs(x));
+                return 1;
+            }
+            else if (checkMetatable(L, 1, VectorInfo<glm::vec4>::metatable()))
+            {
+                auto& x = *luaW_checkvector4(L, 1);
+                pushValue(L, glm::abs(x));
+                return 1;
+            }
+
+            luaL_error(L, "Unknown type passed to math.abs");
+            return 0;
+        }
+
         int clamp(lua_State* L)
         {
             if (lua_isnumber(L, 1))
@@ -242,6 +273,7 @@ namespace wake
                 {"rotate",      rotate},
                 {"scale",       scale},
                 {"translate",   translate},
+                {"abs",         abs},
                 {"clamp",       clamp},
                 {"fract",       fract},
                 {NULL, NULL}
