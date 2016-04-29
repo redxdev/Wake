@@ -148,6 +148,13 @@ test.test('clamp', function()
     test.expect_equal(math.clamp(Vector4.new(8, 9, 10, 11), {2, 3, 4, 5}, {6, 7, 8, 9}), Vector4.new(6, 7, 8, 9))
 end)
 
+test.test('floor', function()
+    test.expect_equal(math.floor(1.234), 1)
+    test.expect_equal(math.floor(Vector2.new(1.2, 2.3)), Vector2.new(1, 2))
+    test.expect_equal(math.floor(Vector3.new(1.2, 2.3, 3.7)), Vector3.new(1, 2, 3))
+    test.expect_equal(math.floor(Vector4.new(1.2, 2.3, 3.7, 9.8)), Vector4.new(1, 2, 3, 9))
+end)
+
 test.test('fract', function()
     test.expect_num_equal(math.fract(1.2345), 0.2345, 0.0001)
 
