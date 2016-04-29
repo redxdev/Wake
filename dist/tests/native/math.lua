@@ -127,6 +127,13 @@ test.test('abs', function()
     test.expect_equal(math.abs(Vector4.new(-10, -20, -30, -40)), Vector4.new(10, 20, 30, 40))
 end)
 
+test.test('ceil', function()
+    test.expect_equal(math.ceil(1.234), 2)
+    test.expect_equal(math.ceil(Vector2.new(1.2, 2.3)), Vector2.new(2, 3))
+    test.expect_equal(math.ceil(Vector3.new(1.2, 2.3, 3.7)), Vector3.new(2, 3, 4))
+    test.expect_equal(math.ceil(Vector4.new(1.2, 2.3, 3.7, 9.8)), Vector4.new(2, 3, 4, 10))
+end)
+
 test.test('clamp', function()
     test.expect_equal(math.clamp(1, 2, 6), 2)
     test.expect_equal(math.clamp(7, 2, 6), 6)
