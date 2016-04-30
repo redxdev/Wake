@@ -42,10 +42,12 @@ endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(TCLAP_INCLUDE_DIR "deps/tclap-1.2.1/include")
+set(OBJLOADER_INCLUDE_DIR "deps/tinyobjloader")
 
 set(INCLUDE_DIRECTORIES
         "include"
         ${TCLAP_INCLUDE_DIR}
+        ${OBJLOADER_INCLUDE_DIR}
         ${LUA_INCLUDE_DIR}
         ${GLEW_INCLUDE_DIRS}
         ${GLFW_INCLUDE_DIRS}
@@ -72,6 +74,9 @@ set(SOURCE_FILES
         "src/bindings/luashader.cpp"
         "src/bindings/luamesh.cpp"
         "src/bindings/luamath.cpp"
+        "src/bindings/luaassets.cpp"
+
+        "deps/tinyobjloader/tiny_obj_loader.cc"
         )
 
 add_definitions(-DGLM_FORCE_RADIANS)
