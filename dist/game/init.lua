@@ -42,7 +42,7 @@ local shaderModel = shader:getUniform("model")
 
 local obj = assets.loadOBJ("assets/sponza.obj")
 if obj == nil then
-    print("Uh oh!")
+    print("Unable to load model.")
     engine.stop()
     return
 end
