@@ -28,6 +28,8 @@ require('tests/native/math')
 require('tests/native/vertex')
 require('tests/native/mesh')
 
+require('tests/native/assets')
+
 --
 -- Do not touch the code below this line.
 --
