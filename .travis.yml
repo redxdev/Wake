@@ -11,7 +11,7 @@ before_install:
     - bash ./ci-install-deps.sh
 
 before_script:
-    - cmake .
+    - cmake -Dassimp_INCLUDE_DIRS=/usr/local/include -Dassimp_LIBRARIES=/usr/local/lib/libassimp.so .
     - make
 
 script:

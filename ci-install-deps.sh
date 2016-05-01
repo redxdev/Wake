@@ -25,4 +25,12 @@ make
 sudo make install
 cd ..
 
+wget -O assimp-3.2.zip https://github.com/assimp/assimp/archive/v3.2.zip
+unzip -q assimp-3.2.zip
+cd assimp-3.2.zip
+cmake -DASSIMP_BUILD_SAMPLES=false -DASSIMP_BUILD_TESTS=false -DASSIMP_BUILD_ASSIMP_TOOLS=false .
+make
+sudo make install
+cd ..
+
 cd ..
