@@ -2,70 +2,64 @@
 #include "bindings/luamesh.h"
 #include "moduleregistry.h"
 
-#include <tiny_obj_loader.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 #include <iostream>
 
 namespace wake
 {
     namespace bindings
     {
-        int loadOBJ(lua_State* L)
+        int loadModel(lua_State* L)
         {
             const char* path = luaL_checkstring(L, 1);
 
-            std::vector<tinyobj::shape_t> shapes;
-            std::vector<tinyobj::material_t> materials;
-            std::string err;
+            Assimp::Importer importer;
+            const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals);
 
-            if (!tinyobj::LoadObj(shapes, materials, err, path))
+            if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
             {
-                std::cout << "loadOBJ error: " << err << std::endl;
+                std::cout << "loadModel error: " << importer.GetErrorString() << std::endl;
                 lua_pushnil(L);
                 return 1;
             }
 
-            if (!err.empty())
-            {
-                std::cout << "loadOBJ: " << err << std::endl;
-            }
-
             std::vector<Mesh*> meshes;
-
-            for (auto shape : shapes)
+            for (size_t i = 0; i < scene->mNumMeshes; ++i)
             {
+                aiMesh* mesh = scene->mMeshes[i];
+
                 std::vector<Vertex> vertices;
                 std::vector<GLuint> indices;
 
-                size_t vertexCount = shape.mesh.positions.size() / 3;
-                for (size_t v = 0; v < vertexCount; ++v)
+                for (size_t v = 0; v < mesh->mNumVertices; ++v)
                 {
-                    glm::vec3 position(shape.mesh.positions[v * 3], shape.mesh.positions[v * 3 + 1],
-                                       shape.mesh.positions[v * 3 + 2]);
+                    aiVector3D& position = mesh->mVertices[v];
+                    aiVector3D& normal = mesh->mNormals[v];
 
-                    glm::vec3 normal(1, 0, 0);
-                    if ((v * 3 + 2) < shape.mesh.normals.size())
+                    Vertex vertex;
+                    vertex.position = glm::vec3(position.x, position.y, position.z);
+                    vertex.normal = glm::vec3(normal.x, normal.y, normal.z);
+
+                    if (mesh->mTextureCoords[0])
                     {
-                        normal = -glm::vec3(shape.mesh.normals[v * 3], shape.mesh.normals[v * 3 + 1],
-                                           shape.mesh.normals[v * 3 + 2]);
+                        vertex.texCoords = glm::vec2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
                     }
 
-                    glm::vec2 texCoords(0, 0);
-                    if ((v * 2 + 1) < shape.mesh.texcoords.size())
-                    {
-                        texCoords = glm::vec2(shape.mesh.texcoords[v * 2], shape.mesh.texcoords[v * 2 + 1]);
-                    }
-
-                    Vertex vertex(position, normal, texCoords);
                     vertices.push_back(vertex);
                 }
 
-                for (auto index : shape.mesh.indices)
+                for (size_t v = 0; v < mesh->mNumFaces; ++v)
                 {
-                    indices.push_back((GLuint) index);
+                    aiFace& face = mesh->mFaces[v];
+                    for (size_t f = 0; f < face.mNumIndices; ++f)
+                    {
+                        indices.push_back(face.mIndices[f]);
+                    }
                 }
 
-                Mesh* mesh = new Mesh(vertices, indices);
-                meshes.push_back(mesh);
+                meshes.push_back(new Mesh(vertices, indices));
             }
 
             lua_newtable(L);
@@ -80,7 +74,7 @@ namespace wake
         }
 
         static const struct luaL_reg assetslib_f[] = {
-                {"loadOBJ", loadOBJ},
+                {"loadModel", loadModel},
                 {NULL, NULL}
         };
 

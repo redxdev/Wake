@@ -13,6 +13,7 @@ find_package(OpenGL REQUIRED)
 find_package(Lua REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(GLM REQUIRED)
+find_package(assimp REQUIRED)
 
 if (WIN32 AND NOT CYGWIN)
     find_package(GLFW REQUIRED)
@@ -52,6 +53,7 @@ set(INCLUDE_DIRECTORIES
         ${GLEW_INCLUDE_DIRS}
         ${GLFW_INCLUDE_DIRS}
         ${GLM_INCLUDE_DIR}
+        ${assimp_INCLUDE_DIRS}
         )
 
 set(SOURCE_FILES
@@ -75,8 +77,6 @@ set(SOURCE_FILES
         "src/bindings/luamesh.cpp"
         "src/bindings/luamath.cpp"
         "src/bindings/luaassets.cpp"
-
-        "deps/tinyobjloader/tiny_obj_loader.cc"
         )
 
 add_definitions(-DGLM_FORCE_RADIANS)
@@ -89,4 +89,5 @@ target_link_libraries(Wake
         ${GLFW_LIBRARIES}
         ${OPENGL_gl_LIBRARY}
         ${OPENGL_glu_LIBRARY}
+        ${assimp_LIBRARIES}
         )

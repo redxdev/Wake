@@ -26,12 +26,7 @@ out vec4 outColor;
 
 void main()
 {
-    vec3 lightColor = vec3(0.8, 0.8, 0.8);
-    vec3 lightDirection = vec3(0.707, 0.707, 0);
-    float lightAmbience = 0.8;
-
-    float diffuseIntensity = max(0.0, dot(normalize(outNormal), -lightDirection));
-    outColor = vec4(lightColor, 1.0) * vec4(lightColor * (lightAmbience * diffuseIntensity), 1.0);
+    outColor = vec4(outNormal, 1.0);
 }
 ]]
 )
@@ -40,7 +35,7 @@ local shaderView = shader:getUniform("view")
 local shaderProj = shader:getUniform("projection")
 local shaderModel = shader:getUniform("model")
 
-local obj = assets.loadOBJ("assets/sponza.obj")
+local obj = assets.loadModel("assets/sponza.obj")
 if obj == nil then
     print("Unable to load model.")
     engine.stop()
