@@ -162,6 +162,7 @@ namespace wake
                 snappy::Compress(dataStr.c_str(), dataStr.length(), &result);
 
                 f.write(W_MDL_CODE, strlen(W_MDL_CODE));
+                writeUInt32(f, W_MDL_VERSION);
                 flags |= W_MDL_FLAG_COMPRESS;
                 writeUInt64(f, flags);
 
@@ -170,6 +171,7 @@ namespace wake
             else
             {
                 f.write(W_MDL_CODE, strlen(W_MDL_CODE));
+                writeUInt32(f, W_MDL_VERSION);
                 writeUInt64(f, flags);
 
                 f.write(dataStr.c_str(), dataStr.length());
@@ -220,6 +222,14 @@ namespace wake
 
         try
         {
+            uint32_t version = readUInt32(f);
+            if (version != W_MDL_VERSION)
+            {
+                std::cout << "loadWMDL error: version mismatch, expected " << W_MDL_VERSION << ", got " << version << std::endl;
+                f.close();
+                return false;
+            }
+
             // no need to check bitflags yet, we only have one so we can do simple comparison
             uint64_t flags = readUInt64(f);
 
