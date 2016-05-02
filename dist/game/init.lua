@@ -35,7 +35,7 @@ local shaderView = shader:getUniform("view")
 local shaderProj = shader:getUniform("projection")
 local shaderModel = shader:getUniform("model")
 
-local obj = assets.loadWModel("assets/sponza.wmdl", obj)
+local obj = assets.loadModel("assets/sponza.wmdl", obj)
 if obj == nil then
     print("Unable to load model.")
 end

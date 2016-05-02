@@ -12,10 +12,8 @@ namespace wake
 {
     namespace bindings
     {
-        static int loadModel(lua_State* L)
+        static int loadAssimpModel(lua_State* L, const char* path)
         {
-            const char* path = luaL_checkstring(L, 1);
-
             Assimp::Importer importer;
             const aiScene* scene = importer.ReadFile(path,
                                                      aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals);
@@ -75,6 +73,43 @@ namespace wake
             return 1;
         }
 
+        static int loadWakeModel(lua_State* L, const char* path)
+        {
+            std::vector<Mesh*> meshes;
+            bool result = loadWMDL(path, meshes);
+            if (!result)
+            {
+                lua_pushnil(L);
+                return 1;
+            }
+
+            lua_newtable(L);
+            for (size_t i = 0; i < meshes.size(); ++i)
+            {
+                lua_pushnumber(L, i + 1);
+                pushValue(L, meshes[i]);
+                lua_settable(L, -3);
+            }
+
+            return 1;
+        }
+
+        static int loadModel(lua_State* L)
+        {
+            std::string path(luaL_checkstring(L, 1));
+            std::string::size_type pathPos = path.rfind('.');
+            if (pathPos != std::string::npos)
+            {
+                std::string extension = path.substr(pathPos + 1);
+                if (extension == "wmdl")
+                {
+                    return loadWakeModel(L, path.c_str());
+                }
+            }
+
+            return loadAssimpModel(L, path.c_str());
+        }
+
         static int saveModel(lua_State* L)
         {
             const char* path = luaL_checkstring(L, 1);
@@ -102,33 +137,9 @@ namespace wake
             return 1;
         }
 
-        int loadWModel(lua_State* L)
-        {
-            const char* path = luaL_checkstring(L, 1);
-
-            std::vector<Mesh*> meshes;
-            bool result = loadWMDL(path, meshes);
-            if (!result)
-            {
-                lua_pushnil(L);
-                return 1;
-            }
-
-            lua_newtable(L);
-            for (size_t i = 0; i < meshes.size(); ++i)
-            {
-                lua_pushnumber(L, i + 1);
-                pushValue(L, meshes[i]);
-                lua_settable(L, -3);
-            }
-
-            return 1;
-        }
-
         static const struct luaL_reg assetslib_f[] = {
-                {"loadModel",  loadModel},
-                {"saveModel",  saveModel},
-                {"loadWModel", loadWModel},
+                {"loadModel", loadModel},
+                {"saveModel", saveModel},
                 {NULL, NULL}
         };
 
