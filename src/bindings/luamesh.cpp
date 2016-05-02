@@ -28,7 +28,7 @@ namespace wake
 
                 case 1:
                 {
-                    luaL_argcheck(L, lua_istable(L, 1), 1, "expected table");
+                    luaL_checktype(L, 1, LUA_TTABLE);
 
                     std::vector<Vertex> vertices;
                     lua_pushnil(L);
@@ -45,8 +45,8 @@ namespace wake
 
                 case 2:
                 {
-                    luaL_argcheck(L, lua_istable(L, 1), 1, "expected table");
-                    luaL_argcheck(L, lua_istable(L, 2), 2, "expected table");
+                    luaL_checktype(L, 1, LUA_TTABLE);
+                    luaL_checktype(L, 2, LUA_TTABLE);
 
                     std::vector<Vertex> vertices;
                     lua_pushnil(L);

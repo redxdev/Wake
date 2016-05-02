@@ -35,14 +35,35 @@ local shaderView = shader:getUniform("view")
 local shaderProj = shader:getUniform("projection")
 local shaderModel = shader:getUniform("model")
 
+local startTime = engine.getTime()
 local obj = assets.loadModel("assets/sponza.obj")
+local endTime = engine.getTime()
 if obj == nil then
     print("Unable to load model.")
     engine.stop()
     return
 end
 
+print("OBJ load took " .. (endTime - startTime) .. " seconds")
+
 print("Model has " .. #obj .. " meshes")
+
+print("Saving model...")
+startTime = engine.getTime()
+if not assets.saveWakeModel("assets/sponza.wmdl", obj) then
+    print("Unable to save model.")
+end
+endTime = engine.getTime()
+print("Saving took " .. (endTime - startTime) .. " seconds")
+
+print("Loading model...")
+startTime = engine.getTime()
+obj = assets.loadWakeModel("assets/sponza.wmdl", obj)
+if obj == nil then
+    print("Unable to load model.")
+end
+endTime = engine.getTime()
+print("Loading took " .. (endTime - startTime) .. " seconds")
 
 engine.setClearColor(1, 1, 1, 1)
 

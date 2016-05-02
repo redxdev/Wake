@@ -14,6 +14,7 @@ find_package(Lua REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(GLM REQUIRED)
 find_package(assimp REQUIRED)
+find_package(Snappy REQUIRED)
 
 if (WIN32 AND NOT CYGWIN)
     find_package(GLFW REQUIRED)
@@ -54,6 +55,7 @@ set(INCLUDE_DIRECTORIES
         ${GLFW_INCLUDE_DIRS}
         ${GLM_INCLUDE_DIR}
         ${assimp_INCLUDE_DIRS}
+        ${SNAPPY_INCLUDE_DIR}
         )
 
 set(SOURCE_FILES
@@ -90,4 +92,5 @@ target_link_libraries(Wake
         ${OPENGL_gl_LIBRARY}
         ${OPENGL_glu_LIBRARY}
         ${assimp_LIBRARIES}
+        ${SNAPPY_LIBRARIES}
         )
