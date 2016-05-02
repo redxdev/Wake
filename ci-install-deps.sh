@@ -33,4 +33,13 @@ make
 sudo make install
 cd ..
 
+wget -O snappy-1.1.3.zip https://github.com/google/snappy/archive/1.1.3.zip
+unzip -q snappy-1.1.3.zip
+cd snappy-1.1.3
+./autogen.sh
+./configure
+make
+sudo make install
+cd ..
+
 cd ..
