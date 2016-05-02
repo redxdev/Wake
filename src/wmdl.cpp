@@ -172,14 +172,15 @@ namespace wake
             return false;
         }
 
-        char* code = new char[strlen(W_MDL_CODE)];
-
+        char* code = new char[strlen(W_MDL_CODE) + 1];
         f.read(code, strlen(W_MDL_CODE));
+        code[strlen(W_MDL_CODE)] = '\0';
+
         if (strcmp(code, W_MDL_CODE) != 0)
         {
             delete[] code;
             f.close();
-            std::cout << "loadWMDL error: bad header, expected " << W_MDL_CODE << std::endl;
+            std::cout << "loadWMDL error: bad header, expected " << W_MDL_CODE << ", got " << code << std::endl;
             return false;
         }
 
