@@ -14,6 +14,10 @@ int execute(bool testing, bool tool, const std::string& toolName, const std::vec
         std::cout << "Running in testing mode." << std::endl;
         wake::setEngineMode(wake::EngineMode::Testing);
     }
+    else if (tool)
+    {
+        wake::setEngineMode(wake::EngineMode::Testing);
+    }
     else
     {
         wake::setEngineMode(wake::EngineMode::Normal);

@@ -70,6 +70,7 @@ set(SOURCE_FILES
         "src/glutil.cpp"
         "src/mesh.cpp"
         "src/luautil.cpp"
+        "src/wmdl.cpp"
         "src/bindings/luawake.cpp"
         "src/bindings/luaengine.cpp"
         "src/bindings/luaevent.cpp"
