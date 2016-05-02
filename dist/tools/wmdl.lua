@@ -1,8 +1,11 @@
---
--- Created by IntelliJ IDEA.
--- User: Sam
--- Date: 5/1/2016
--- Time: 8:48 PM
--- To change this template use File | Settings | File Templates.
---
+local assets = assets
 
+function hook_engine_tool()
+    local args = wake.getArguments()
+    if #args ~= 2 then
+        print("Usage: wmdl <input_model> <output_model>")
+        print("Description: Converts ")
+    end
+
+
+end
