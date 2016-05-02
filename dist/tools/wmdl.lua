@@ -27,7 +27,7 @@ function hook_engine_tool()
     else
         print("Saving output to " .. outputPath)
     end
-    local result = assets.saveWModel(outputPath, input, compress)
+    local result = assets.saveModel(outputPath, input, compress)
     if not result then
         print("Unable to save output model.")
         return false
