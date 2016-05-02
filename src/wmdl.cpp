@@ -9,6 +9,7 @@
 
 // TODO: Make everything host endian independent
 // TODO: Make everything loads/saves floats correctly in case of different implementation than IEEE-754 on the host
+// TODO: Actual errors instead of just std::exception throws
 
 namespace wake
 {
@@ -39,6 +40,37 @@ namespace wake
         if (out.bad())
         {
             std::cout << "writeUInt32 error: unable to read from stream" << std::endl;
+            throw std::exception();
+        }
+    }
+
+    uint64_t readUInt64(std::istream& in)
+    {
+        uint64_t val;
+        in.read((char*) &val, sizeof(val));
+
+        if (in.eof())
+        {
+            std::cout << "readUInt64 error: hit EOF while reading from stream" << std::endl;
+            throw std::exception();
+        }
+
+        if (in.bad())
+        {
+            std::cout << "readUInt64 error: unable to read from stream" << std::endl;
+            throw std::exception();
+        }
+
+        return val;
+    }
+
+    void writeUInt64(std::ostream& out, uint64_t val)
+    {
+        out.write((char*) &val, sizeof(val));
+
+        if (out.bad())
+        {
+            std::cout << "writeUInt64 error: unable to read from stream" << std::endl;
             throw std::exception();
         }
     }
@@ -123,22 +155,22 @@ namespace wake
                 return false;
             }
 
+            uint64_t flags = W_MDL_FLAG_NONE;
             if (compress)
             {
                 std::string result;
                 snappy::Compress(dataStr.c_str(), dataStr.length(), &result);
 
                 f.write(W_MDL_CODE, strlen(W_MDL_CODE));
-                uint32_t flags = W_MDL_FLAG_COMPRESS;
-                writeUInt32(f, flags);
+                flags |= W_MDL_FLAG_COMPRESS;
+                writeUInt64(f, flags);
 
                 f.write(result.c_str(), result.size());
             }
             else
             {
                 f.write(W_MDL_CODE, strlen(W_MDL_CODE));
-                uint32_t flags = W_MDL_FLAG_NONE;
-                writeUInt32(f, flags);
+                writeUInt64(f, flags);
 
                 f.write(dataStr.c_str(), dataStr.length());
             }
@@ -189,12 +221,12 @@ namespace wake
         try
         {
             // no need to check bitflags yet, we only have one so we can do simple comparison
-            uint32_t flags = readUInt32(f);
+            uint64_t flags = readUInt64(f);
 
             std::string raw((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
             f.close();
 
-            if (flags == W_MDL_FLAG_COMPRESS)
+            if (flags & W_MDL_FLAG_COMPRESS)
             {
                 std::string uncompressed;
                 snappy::Uncompress(raw.c_str(), raw.length(), &uncompressed);
