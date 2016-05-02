@@ -5,8 +5,10 @@
 #include "scriptmanager.h"
 #include "engine.h"
 
-int execute(bool testing)
+int execute(bool testing, bool tool, const std::string& toolName, const std::vector<std::string>& args)
 {
+    wake::setEngineArguments(args);
+
     if (testing)
     {
         std::cout << "Running in testing mode." << std::endl;
@@ -74,6 +76,38 @@ int execute(bool testing)
             return 1;
         }
     }
+    else if (tool)
+    {
+        ////
+        // Tool Execution
+        ////
+
+        std::cout << "Loading tool " << toolName << "..." << std::endl;
+        if (!W_SCRIPT.doFile(("tools/" + toolName + ".lua").c_str()))
+        {
+            std::cout << "Unable to load tool." << std::endl;
+            return 1;
+        }
+
+        lua_State* state = W_SCRIPT.getState();
+        lua_getglobal(state, "hook_engine_tool");
+
+        if (lua_pcall(state, 0, 1, 0) != 0)
+        {
+            std::cout << "Unable to run tool: " << lua_tostring(state, -1) << std::endl;
+            return 1;
+        }
+
+        bool success = true;
+        if (lua_isboolean(state, -1) != 0)
+        {
+            success = lua_toboolean(state, -1) != 0;
+        }
+
+        W_SCRIPT.shutdown();
+
+        return success ? 1 : 0;
+    }
     else
     {
         ////
@@ -119,11 +153,15 @@ int main(int argc, char** argv)
                                     false);
         TCLAP::SwitchArg pauseArg("p", "pause", "Pause execution on exit.", cmd, false);
 
+        TCLAP::ValueArg<std::string> toolArg("x", "tool", "Tool script to run", false, "", "string", cmd);
+
+        TCLAP::UnlabeledMultiArg<std::string> otherArgs("argument", "Additional arguments to pass to the engine", false, "string", cmd);
+
         cmd.parse(argc, argv);
 
         pause = pauseArg.getValue();
 
-        result = execute(testingArg.getValue());
+        result = execute(testingArg.getValue(), toolArg.isSet(), toolArg.getValue(), otherArgs.getValue());
     }
     catch (TCLAP::ArgException& e)
     {
