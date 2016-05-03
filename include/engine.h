@@ -52,5 +52,9 @@ namespace wake
         int targetHeight = 600;
         bool targetFullscreen = false;
         const char* targetTitle = "Wake";
+        GLclampf clearR;
+        GLclampf clearG;
+        GLclampf clearB;
+        GLclampf clearA;
     };
 }

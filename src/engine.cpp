@@ -59,6 +59,10 @@ namespace wake
         glViewport(0, 0, targetWidth, targetHeight);
 
         setClearColor(0.f, 0.f, 0.f, 1.f);
+        clearR = 0.f;
+        clearG = 0.f;
+        clearB = 0.f;
+        clearA = 1.f;
 
         W_GL_CHECK();
 
@@ -103,6 +107,10 @@ namespace wake
 
             glfwPollEvents();
 
+            int displayW, displayH;
+            glfwGetFramebufferSize(window, &displayW, &displayH);
+            glViewport(0, 0, displayW, displayH);
+            glClearColor(clearR, clearG, clearB, clearA);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             TickEvent.call(frameTime);
@@ -134,6 +142,10 @@ namespace wake
 
     void Engine::setClearColor(GLclampf r, GLclampf g, GLclampf b, GLclampf a)
     {
+        clearR = r;
+        clearG = g;
+        clearB = b;
+        clearA = a;
         glClearColor(r, g, b, a);
     }
 
