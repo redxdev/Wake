@@ -3,179 +3,174 @@
 #include "util.h"
 #include "glutil.h"
 
-// The Ix_AUTO and Ix_MAN macros in this file are dirty little hacks to make it much quicker to enter
-// enums. They are both defined and undefined in this file, so they cannot be used outside of here.
-
 namespace wake
 {
     enum class InputState : uint8
     {
-        PRESS = GLFW_PRESS,
-        RELEASE = GLFW_RELEASE
+        Press = GLFW_PRESS,
+        Release = GLFW_RELEASE
     };
 
-#define IK_AUTO(n) n = GLFW_KEY_##n,
-#define IK_MAN(n, v) n = GLFW_KEY_##v,
     enum class KeyboardInput : int16
     {
-        IK_AUTO(UNKNOWN)
-        IK_AUTO(SPACE)
-        IK_AUTO(APOSTROPHE)
-        IK_AUTO(COMMA)
-        IK_AUTO(MINUS)
-        IK_AUTO(PERIOD)
-        IK_AUTO(SLASH)
-        IK_MAN(NUM_0, 0)
-        IK_MAN(NUM_1, 1)
-        IK_MAN(NUM_2, 2)
-        IK_MAN(NUM_3, 3)
-        IK_MAN(NUM_4, 4)
-        IK_MAN(NUM_5, 5)
-        IK_MAN(NUM_6, 6)
-        IK_MAN(NUM_7, 7)
-        IK_MAN(NUM_8, 8)
-        IK_MAN(NUM_9, 9)
-        IK_AUTO(SEMICOLON)
-        IK_AUTO(EQUAL)
-        IK_AUTO(A)
-        IK_AUTO(B)
-        IK_AUTO(C)
-        IK_AUTO(D)
-        IK_AUTO(E)
-        IK_AUTO(F)
-        IK_AUTO(G)
-        IK_AUTO(H)
-        IK_AUTO(I)
-        IK_AUTO(J)
-        IK_AUTO(K)
-        IK_AUTO(L)
-        IK_AUTO(M)
-        IK_AUTO(N)
-        IK_AUTO(O)
-        IK_AUTO(P)
-        IK_AUTO(Q)
-        IK_AUTO(R)
-        IK_AUTO(S)
-        IK_AUTO(T)
-        IK_AUTO(U)
-        IK_AUTO(V)
-        IK_AUTO(W)
-        IK_AUTO(X)
-        IK_AUTO(Y)
-        IK_AUTO(Z)
-        IK_AUTO(LEFT_BRACKET)
-        IK_AUTO(BACKSLASH)
-        IK_AUTO(RIGHT_BRACKET)
-        IK_AUTO(GRAVE_ACCENT)
-        IK_AUTO(WORLD_1)
-        IK_AUTO(WORLD_2)
-        IK_AUTO(ESCAPE)
-        IK_AUTO(ENTER)
-        IK_AUTO(TAB)
-        IK_AUTO(BACKSPACE)
-        IK_AUTO(INSERT)
-        IK_AUTO(DELETE)
-        IK_AUTO(RIGHT)
-        IK_AUTO(LEFT)
-        IK_AUTO(DOWN)
-        IK_AUTO(UP)
-        IK_AUTO(PAGE_UP)
-        IK_AUTO(PAGE_DOWN)
-        IK_AUTO(HOME)
-        IK_AUTO(END)
-        IK_AUTO(CAPS_LOCK)
-        IK_AUTO(SCROLL_LOCK)
-        IK_AUTO(NUM_LOCK)
-        IK_AUTO(PRINT_SCREEN)
-        IK_AUTO(PAUSE)
-        IK_AUTO(F1)
-        IK_AUTO(F2)
-        IK_AUTO(F3)
-        IK_AUTO(F4)
-        IK_AUTO(F5)
-        IK_AUTO(F6)
-        IK_AUTO(F7)
-        IK_AUTO(F8)
-        IK_AUTO(F9)
-        IK_AUTO(F10)
-        IK_AUTO(F11)
-        IK_AUTO(F12)
-        IK_AUTO(F13)
-        IK_AUTO(F14)
-        IK_AUTO(F15)
-        IK_AUTO(F16)
-        IK_AUTO(F17)
-        IK_AUTO(F18)
-        IK_AUTO(F19)
-        IK_AUTO(F20)
-        IK_AUTO(F21)
-        IK_AUTO(F22)
-        IK_AUTO(F23)
-        IK_AUTO(F24)
-        IK_AUTO(F25)
-        IK_AUTO(KP_0)
-        IK_AUTO(KP_1)
-        IK_AUTO(KP_2)
-        IK_AUTO(KP_3)
-        IK_AUTO(KP_4)
-        IK_AUTO(KP_5)
-        IK_AUTO(KP_6)
-        IK_AUTO(KP_7)
-        IK_AUTO(KP_8)
-        IK_AUTO(KP_9)
-        IK_AUTO(KP_DECIMAL)
-        IK_AUTO(KP_DIVIDE)
-        IK_AUTO(KP_MULTIPLY)
-        IK_AUTO(KP_SUBTRACT)
-        IK_AUTO(KP_ADD)
-        IK_AUTO(KP_ENTER)
-        IK_AUTO(KP_EQUAL)
-        IK_AUTO(LEFT_SHIFT)
-        IK_AUTO(LEFT_CONTROL)
-        IK_AUTO(LEFT_ALT)
-        IK_AUTO(LEFT_SUPER)
-        IK_AUTO(RIGHT_SHIFT)
-        IK_AUTO(RIGHT_CONTROL)
-        IK_AUTO(RIGHT_ALT)
-        IK_AUTO(RIGHT_SUPER)
-        IK_AUTO(MENU)
+        Unknown = GLFW_KEY_UNKNOWN,
+        Space = GLFW_KEY_SPACE,
+        Apostrophe = GLFW_KEY_APOSTROPHE,
+        Comma = GLFW_KEY_COMMA,
+        Minus = GLFW_KEY_MINUS,
+        Period = GLFW_KEY_PERIOD,
+        Slash = GLFW_KEY_SLASH,
+        Num0 = GLFW_KEY_0,
+        Num1 = GLFW_KEY_1,
+        Num2 = GLFW_KEY_2,
+        Num3 = GLFW_KEY_3,
+        Num4 = GLFW_KEY_4,
+        Num5 = GLFW_KEY_5,
+        Num6 = GLFW_KEY_5,
+        Num7 = GLFW_KEY_5,
+        Num8 = GLFW_KEY_5,
+        Num9 = GLFW_KEY_9,
+        Semicolon = GLFW_KEY_SEMICOLON,
+        Equal = GLFW_KEY_EQUAL,
+        A = GLFW_KEY_A,
+        B = GLFW_KEY_B,
+        C = GLFW_KEY_C,
+        D = GLFW_KEY_D,
+        E = GLFW_KEY_E,
+        F = GLFW_KEY_F,
+        G = GLFW_KEY_G,
+        H = GLFW_KEY_H,
+        I = GLFW_KEY_I,
+        J = GLFW_KEY_J,
+        K = GLFW_KEY_K,
+        L = GLFW_KEY_L,
+        M = GLFW_KEY_M,
+        N = GLFW_KEY_N,
+        O = GLFW_KEY_O,
+        P = GLFW_KEY_P,
+        Q = GLFW_KEY_Q,
+        R = GLFW_KEY_R,
+        S = GLFW_KEY_S,
+        T = GLFW_KEY_T,
+        U = GLFW_KEY_U,
+        V = GLFW_KEY_V,
+        W = GLFW_KEY_W,
+        X = GLFW_KEY_X,
+        Y = GLFW_KEY_Y,
+        Z = GLFW_KEY_Z,
+        LeftBracket = GLFW_KEY_LEFT_BRACKET,
+        Backslash = GLFW_KEY_BACKSLASH,
+        RightBracket = GLFW_KEY_RIGHT_BRACKET,
+        Tilde = GLFW_KEY_GRAVE_ACCENT,
+        World1 = GLFW_KEY_WORLD_1,
+        World2 = GLFW_KEY_WORLD_2,
+        Escape = GLFW_KEY_ESCAPE,
+        Enter = GLFW_KEY_ENTER,
+        Tab = GLFW_KEY_TAB,
+        Backspace = GLFW_KEY_BACKSPACE,
+        Insert = GLFW_KEY_INSERT,
+        Delete = GLFW_KEY_DELETE,
+        Right = GLFW_KEY_RIGHT,
+        Left = GLFW_KEY_LEFT,
+        Down = GLFW_KEY_DOWN,
+        Up = GLFW_KEY_UP,
+        PageUp = GLFW_KEY_PAGE_UP,
+        PageDown = GLFW_KEY_PAGE_DOWN,
+        Home = GLFW_KEY_HOME,
+        End = GLFW_KEY_END,
+        CapsLock = GLFW_KEY_CAPS_LOCK,
+        ScrollLock = GLFW_KEY_SCROLL_LOCK,
+        NumLock = GLFW_KEY_NUM_LOCK,
+        PrintScreen = GLFW_KEY_PRINT_SCREEN,
+        Pause = GLFW_KEY_PAUSE,
+        F1 = GLFW_KEY_F1,
+        F2 = GLFW_KEY_F2,
+        F3 = GLFW_KEY_F3,
+        F4 = GLFW_KEY_F4,
+        F5 = GLFW_KEY_F5,
+        F6 = GLFW_KEY_F6,
+        F7 = GLFW_KEY_F7,
+        F8 = GLFW_KEY_F8,
+        F9 = GLFW_KEY_F9,
+        F10 = GLFW_KEY_F10,
+        F11 = GLFW_KEY_F11,
+        F12 = GLFW_KEY_F12,
+        F13 = GLFW_KEY_F13,
+        F14 = GLFW_KEY_F14,
+        F15 = GLFW_KEY_F15,
+        F16 = GLFW_KEY_F16,
+        F17 = GLFW_KEY_F17,
+        F18 = GLFW_KEY_F18,
+        F19 = GLFW_KEY_F19,
+        F20 = GLFW_KEY_F20,
+        F21 = GLFW_KEY_F21,
+        F22 = GLFW_KEY_F22,
+        F23 = GLFW_KEY_F23,
+        F24 = GLFW_KEY_F24,
+        F25 = GLFW_KEY_F25,
+        KP0 = GLFW_KEY_KP_0,
+        KP1 = GLFW_KEY_KP_1,
+        KP2 = GLFW_KEY_KP_2,
+        KP3 = GLFW_KEY_KP_3,
+        KP4 = GLFW_KEY_KP_4,
+        KP5 = GLFW_KEY_KP_5,
+        KP6 = GLFW_KEY_KP_6,
+        KP7 = GLFW_KEY_KP_7,
+        KP8 = GLFW_KEY_KP_8,
+        KP9 = GLFW_KEY_KP_9,
+        KPDecimal = GLFW_KEY_KP_DECIMAL,
+        KPDivide = GLFW_KEY_KP_DIVIDE,
+        KPMultiple = GLFW_KEY_KP_MULTIPLY,
+        KPSubtract = GLFW_KEY_KP_SUBTRACT,
+        KPAdd = GLFW_KEY_KP_ADD,
+        KPEnter = GLFW_KEY_KP_ENTER,
+        LeftShift = GLFW_KEY_LEFT_SHIFT,
+        LeftControl = GLFW_KEY_LEFT_CONTROL,
+        LeftAlt = GLFW_KEY_LEFT_ALT,
+        LeftSuper = GLFW_KEY_LEFT_SUPER,
+        RightShift = GLFW_KEY_RIGHT_SHIFT,
+        RightControl = GLFW_KEY_RIGHT_CONTROL,
+        RightAlt = GLFW_KEY_RIGHT_ALT,
+        RightSuper = GLFW_KEY_RIGHT_SUPER,
+        Menu = GLFW_KEY_MENU,
+        Last = GLFW_KEY_LAST
     };
-#undef IK_AUTO
-#undef IK_MAN
 
-#define IM_AUTO(n) n = GLFW_MOUSE_##n,
     enum class MouseInput : uint8
     {
-        IM_AUTO(BUTTON_1)
-        IM_AUTO(BUTTON_2)
-        IM_AUTO(BUTTON_3)
-        IM_AUTO(BUTTON_4)
-        IM_AUTO(BUTTON_5)
-        IM_AUTO(BUTTON_6)
-        IM_AUTO(BUTTON_7)
-        IM_AUTO(BUTTON_8)
-    };
-#undef IM_AUTO
+        Button1 = GLFW_MOUSE_BUTTON_1,
+        Button2 = GLFW_MOUSE_BUTTON_2,
+        Button3 = GLFW_MOUSE_BUTTON_3,
+        Button4 = GLFW_MOUSE_BUTTON_4,
+        Button5 = GLFW_MOUSE_BUTTON_5,
+        Button6 = GLFW_MOUSE_BUTTON_6,
+        Button7 = GLFW_MOUSE_BUTTON_7,
+        Button8 = GLFW_MOUSE_BUTTON_8,
+        Last = GLFW_MOUSE_BUTTON_LAST,
 
-#define IJ_AUTO(n) J##n = GLFW_JOYSTICK_##n,
+        Left = GLFW_MOUSE_BUTTON_LEFT,
+        Right = GLFW_MOUSE_BUTTON_RIGHT,
+        Middle = GLFW_MOUSE_BUTTON_MIDDLE
+    };
+
     enum class JoystickInput : uint8
     {
-        IJ_AUTO(1)
-        IJ_AUTO(2)
-        IJ_AUTO(3)
-        IJ_AUTO(4)
-        IJ_AUTO(5)
-        IJ_AUTO(6)
-        IJ_AUTO(7)
-        IJ_AUTO(8)
-        IJ_AUTO(9)
-        IJ_AUTO(10)
-        IJ_AUTO(11)
-        IJ_AUTO(12)
-        IJ_AUTO(13)
-        IJ_AUTO(14)
-        IJ_AUTO(15)
-        IJ_AUTO(16)
+        Joystick1 = GLFW_JOYSTICK_1,
+        Joystick2 = GLFW_JOYSTICK_2,
+        Joystick3 = GLFW_JOYSTICK_3,
+        Joystick4 = GLFW_JOYSTICK_4,
+        Joystick5 = GLFW_JOYSTICK_5,
+        Joystick6 = GLFW_JOYSTICK_6,
+        Joystick7 = GLFW_JOYSTICK_7,
+        Joystick8 = GLFW_JOYSTICK_8,
+        Joystick9 = GLFW_JOYSTICK_9,
+        Joystick10 = GLFW_JOYSTICK_10,
+        Joystick11 = GLFW_JOYSTICK_11,
+        Joystick12 = GLFW_JOYSTICK_12,
+        Joystick13 = GLFW_JOYSTICK_13,
+        Joystick14 = GLFW_JOYSTICK_14,
+        Joystick15 = GLFW_JOYSTICK_15,
+        Joystick16 = GLFW_JOYSTICK_16,
+        Last = GLFW_JOYSTICK_LAST
     };
-#undef IJ_AUTO
 }

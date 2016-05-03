@@ -8,7 +8,7 @@ namespace wake
 {
     namespace binding
     {
-        int degrees(lua_State* L)
+        static int degrees(lua_State* L)
         {
             lua_Number rad = luaL_checknumber(L, 1);
             lua_Number deg = glm::degrees(rad);
@@ -16,7 +16,7 @@ namespace wake
             return 1;
         }
 
-        int radians(lua_State* L)
+        static int radians(lua_State* L)
         {
             lua_Number deg = luaL_checknumber(L, 1);
             lua_Number rad = glm::radians(deg);
@@ -24,7 +24,7 @@ namespace wake
             return 1;
         }
 
-        int frustum(lua_State* L)
+        static int frustum(lua_State* L)
         {
             lua_Number left = luaL_checknumber(L, 1);
             lua_Number right = luaL_checknumber(L, 2);
@@ -38,7 +38,7 @@ namespace wake
             return 1;
         }
 
-        int lookAt(lua_State* L)
+        static int lookAt(lua_State* L)
         {
             glm::vec3& eye = *luaW_checkvector3(L, 1);
             glm::vec3& center = *luaW_checkvector3(L, 2);
@@ -49,7 +49,7 @@ namespace wake
             return 1;
         }
 
-        int ortho(lua_State* L)
+        static int ortho(lua_State* L)
         {
             lua_Number left = luaL_checknumber(L, 1);
             lua_Number right = luaL_checknumber(L, 2);
@@ -73,7 +73,7 @@ namespace wake
             return 1;
         }
 
-        int perspective(lua_State* L)
+        static int perspective(lua_State* L)
         {
             lua_Number fovy = luaL_checknumber(L, 1);
             lua_Number aspect = luaL_checknumber(L, 2);
@@ -94,7 +94,7 @@ namespace wake
             return 1;
         }
 
-        int rotate(lua_State* L)
+        static int rotate(lua_State* L)
         {
             int argCount = lua_gettop(L);
             if (argCount <= 2)
@@ -118,7 +118,7 @@ namespace wake
             return 1;
         }
 
-        int scale(lua_State* L)
+        static int scale(lua_State* L)
         {
             int argCount = lua_gettop(L);
             if (argCount <= 1)
@@ -140,7 +140,7 @@ namespace wake
             return 1;
         }
 
-        int translate(lua_State* L)
+        static int translate(lua_State* L)
         {
             int argCount = lua_gettop(L);
             if (argCount <= 1)
@@ -162,7 +162,7 @@ namespace wake
             return 1;
         }
 
-        int abs(lua_State* L)
+        static int abs(lua_State* L)
         {
             if (lua_isnumber(L, 1))
             {
@@ -193,7 +193,7 @@ namespace wake
             return 0;
         }
 
-        int ceil(lua_State* L)
+        static int ceil(lua_State* L)
         {
             if (lua_isnumber(L, 1))
             {
@@ -224,7 +224,7 @@ namespace wake
             return 0;
         }
 
-        int clamp(lua_State* L)
+        static int clamp(lua_State* L)
         {
             if (lua_isnumber(L, 1))
             {
@@ -263,7 +263,7 @@ namespace wake
             return 0;
         }
 
-        int floor(lua_State* L)
+        static int floor(lua_State* L)
         {
             if (lua_isnumber(L, 1))
             {
@@ -294,7 +294,7 @@ namespace wake
             return 0;
         }
 
-        int fract(lua_State* L)
+        static int fract(lua_State* L)
         {
             if (lua_isnumber(L, 1))
             {
@@ -325,7 +325,7 @@ namespace wake
             return 0;
         }
 
-        int round(lua_State* L)
+        static int round(lua_State* L)
         {
             if (lua_isnumber(L, 1))
             {

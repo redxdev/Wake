@@ -1,12 +1,13 @@
 #pragma once
 
 #include "mesh.h"
+#include "util.h"
 
 #define W_MDL_CODE "WMDL3"
-#define W_MDL_VERSION ((uint32_t) 3)
+#define W_MDL_VERSION ((wake::uint32) 3)
 
-#define W_MDL_FLAG_NONE ((uint64_t) 0)
-#define W_MDL_FLAG_COMPRESS ((uint64_t) 0x01)
+#define W_MDL_FLAG_NONE ((wake::uint64) 0)
+#define W_MDL_FLAG_COMPRESS ((wake::uint64) 0x01)
 
 namespace wake
 {

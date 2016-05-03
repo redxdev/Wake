@@ -13,9 +13,9 @@
 
 namespace wake
 {
-    uint32_t readUInt32(std::istream& in)
+    uint32 readUInt32(std::istream& in)
     {
-        uint32_t val;
+        uint32 val;
         in.read((char*) &val, sizeof(val));
 
         if (in.eof())
@@ -33,7 +33,7 @@ namespace wake
         return val;
     }
 
-    void writeUInt32(std::ostream& out, uint32_t val)
+    void writeUInt32(std::ostream& out, uint32 val)
     {
         out.write((char*) &val, sizeof(val));
 
@@ -44,9 +44,9 @@ namespace wake
         }
     }
 
-    uint64_t readUInt64(std::istream& in)
+    uint64 readUInt64(std::istream& in)
     {
-        uint64_t val;
+        uint64 val;
         in.read((char*) &val, sizeof(val));
 
         if (in.eof())
@@ -64,7 +64,7 @@ namespace wake
         return val;
     }
 
-    void writeUInt64(std::ostream& out, uint64_t val)
+    void writeUInt64(std::ostream& out, uint64 val)
     {
         out.write((char*) &val, sizeof(val));
 
@@ -155,7 +155,7 @@ namespace wake
                 return false;
             }
 
-            uint64_t flags = W_MDL_FLAG_NONE;
+            uint64 flags = W_MDL_FLAG_NONE;
             if (compress)
             {
                 std::string result;
@@ -222,7 +222,7 @@ namespace wake
 
         try
         {
-            uint32_t version = readUInt32(f);
+            uint32 version = readUInt32(f);
             if (version != W_MDL_VERSION)
             {
                 std::cout << "loadWMDL error: version mismatch, expected " << W_MDL_VERSION << ", got " << version << std::endl;
@@ -231,7 +231,7 @@ namespace wake
             }
 
             // no need to check bitflags yet, we only have one so we can do simple comparison
-            uint64_t flags = readUInt64(f);
+            uint64 flags = readUInt64(f);
 
             std::string raw((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
             f.close();
@@ -245,14 +245,14 @@ namespace wake
 
             std::stringstream data(raw);
 
-            uint32_t meshCount = readUInt32(data);
+            uint32 meshCount = readUInt32(data);
             meshes.reserve(meshCount + meshes.size());
-            for (uint32_t m = 0; m < meshCount; ++m)
+            for (uint32 m = 0; m < meshCount; ++m)
             {
                 std::vector<Vertex> vertices;
-                uint32_t vertexCount = readUInt32(data);
+                uint32 vertexCount = readUInt32(data);
                 vertices.reserve(vertexCount);
-                for (uint32_t v = 0; v < vertexCount; ++v)
+                for (uint32 v = 0; v < vertexCount; ++v)
                 {
                     Vertex vertex;
 
@@ -271,9 +271,9 @@ namespace wake
                 }
 
                 std::vector<GLuint> indices;
-                uint32_t indexCount = readUInt32(data);
+                uint32 indexCount = readUInt32(data);
                 indices.reserve(indexCount);
-                for (uint32_t i = 0; i < indexCount; ++i)
+                for (uint32 i = 0; i < indexCount; ++i)
                 {
                     indices.push_back(readUInt32(data));
                 }

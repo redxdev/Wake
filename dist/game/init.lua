@@ -54,9 +54,7 @@ engine.tick:bind(function(dt)
     shaderProj:setMatrix4(projection)
 
     local rot = engine.getTime() / 2
-    local mat = math.scale{0.002, 0.002, 0.002}--math.rotate(rot, {1, 0, 0})
-    --mat = math.translate(mat, {math.sin(engine.getTime() / 2) * 2, 0, 0})
-    --mat = math.scale(mat, {0.002, 0.002, 0.002})
+    local mat = math.scale{0.002, 0.002, 0.002}
     shaderModel:setMatrix4(mat)
 
     for _,v in ipairs(obj) do
