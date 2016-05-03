@@ -66,6 +66,7 @@ set(SOURCE_FILES
         "src/moduleregistry.cpp"
         "src/scriptmanager.cpp"
         "src/engine.cpp"
+        "src/input.cpp"
         "src/shader.cpp"
         "src/glutil.cpp"
         "src/mesh.cpp"
@@ -80,6 +81,7 @@ set(SOURCE_FILES
         "src/bindings/luamesh.cpp"
         "src/bindings/luamath.cpp"
         "src/bindings/luaassets.cpp"
+        "src/bindings/luainput.cpp"
         )
 
 add_definitions(-DGLM_FORCE_RADIANS)

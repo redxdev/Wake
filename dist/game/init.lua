@@ -45,11 +45,41 @@ print("Loaded model in " .. (engine.getTime() - startTime) .. " seconds")
 
 engine.setClearColor(1, 1, 1, 1)
 
-local view = math.lookAt({2.5, 0.5, 0}, {0, 0.5, 0}, {0, 1, 0})
+local pos = Vector3.new(-2.5, 0.5, 0)
+local view = math.lookAt(pos, pos + Vector3.new(1, 0, 0), {0, 1, 0})
 local projection = math.perspective(math.radians(45), 800 / 600, 0.1, 1000)
+
+local speed = 1
 
 engine.tick:bind(function(dt)
     shader:use()
+
+    if input.getKey(input.key.W) == input.action.Press then
+        pos = pos + Vector3.new(speed * dt, 0, 0)
+    end
+
+    if input.getKey(input.key.S) == input.action.Press then
+        pos = pos - Vector3.new(speed * dt, 0, 0)
+    end
+
+    if input.getKey(input.key.A) == input.action.Press then
+        pos = pos - Vector3.new(0, 0, speed * dt)
+    end
+
+    if input.getKey(input.key.D) == input.action.Press then
+        pos = pos + Vector3.new(0, 0, speed * dt)
+    end
+
+    if input.getKey(input.key.Q) == input.action.Press then
+        pos = pos - Vector3.new(0, speed * dt, 0)
+    end
+
+    if input.getKey(input.key.E) == input.action.Press then
+        pos = pos + Vector3.new(0, speed * dt, 0)
+    end
+
+    view = math.lookAt(pos, pos + Vector3.new(1, 0, 0), {0, 1, 0})
+
     shaderView:setMatrix4(view)
     shaderProj:setMatrix4(projection)
 
@@ -64,4 +94,10 @@ end)
 
 engine.quit:bind(function()
     print("Shutdown at " .. engine.getTime())
+end)
+
+input.event.key:bind(function(key, action)
+    if key == input.key.Escape and action == input.action.Release then
+        engine.stop()
+    end
 end)

@@ -2,16 +2,20 @@
 
 #include "util.h"
 #include "glutil.h"
+#include "event.h"
+
+#define W_INPUT (wake::InputManager::get())
 
 namespace wake
 {
-    enum class InputState : uint8
+    enum class InputAction : int
     {
         Press = GLFW_PRESS,
-        Release = GLFW_RELEASE
+        Release = GLFW_RELEASE,
+        Repeat = GLFW_REPEAT
     };
 
-    enum class KeyboardInput : int16
+    enum class KeyboardInput : int
     {
         Unknown = GLFW_KEY_UNKNOWN,
         Space = GLFW_KEY_SPACE,
@@ -120,7 +124,7 @@ namespace wake
         KP9 = GLFW_KEY_KP_9,
         KPDecimal = GLFW_KEY_KP_DECIMAL,
         KPDivide = GLFW_KEY_KP_DIVIDE,
-        KPMultiple = GLFW_KEY_KP_MULTIPLY,
+        KPMultiply = GLFW_KEY_KP_MULTIPLY,
         KPSubtract = GLFW_KEY_KP_SUBTRACT,
         KPAdd = GLFW_KEY_KP_ADD,
         KPEnter = GLFW_KEY_KP_ENTER,
@@ -132,11 +136,10 @@ namespace wake
         RightControl = GLFW_KEY_RIGHT_CONTROL,
         RightAlt = GLFW_KEY_RIGHT_ALT,
         RightSuper = GLFW_KEY_RIGHT_SUPER,
-        Menu = GLFW_KEY_MENU,
-        Last = GLFW_KEY_LAST
+        Menu = GLFW_KEY_MENU
     };
 
-    enum class MouseInput : uint8
+    enum class MouseInput : int
     {
         Button1 = GLFW_MOUSE_BUTTON_1,
         Button2 = GLFW_MOUSE_BUTTON_2,
@@ -146,14 +149,13 @@ namespace wake
         Button6 = GLFW_MOUSE_BUTTON_6,
         Button7 = GLFW_MOUSE_BUTTON_7,
         Button8 = GLFW_MOUSE_BUTTON_8,
-        Last = GLFW_MOUSE_BUTTON_LAST,
 
         Left = GLFW_MOUSE_BUTTON_LEFT,
         Right = GLFW_MOUSE_BUTTON_RIGHT,
         Middle = GLFW_MOUSE_BUTTON_MIDDLE
     };
 
-    enum class JoystickInput : uint8
+    enum class JoystickInput : int
     {
         Joystick1 = GLFW_JOYSTICK_1,
         Joystick2 = GLFW_JOYSTICK_2,
@@ -170,7 +172,28 @@ namespace wake
         Joystick13 = GLFW_JOYSTICK_13,
         Joystick14 = GLFW_JOYSTICK_14,
         Joystick15 = GLFW_JOYSTICK_15,
-        Joystick16 = GLFW_JOYSTICK_16,
-        Last = GLFW_JOYSTICK_LAST
+        Joystick16 = GLFW_JOYSTICK_16
+    };
+
+    class InputManager
+    {
+    public:
+        static InputManager& get();
+
+    public:
+        Event<KeyboardInput, InputAction> KeyEvent;
+
+        bool startup();
+
+        bool shutdown();
+
+        InputAction getKey(KeyboardInput key) const;
+
+    private:
+        InputManager();
+        InputManager(const InputManager& other);
+        InputManager& operator=(const InputManager& other);
+
+        ~InputManager();
     };
 }

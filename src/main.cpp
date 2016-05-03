@@ -4,6 +4,7 @@
 #include "wake.h"
 #include "scriptmanager.h"
 #include "engine.h"
+#include "input.h"
 
 int execute(bool testing, bool tool, const std::string& toolName, const std::vector<std::string>& args)
 {
@@ -124,6 +125,12 @@ int execute(bool testing, bool tool, const std::string& toolName, const std::vec
             return 1;
         }
 
+        if (!W_INPUT.startup())
+        {
+            std::cout << "Unable to start input manager." << std::endl;
+            return 1;
+        }
+
         if (!W_SCRIPT.doFile("game/init.lua"))
         {
             std::cout << "Unable to start game." << std::endl;
@@ -138,6 +145,7 @@ int execute(bool testing, bool tool, const std::string& toolName, const std::vec
             result = 1;
         }
 
+        W_INPUT.shutdown();
         W_ENGINE.shutdown();
         W_SCRIPT.shutdown();
 

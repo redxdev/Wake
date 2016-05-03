@@ -193,6 +193,11 @@ namespace wake
         return result;
     }
 
+    GLFWwindow* Engine::getWindow() const
+    {
+        return window;
+    }
+
     Engine::Engine()
     {
 

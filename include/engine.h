@@ -37,6 +37,8 @@ namespace wake
         int getWindowWidth() const;
         int getWindowHeight() const;
 
+        GLFWwindow* getWindow() const;
+
     private:
         Engine();
         Engine(const Engine& other);
