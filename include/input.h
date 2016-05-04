@@ -183,6 +183,7 @@ namespace wake
     public:
         Event<KeyboardInput, InputAction> KeyEvent;
         Event<MouseInput, InputAction> MouseButtonEvent;
+        Event<double, double> CursorPositionEvent;
 
         bool startup();
 

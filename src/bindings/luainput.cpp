@@ -208,6 +208,10 @@ namespace wake
             pushValue(L, W_INPUT.MouseButtonEvent);
             lua_settable(L, -3);
 
+            lua_pushstring(L, "cursorPos");
+            pushValue(L, W_INPUT.CursorPositionEvent);
+            lua_settable(L, -3);
+
             lua_settable(L, -3);
             // end event table
 

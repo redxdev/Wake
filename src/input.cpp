@@ -16,6 +16,11 @@ namespace wake
         W_INPUT.MouseButtonEvent.call((MouseInput) button, (InputAction) action);
     }
 
+    static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+    {
+        W_INPUT.CursorPositionEvent.call(xpos, ypos);
+    }
+
     InputManager& InputManager::get()
     {
         static InputManager instance;
@@ -33,6 +38,7 @@ namespace wake
 
         glfwSetKeyCallback(window, &key_callback);
         glfwSetMouseButtonCallback(window, &mouse_button_callback);
+        glfwSetCursorPosCallback(window, &cursor_position_callback);
 
         return true;
     }
@@ -48,6 +54,7 @@ namespace wake
 
         glfwSetKeyCallback(window, nullptr);
         glfwSetMouseButtonCallback(window, nullptr);
+        glfwSetCursorPosCallback(window, nullptr);
 
         return true;
     }

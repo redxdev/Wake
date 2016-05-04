@@ -7,13 +7,6 @@
 
 namespace wake
 {
-    template<typename T, typename... Arguments>
-    void pushValue(lua_State* L, T first, Arguments... args)
-    {
-        pushValue(L, first);
-        pushValue(L, args...);
-    }
-
     // Do nothing
     void pushValue(lua_State* L);
 
@@ -42,4 +35,17 @@ namespace wake
     void pushValue(lua_State* L, const std::string& value);
 
     void pushValue(lua_State* L, bool value);
+
+    template<typename T, typename... Arguments>
+    void pushValue(lua_State* L, T first, Arguments... args)
+    {
+        pushValue(L, first);
+        pushValue(L, args...);
+    }
+
+    template<typename T>
+    void pushValue(lua_State* L, T first)
+    {
+        pushValue(L, first);
+    }
 }
