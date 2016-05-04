@@ -3,7 +3,7 @@ function hook_engine_tool()
     if #args ~= 2 and #args ~= 3 then
         print("Usage: wmdl <input_model> <output_model> [compress=true]")
         print("Description: Converts models into the wake model format. The wake model format")
-        print("             is faster for the engineto load than most formats, and is")
+        print("             is faster for the engine to load than most formats, and is")
         print("             compressed in order to save space.")
         return false
     end
