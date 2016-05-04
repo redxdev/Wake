@@ -153,6 +153,22 @@ namespace wake
 
 #undef KB_AUTO
 
+        void push_mouse_constants(lua_State* L)
+        {
+            lua_newtable(L);
+            add_constant(L, "Button1", (lua_Integer) MouseInput::Button1);
+            add_constant(L, "Button2", (lua_Integer) MouseInput::Button2);
+            add_constant(L, "Button3", (lua_Integer) MouseInput::Button3);
+            add_constant(L, "Button4", (lua_Integer) MouseInput::Button4);
+            add_constant(L, "Button5", (lua_Integer) MouseInput::Button5);
+            add_constant(L, "Button6", (lua_Integer) MouseInput::Button6);
+            add_constant(L, "Button7", (lua_Integer) MouseInput::Button7);
+            add_constant(L, "Button8", (lua_Integer) MouseInput::Button8);
+            add_constant(L, "Left", (lua_Integer) MouseInput::Left);
+            add_constant(L, "Right", (lua_Integer) MouseInput::Right);
+            add_constant(L, "Middle", (lua_Integer) MouseInput::Middle);
+        }
+
         static int getKey(lua_State* L)
         {
             int key = luaL_checkinteger(L, 1);
@@ -161,15 +177,24 @@ namespace wake
             return 1;
         }
 
+        static int getMouseButton(lua_State* L)
+        {
+            int button = luaL_checkinteger(L, 1);
+            InputAction state = W_INPUT.getMouseButton((MouseInput) button);
+            pushValue(L, state);
+            return 1;
+        }
+
         static const struct luaL_reg inputlib_f[] = {
-                {"getKey", getKey},
+                {"getKey",         getKey},
+                {"getMouseButton", getMouseButton},
                 {NULL, NULL}
         };
 
         int luaopen_input(lua_State* L)
         {
             luaL_register(L, "input", inputlib_f);
-            
+
             // event table
             lua_pushstring(L, "event");
 
@@ -179,15 +204,23 @@ namespace wake
             pushValue(L, W_INPUT.KeyEvent);
             lua_settable(L, -3);
 
+            lua_pushstring(L, "mouseButton");
+            pushValue(L, W_INPUT.MouseButtonEvent);
+            lua_settable(L, -3);
+
             lua_settable(L, -3);
             // end event table
+
+            lua_pushstring(L, "action");
+            push_action_constants(L);
+            lua_settable(L, -3);
 
             lua_pushstring(L, "key");
             push_keyboard_constants(L);
             lua_settable(L, -3);
 
-            lua_pushstring(L, "action");
-            push_action_constants(L);
+            lua_pushstring(L, "mouse");
+            push_mouse_constants(L);
             lua_settable(L, -3);
 
             return 1;
@@ -202,6 +235,11 @@ namespace wake
     }
 
     void pushValue(lua_State* L, KeyboardInput value)
+    {
+        lua_pushinteger(L, (lua_Integer) value);
+    }
+
+    void pushValue(lua_State* L, MouseInput value)
     {
         lua_pushinteger(L, (lua_Integer) value);
     }

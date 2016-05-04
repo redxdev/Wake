@@ -11,6 +11,11 @@ namespace wake
         W_INPUT.KeyEvent.call((KeyboardInput) key, (InputAction) action);
     }
 
+    static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+    {
+        W_INPUT.MouseButtonEvent.call((MouseInput) button, (InputAction) action);
+    }
+
     InputManager& InputManager::get()
     {
         static InputManager instance;
@@ -27,6 +32,7 @@ namespace wake
         }
 
         glfwSetKeyCallback(window, &key_callback);
+        glfwSetMouseButtonCallback(window, &mouse_button_callback);
 
         return true;
     }
@@ -41,6 +47,7 @@ namespace wake
         }
 
         glfwSetKeyCallback(window, nullptr);
+        glfwSetMouseButtonCallback(window, nullptr);
 
         return true;
     }
@@ -48,6 +55,11 @@ namespace wake
     InputAction InputManager::getKey(KeyboardInput key) const
     {
         return (InputAction) glfwGetKey(W_ENGINE.getWindow(), (int) key);
+    }
+
+    InputAction InputManager::getMouseButton(MouseInput button) const
+    {
+        return (InputAction) glfwGetMouseButton(W_ENGINE.getWindow(), (int) button);
     }
 
     InputManager::InputManager()

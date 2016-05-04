@@ -182,12 +182,15 @@ namespace wake
 
     public:
         Event<KeyboardInput, InputAction> KeyEvent;
+        Event<MouseInput, InputAction> MouseButtonEvent;
 
         bool startup();
 
         bool shutdown();
 
         InputAction getKey(KeyboardInput key) const;
+
+        InputAction getMouseButton(MouseInput button) const;
 
     private:
         InputManager();

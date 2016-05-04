@@ -83,7 +83,6 @@ engine.tick:bind(function(dt)
     shaderView:setMatrix4(view)
     shaderProj:setMatrix4(projection)
 
-    local rot = engine.getTime() / 2
     local mat = math.scale{0.002, 0.002, 0.002}
     shaderModel:setMatrix4(mat)
 
@@ -99,5 +98,11 @@ end)
 input.event.key:bind(function(key, action)
     if key == input.key.Escape and action == input.action.Release then
         engine.stop()
+    end
+end)
+
+input.event.mouseButton:bind(function(button, action)
+    if button == input.mouse.Left and action == input.action.Press then
+        print("Hello world!")
     end
 end)

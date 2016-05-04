@@ -14,4 +14,6 @@ namespace wake
     void pushValue(lua_State* L, InputAction value);
 
     void pushValue(lua_State* L, KeyboardInput value);
+
+    void pushValue(lua_State* L, MouseInput value);
 }
