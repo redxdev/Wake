@@ -1,4 +1,5 @@
-print("Startup at " .. engine.getTime())
+local Camera = require('Camera')
+local config = require('config/cfg')
 
 local shader = Shader.new(
 [[
@@ -35,53 +36,43 @@ local shaderView = shader:getUniform("view")
 local shaderProj = shader:getUniform("projection")
 local shaderModel = shader:getUniform("model")
 
-local startTime = engine.getTime()
 local obj = assets.loadModel("assets/sponza.wmdl")
 if obj == nil then
     print("Unable to load model.")
     return
 end
-print("Loaded model in " .. (engine.getTime() - startTime) .. " seconds")
 
 engine.setClearColor(1, 1, 1, 1)
 
-local pos = Vector3.new(-2.5, 0.5, 0)
-local view = math.lookAt(pos, pos + Vector3.new(1, 0, 0), {0, 1, 0})
-local projection = math.perspective(math.radians(45), 800 / 600, 0.1, 1000)
-
+local cam = Camera.new(Vector3.new(-2.5, 0.5, 0))
 local speed = 1
+local fastSpeed= 2
 
 engine.tick:bind(function(dt)
-    shader:use()
+    local moveSpeed = speed
+    if input.getKey(input.key.LeftShift) == input.action.Press then
+        moveSpeed = fastSpeed
+    end
 
     if input.getKey(input.key.W) == input.action.Press then
-        pos = pos + Vector3.new(speed * dt, 0, 0)
+        cam:moveForward(moveSpeed * dt)
     end
 
     if input.getKey(input.key.S) == input.action.Press then
-        pos = pos - Vector3.new(speed * dt, 0, 0)
+        cam:moveForward(-moveSpeed * dt)
     end
 
     if input.getKey(input.key.A) == input.action.Press then
-        pos = pos - Vector3.new(0, 0, speed * dt)
+        cam:moveRight(-moveSpeed * dt)
     end
 
     if input.getKey(input.key.D) == input.action.Press then
-        pos = pos + Vector3.new(0, 0, speed * dt)
+        cam:moveRight(moveSpeed * dt)
     end
 
-    if input.getKey(input.key.Q) == input.action.Press then
-        pos = pos - Vector3.new(0, speed * dt, 0)
-    end
-
-    if input.getKey(input.key.E) == input.action.Press then
-        pos = pos + Vector3.new(0, speed * dt, 0)
-    end
-
-    view = math.lookAt(pos, pos + Vector3.new(1, 0, 0), {0, 1, 0})
-
-    shaderView:setMatrix4(view)
-    shaderProj:setMatrix4(projection)
+    shader:use()
+    shaderView:setMatrix4(cam:getViewMatrix())
+    shaderProj:setMatrix4(cam.projection)
 
     local mat = math.scale{0.002, 0.002, 0.002}
     shaderModel:setMatrix4(mat)
@@ -101,8 +92,22 @@ input.event.key:bind(function(key, action)
     end
 end)
 
-input.event.mouseButton:bind(function(button, action)
-    if button == input.mouse.Left and action == input.action.Press then
-        print("Hello world!")
+local lastX = 0
+local lastY = 0
+local firstMouse = true
+input.setCursorMode(input.cursorMode.Disabled)
+input.event.cursorPos:bind(function(x, y)
+    if firstMouse then
+        firstMouse = false
+        lastX = x
+        lastY = y
     end
+
+    local xOffset = (x - lastX) * config.input.mouseSensitivity
+    local yOffset = (y - lastY) * config.input.mouseSensitivity
+
+    cam:addRotation(Vector3.new{0, xOffset, yOffset})
+
+    lastX = x
+    lastY = y
 end)

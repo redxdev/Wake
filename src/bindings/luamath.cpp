@@ -10,18 +10,64 @@ namespace wake
     {
         static int degrees(lua_State* L)
         {
-            lua_Number rad = luaL_checknumber(L, 1);
-            lua_Number deg = glm::degrees(rad);
-            pushValue(L, deg);
-            return 1;
+            if (lua_isnumber(L, 1))
+            {
+                lua_Number x = luaL_checknumber(L, 1);
+                pushValue(L, glm::degrees(x));
+                return 1;
+            }
+            else if (checkMetatable(L, 1, VectorInfo<glm::vec2>::metatable()))
+            {
+                auto& x = *luaW_checkvector2(L, 1);
+                pushValue(L, glm::degrees(x));
+                return 1;
+            }
+            else if (checkMetatable(L, 1, VectorInfo<glm::vec3>::metatable()))
+            {
+                auto& x = *luaW_checkvector3(L, 1);
+                pushValue(L, glm::degrees(x));
+                return 1;
+            }
+            else if (checkMetatable(L, 1, VectorInfo<glm::vec4>::metatable()))
+            {
+                auto& x = *luaW_checkvector4(L, 1);
+                pushValue(L, glm::degrees(x));
+                return 1;
+            }
+
+            luaL_error(L, "Unknown type passed to math.degrees");
+            return 0;
         }
 
         static int radians(lua_State* L)
         {
-            lua_Number deg = luaL_checknumber(L, 1);
-            lua_Number rad = glm::radians(deg);
-            pushValue(L, rad);
-            return 1;
+            if (lua_isnumber(L, 1))
+            {
+                lua_Number x = luaL_checknumber(L, 1);
+                pushValue(L, glm::radians(x));
+                return 1;
+            }
+            else if (checkMetatable(L, 1, VectorInfo<glm::vec2>::metatable()))
+            {
+                auto& x = *luaW_checkvector2(L, 1);
+                pushValue(L, glm::radians(x));
+                return 1;
+            }
+            else if (checkMetatable(L, 1, VectorInfo<glm::vec3>::metatable()))
+            {
+                auto& x = *luaW_checkvector3(L, 1);
+                pushValue(L, glm::radians(x));
+                return 1;
+            }
+            else if (checkMetatable(L, 1, VectorInfo<glm::vec4>::metatable()))
+            {
+                auto& x = *luaW_checkvector4(L, 1);
+                pushValue(L, glm::radians(x));
+                return 1;
+            }
+
+            luaL_error(L, "Unknown type passed to math.degrees");
+            return 0;
         }
 
         static int frustum(lua_State* L)
