@@ -27,7 +27,12 @@ out vec4 outColor;
 
 void main()
 {
-    outColor = vec4(outNormal, 1.0);
+    vec3 lightColor = vec3(0.8, 0.8, 0.8);
+    vec3 lightDirection = normalize(vec3(1.0, -1.0, 0.4));
+    float lightAmbience = 0.8;
+
+    float diffuseIntensity = max(0.0, dot(normalize(outNormal), -lightDirection));
+    outColor = vec4(lightColor, 1.0) * vec4(lightColor * (lightAmbience * diffuseIntensity), 1.0);
 }
 ]]
 )
