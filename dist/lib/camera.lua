@@ -7,7 +7,7 @@ local Camera = class()
 
 function Camera:construct(pos, orientation, up, projection)
     self.position = pos or Vector3.new(0, 0, 0)
-    self.orientation = Vector3.new(0, 0, 0)
+    self.orientation = orientation or Vector3.new(0, 0, 0)
     self.up = up or Vector3.new(0, 1, 0)
     self.projection = projection or math.perspective(math.radians(45), 4/3, 0.1, 1000)
 end
