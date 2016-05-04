@@ -69,6 +69,11 @@ namespace wake
         return (InputAction) glfwGetMouseButton(W_ENGINE.getWindow(), (int) button);
     }
 
+    void InputManager::getCursorPosition(double* xpos, double* ypos) const
+    {
+        glfwGetCursorPos(W_ENGINE.getWindow(), xpos, ypos);
+    }
+
     InputManager::InputManager()
     {
 

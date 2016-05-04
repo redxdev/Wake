@@ -193,6 +193,8 @@ namespace wake
 
         InputAction getMouseButton(MouseInput button) const;
 
+        void getCursorPosition(double* xpos, double* ypos) const;
+
     private:
         InputManager();
         InputManager(const InputManager& other);

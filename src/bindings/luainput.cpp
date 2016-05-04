@@ -185,9 +185,20 @@ namespace wake
             return 1;
         }
 
+        static int getCursorPos(lua_State* L)
+        {
+            double x, y;
+            W_INPUT.getCursorPosition(&x, &y);
+
+            lua_pushnumber(L, (lua_Number) x);
+            lua_pushnumber(L, (lua_Number) y);
+            return 2;
+        }
+
         static const struct luaL_reg inputlib_f[] = {
                 {"getKey",         getKey},
                 {"getMouseButton", getMouseButton},
+                {"getCursorPos",   getCursorPos},
                 {NULL, NULL}
         };
 
