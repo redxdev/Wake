@@ -169,6 +169,14 @@ namespace wake
             add_constant(L, "Middle", (lua_Integer) MouseInput::Middle);
         }
 
+        void push_cursor_mode_constants(lua_State* L)
+        {
+            lua_newtable(L);
+            add_constant(L, "Normal", (lua_Integer) CursorMode::Normal);
+            add_constant(L, "Hidden", (lua_Integer) CursorMode::Hidden);
+            add_constant(L, "Disabled", (lua_Integer) CursorMode::Disabled);
+        }
+
         static int getKey(lua_State* L)
         {
             int key = luaL_checkinteger(L, 1);
@@ -195,10 +203,27 @@ namespace wake
             return 2;
         }
 
+        static int setCursorPos(lua_State* L)
+        {
+            double x = (double) luaL_checknumber(L, 1);
+            double y = (double) luaL_checknumber(L, 2);
+            W_INPUT.setCursorPosition(x, y);
+            return 0;
+        }
+
+        static int setCursorMode(lua_State* L)
+        {
+            int mode = luaL_checkinteger(L, 1);
+            W_INPUT.setCursorMode((CursorMode) mode);
+            return 0;
+        }
+
         static const struct luaL_reg inputlib_f[] = {
                 {"getKey",         getKey},
                 {"getMouseButton", getMouseButton},
                 {"getCursorPos",   getCursorPos},
+                {"setCursorPos",   setCursorPos},
+                {"setCursorMode",  setCursorMode},
                 {NULL, NULL}
         };
 
@@ -238,6 +263,10 @@ namespace wake
             push_mouse_constants(L);
             lua_settable(L, -3);
 
+            lua_pushstring(L, "cursorMode");
+            push_cursor_mode_constants(L);
+            lua_settable(L, -3);
+
             return 1;
         }
 
@@ -255,6 +284,11 @@ namespace wake
     }
 
     void pushValue(lua_State* L, MouseInput value)
+    {
+        lua_pushinteger(L, (lua_Integer) value);
+    }
+
+    void pushValue(lua_State* L, CursorMode value)
     {
         lua_pushinteger(L, (lua_Integer) value);
     }

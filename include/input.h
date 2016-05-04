@@ -175,6 +175,13 @@ namespace wake
         Joystick16 = GLFW_JOYSTICK_16
     };
 
+    enum class CursorMode : int
+    {
+        Normal = GLFW_CURSOR_NORMAL,
+        Hidden = GLFW_CURSOR_HIDDEN,
+        Disabled = GLFW_CURSOR_DISABLED
+    };
+
     class InputManager
     {
     public:
@@ -194,6 +201,10 @@ namespace wake
         InputAction getMouseButton(MouseInput button) const;
 
         void getCursorPosition(double* xpos, double* ypos) const;
+
+        void setCursorPosition(double xpos, double ypos);
+
+        void setCursorMode(CursorMode mode);
 
     private:
         InputManager();

@@ -74,6 +74,16 @@ namespace wake
         glfwGetCursorPos(W_ENGINE.getWindow(), xpos, ypos);
     }
 
+    void InputManager::setCursorPosition(double xpos, double ypos)
+    {
+        glfwSetCursorPos(W_ENGINE.getWindow(), xpos, ypos);
+    }
+
+    void InputManager::setCursorMode(CursorMode mode)
+    {
+        glfwSetInputMode(W_ENGINE.getWindow(), GLFW_CURSOR, (int) mode);
+    }
+
     InputManager::InputManager()
     {
 
