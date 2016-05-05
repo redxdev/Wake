@@ -44,7 +44,7 @@ endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(TCLAP_INCLUDE_DIR "deps/tclap-1.2.1/include")
-set(OBJLOADER_INCLUDE_DIR "deps/tinyobjloader")
+set(STB_INCLUDE_DIR "deps/stb")
 
 set(INCLUDE_DIRECTORIES
         "include"
@@ -56,6 +56,7 @@ set(INCLUDE_DIRECTORIES
         ${GLM_INCLUDE_DIR}
         ${assimp_INCLUDE_DIRS}
         ${SNAPPY_INCLUDE_DIR}
+        ${STB_INCLUDE_DIR}
         )
 
 set(SOURCE_FILES
@@ -72,6 +73,7 @@ set(SOURCE_FILES
         "src/mesh.cpp"
         "src/luautil.cpp"
         "src/wmdl.cpp"
+        "src/texture.cpp"
         "src/bindings/luawake.cpp"
         "src/bindings/luaengine.cpp"
         "src/bindings/luaevent.cpp"
@@ -82,6 +84,8 @@ set(SOURCE_FILES
         "src/bindings/luamath.cpp"
         "src/bindings/luaassets.cpp"
         "src/bindings/luainput.cpp"
+
+        "deps/stb/stb_image.c"
         )
 
 add_definitions(-DGLM_FORCE_RADIANS)

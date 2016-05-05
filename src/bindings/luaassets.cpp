@@ -12,6 +12,12 @@ namespace wake
 {
     namespace bindings
     {
+        //
+        // Model loading is currently implemented here until we have an actual Model class.
+        // Eventually it will be moved to a static method on the model class so it can be
+        // easily accessed from C++ as well as Lua.
+        //
+
         static int loadAssimpModel(lua_State* L, const char* path)
         {
             Assimp::Importer importer;

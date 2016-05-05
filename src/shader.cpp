@@ -36,145 +36,121 @@ namespace wake
 
     void Uniform::set1f(GLfloat x)
     {
-        glUseProgram(shaderProgram);
         glUniform1f(uniformLocation, x);
     }
 
     void Uniform::set2f(GLfloat x, GLfloat y)
     {
-        glUseProgram(shaderProgram);
         glUniform2f(uniformLocation, x, y);
     }
 
     void Uniform::set3f(GLfloat x, GLfloat y, GLfloat z)
     {
-        glUseProgram(shaderProgram);
         glUniform3f(uniformLocation, x, y, z);
     }
 
     void Uniform::set4f(GLfloat x, GLfloat y, GLfloat z, GLfloat w)
     {
-        glUseProgram(shaderProgram);
         glUniform4f(uniformLocation, x, y, z, w);
     }
 
     void Uniform::set1i(GLint x)
     {
-        glUseProgram(shaderProgram);
         glUniform1i(uniformLocation, x);
     }
 
     void Uniform::set2i(GLint x, GLint y)
     {
-        glUseProgram(shaderProgram);
         glUniform2i(uniformLocation, x, y);
     }
 
     void Uniform::set3i(GLint x, GLint y, GLint z)
     {
-        glUseProgram(shaderProgram);
         glUniform3i(uniformLocation, x, y, z);
     }
 
     void Uniform::set4i(GLint x, GLint y, GLint z, GLint w)
     {
-        glUseProgram(shaderProgram);
         glUniform4i(uniformLocation, x, y, z, w);
     }
 
     void Uniform::set1ui(GLuint x)
     {
-        glUseProgram(shaderProgram);
         glUniform1ui(uniformLocation, x);
     }
 
     void Uniform::set2ui(GLuint x, GLuint y)
     {
-        glUseProgram(shaderProgram);
         glUniform2ui(uniformLocation, x, y);
     }
 
     void Uniform::set3ui(GLuint x, GLuint y, GLuint z)
     {
-        glUseProgram(shaderProgram);
         glUniform3ui(uniformLocation, x, y, z);
     }
 
     void Uniform::set4ui(GLuint x, GLuint y, GLuint z, GLuint w)
     {
-        glUseProgram(shaderProgram);
         glUniform4ui(uniformLocation, x, y, z, w);
     }
 
     void Uniform::setVec2(const glm::vec2& xy)
     {
-        glUseProgram(shaderProgram);
         glUniform2fv(uniformLocation, 1, glm::value_ptr(xy));
     }
 
     void Uniform::setVec3(const glm::vec3& xyz)
     {
-        glUseProgram(shaderProgram);
         glUniform3fv(uniformLocation, 1, glm::value_ptr(xyz));
     }
 
     void Uniform::setVec4(const glm::vec4& xyzw)
     {
-        glUseProgram(shaderProgram);
         glUniform2fv(uniformLocation, 1, glm::value_ptr(xyzw));
     }
 
     void Uniform::setMatrix2(const glm::mat2x2& m22)
     {
-        glUseProgram(shaderProgram);
         glUniformMatrix2fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m22));
     }
 
     void Uniform::setMatrix2x3(const glm::mat2x3& m23)
     {
-        glUseProgram(shaderProgram);
         glUniformMatrix2x3fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m23));
     }
 
     void Uniform::setMatrix2x4(const glm::mat2x4& m24)
     {
-        glUseProgram(shaderProgram);
         glUniformMatrix2x4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m24));
     }
 
     void Uniform::setMatrix3x2(const glm::mat3x2& m32)
     {
-        glUseProgram(shaderProgram);
         glUniformMatrix3x2fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m32));
     }
 
     void Uniform::setMatrix3(const glm::mat3x3& m33)
     {
-        glUseProgram(shaderProgram);
         glUniformMatrix3fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m33));
     }
 
     void Uniform::setMatrix3x4(const glm::mat3x4& m34)
     {
-        glUseProgram(shaderProgram);
         glUniformMatrix3x4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m34));
     }
 
     void Uniform::setMatrix4x2(const glm::mat4x2& m42)
     {
-        glUseProgram(shaderProgram);
         glUniformMatrix4x2fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m42));
     }
 
     void Uniform::setMatrix4x3(const glm::mat4x3& m43)
     {
-        glUseProgram(shaderProgram);
         glUniformMatrix4x3fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m43));
     }
 
     void Uniform::setMatrix4(const glm::mat4x4& m44)
     {
-        glUseProgram(shaderProgram);
         glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m44));
     }
 
