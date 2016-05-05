@@ -9,7 +9,8 @@ function Camera:construct(pos, orientation, up, projection)
     self.position = pos or Vector3.new(0, 0, 0)
     self.orientation = orientation or Vector3.new(0, 0, 0)
     self.up = up or Vector3.new(0, 1, 0)
-    self.projection = projection or math.perspective(math.radians(45), 4/3, 0.1, 1000)
+	local w, h = engine.getWindowSize()
+    self.projection = projection or math.perspective(math.radians(45), w / h, 0.1, 1000)
 end
 
 function Camera:getViewMatrix()
@@ -22,7 +23,7 @@ end
 
 function Camera:addRotation(amount)
     self.orientation = self.orientation + amount
-    self.orientation:set(3, math.clamp(self.orientation:get(3), -89, 89))
+	self.orientation:set(3, math.clamp(self.orientation:get(3), -89, 89))
 end
 
 function Camera:moveForward(amount)
