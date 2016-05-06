@@ -84,6 +84,7 @@ set(SOURCE_FILES
         "src/bindings/luamath.cpp"
         "src/bindings/luaassets.cpp"
         "src/bindings/luainput.cpp"
+        "src/bindings/luatexture.cpp"
 
         "deps/stb/stb_image.c"
         )
