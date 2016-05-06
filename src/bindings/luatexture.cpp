@@ -12,6 +12,21 @@ namespace wake
             Texture* texture;
         };
 
+        static int getSize(lua_State* L)
+        {
+            Texture* texture = luaW_checktexture(L, 1);
+            lua_pushinteger(L, (lua_Integer) texture->getWidth());
+            lua_pushinteger(L, (lua_Integer) texture->getHeight());
+            return 2;
+        }
+
+        static int getComponentsPerPixel(lua_State* L)
+        {
+            Texture* texture = luaW_checktexture(L, 1);
+            lua_pushinteger(L, (lua_Integer) texture->getComponentsPerPixel());
+            return 1;
+        }
+
         static int m_tostring(lua_State* L)
         {
             Texture* texture = luaW_checktexture(L, 1);
@@ -30,12 +45,16 @@ namespace wake
         }
 
         static const struct luaL_reg texturelib_f[] = {
+                {"getSize",               getSize},
+                {"getComponentsPerPixel", getComponentsPerPixel},
                 {NULL, NULL}
         };
 
         static const struct luaL_reg texturelib_m[] = {
-                {"__gc",       m_gc},
-                {"__tostring", m_tostring},
+                {"getSize",               getSize},
+                {"getComponentsPerPixel", getComponentsPerPixel},
+                {"__gc",                  m_gc},
+                {"__tostring",            m_tostring},
                 {NULL, NULL}
         };
 

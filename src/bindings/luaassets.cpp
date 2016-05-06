@@ -1,5 +1,6 @@
 #include "bindings/luaassets.h"
 #include "bindings/luamesh.h"
+#include "bindings/luatexture.h"
 #include "moduleregistry.h"
 #include "wmdl.h"
 
@@ -143,9 +144,24 @@ namespace wake
             return 1;
         }
 
+        static int loadTexture(lua_State* L)
+        {
+            const char* path = luaL_checkstring(L, 1);
+            Texture* texture = Texture::load(path);
+            if (texture == nullptr)
+            {
+                lua_pushnil(L);
+                return 1;
+            }
+
+            pushValue(L, texture);
+            return 1;
+        }
+
         static const struct luaL_reg assetslib_f[] = {
-                {"loadModel", loadModel},
-                {"saveModel", saveModel},
+                {"loadModel",   loadModel},
+                {"saveModel",   saveModel},
+                {"loadTexture", loadTexture},
                 {NULL, NULL}
         };
 
