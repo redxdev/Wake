@@ -1,4 +1,4 @@
-local Camera = require('Camera')
+local Camera = require('camera')
 local config = require('config/cfg')
 
 local shader = Shader.new(
