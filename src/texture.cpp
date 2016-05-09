@@ -96,11 +96,10 @@ namespace wake
         glBindTexture(GL_TEXTURE_2D, texture);
     }
 
-    void Texture::enableMipMaps()
+    void Texture::generateMipMaps()
     {
         bind();
         glGenerateMipmap(GL_TEXTURE_2D);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
         W_GL_CHECK();
     }

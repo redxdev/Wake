@@ -29,7 +29,7 @@ namespace wake
 
         void bind();
 
-        void enableMipMaps();
+        void generateMipMaps();
 
         void activate(GLuint unit);
 

@@ -27,6 +27,22 @@ namespace wake
             return 1;
         }
 
+        static int generateMipMaps(lua_State* L)
+        {
+            Texture* texture = luaW_checktexture(L, 1);
+            texture->generateMipMaps();
+            return 0;
+        }
+
+        static int activate(lua_State* L)
+        {
+            Texture* texture = luaW_checktexture(L, 1);
+            GLuint unit = (GLuint) luaL_checkinteger(L, 2);
+
+            texture->activate(unit);
+            return 0;
+        }
+
         static int m_tostring(lua_State* L)
         {
             Texture* texture = luaW_checktexture(L, 1);
@@ -47,12 +63,16 @@ namespace wake
         static const struct luaL_reg texturelib_f[] = {
                 {"getSize",               getSize},
                 {"getComponentsPerPixel", getComponentsPerPixel},
+                {"generateMipMaps",       generateMipMaps},
+                {"activate",              activate},
                 {NULL, NULL}
         };
 
         static const struct luaL_reg texturelib_m[] = {
                 {"getSize",               getSize},
                 {"getComponentsPerPixel", getComponentsPerPixel},
+                {"generateMipMaps",       generateMipMaps},
+                {"activate",              activate},
                 {"__gc",                  m_gc},
                 {"__tostring",            m_tostring},
                 {NULL, NULL}
