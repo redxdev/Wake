@@ -6,33 +6,40 @@ local shader = Shader.new(
 #version 330 core
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 normal;
+layout (location = 2) in vec2 texCoords;
 
 uniform mat4 view;
 uniform mat4 projection;
 uniform mat4 model;
 
 out vec3 outNormal;
+out vec2 outTexCoords;
 
 void main()
 {
     gl_Position = projection * view * model * vec4(position, 1.0);
     outNormal = normal;
+    outTexCoords = texCoords;
 }
 ]],
 [[
 #version 330 core
 in vec3 outNormal;
+in vec2 outTexCoords;
 
 out vec4 outColor;
 
+uniform sampler2D tex1;
+
 void main()
 {
+    vec4 texColor = texture(tex1, outTexCoords);
     vec3 lightColor = vec3(0.8, 0.8, 0.8);
     vec3 lightDirection = normalize(vec3(1.0, -1.0, 0.4));
     float lightAmbience = 0.8;
 
     float diffuseIntensity = max(0.0, dot(normalize(outNormal), -lightDirection));
-    outColor = vec4(lightColor, 1.0) * vec4(lightColor * (lightAmbience * diffuseIntensity), 1.0);
+    outColor = vec4(lightColor, 1.0) * vec4(lightColor * (lightAmbience * diffuseIntensity) * texColor.rgb, 1.0);
 }
 ]]
 )
@@ -40,6 +47,7 @@ void main()
 local shaderView = shader:getUniform("view")
 local shaderProj = shader:getUniform("projection")
 local shaderModel = shader:getUniform("model")
+local shaderTex = shader:getUniform("tex1")
 
 local obj = assets.loadModel("assets/models/cube.wmdl")
 if obj == nil then
@@ -83,6 +91,9 @@ engine.tick:bind(function(dt)
 
     local mat = math.scale{1, 1, 1}
     shaderModel:setMatrix4(mat)
+
+    tex:activate(0)
+    shaderTex:set1i(0)
 
     for _,v in ipairs(obj) do
         v:draw()
