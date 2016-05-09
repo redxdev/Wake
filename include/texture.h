@@ -1,5 +1,7 @@
 #pragma once
 
+#include "glutil.h"
+
 namespace wake
 {
     // RGBA texture
@@ -11,6 +13,12 @@ namespace wake
     public:
         Texture(unsigned char* data, int width, int height, int comp);
 
+        Texture(const Texture& other);
+
+        ~Texture();
+
+        Texture& operator=(const Texture& other);
+
         unsigned char* getData() const;
 
         int getWidth() const;
@@ -19,10 +27,20 @@ namespace wake
 
         int getComponentsPerPixel() const;
 
+        void bind();
+
+        void enableMipMaps();
+
+        void activate(GLuint unit);
+
     private:
+        void initializeData();
+
         unsigned char* data;
         int width;
         int height;
         int comp;
+
+        GLuint texture = 0;
     };
 }
