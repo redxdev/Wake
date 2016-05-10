@@ -16,11 +16,11 @@ namespace wake
         int luaopen_vertex(lua_State* L);
     }
 
-    void pushValue(lua_State* L, Mesh* value);
+    void pushValue(lua_State* L, MeshPtr value);
 
     void pushValue(lua_State* L, const Vertex& value);
 
-    Mesh* luaW_checkmesh(lua_State* L, int narg);
+    MeshPtr luaW_checkmesh(lua_State* L, int narg);
 
     Vertex* luaW_checkvertex(lua_State* L, int narg);
 }

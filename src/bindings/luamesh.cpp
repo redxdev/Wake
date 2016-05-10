@@ -1,8 +1,10 @@
-#include <sstream>
-#include <glm/gtx/string_cast.hpp>
 #include "bindings/luamesh.h"
 #include "bindings/luamatrix.h"
 #include "moduleregistry.h"
+
+#include <sstream>
+#include <cstring>
+#include <glm/gtx/string_cast.hpp>
 
 namespace wake
 {
@@ -10,7 +12,7 @@ namespace wake
     {
         struct MeshContainer
         {
-            Mesh* mesh;
+            MeshPtr mesh;
         };
 
         static int mesh_new(lua_State* L)
@@ -74,7 +76,7 @@ namespace wake
 
         static int mesh_get_vertices(lua_State* L)
         {
-            Mesh* mesh = luaW_checkmesh(L, 1);
+            MeshPtr mesh = luaW_checkmesh(L, 1);
             auto& vertices = mesh->getVertices();
 
             lua_newtable(L);
@@ -90,7 +92,7 @@ namespace wake
 
         static int mesh_set_vertices(lua_State* L)
         {
-            Mesh* mesh = luaW_checkmesh(L, 1);
+            MeshPtr mesh = luaW_checkmesh(L, 1);
             luaL_argcheck(L, lua_istable(L, 2), 2, "expected table");
             bool updateIndices = (lua_gettop(L) >= 3) ? (lua_toboolean(L, 3) == 1) : false;
 
@@ -109,7 +111,7 @@ namespace wake
 
         static int mesh_get_indices(lua_State* L)
         {
-            Mesh* mesh = luaW_checkmesh(L, 1);
+            MeshPtr mesh = luaW_checkmesh(L, 1);
             auto& indices = mesh->getIndices();
 
             lua_newtable(L);
@@ -125,7 +127,7 @@ namespace wake
 
         static int mesh_set_indices(lua_State* L)
         {
-            Mesh* mesh = luaW_checkmesh(L, 1);
+            MeshPtr mesh = luaW_checkmesh(L, 1);
             luaL_argcheck(L, lua_istable(L, 2), 2, "expected table");
 
             std::vector<GLuint> indices;
@@ -143,20 +145,22 @@ namespace wake
 
         static int mesh_draw(lua_State* L)
         {
-            Mesh* mesh = luaW_checkmesh(L, 1);
+            MeshPtr mesh = luaW_checkmesh(L, 1);
             mesh->draw();
             return 0;
         }
 
         static int mesh_m_gc(lua_State* L)
         {
-            delete luaW_checkmesh(L, 1);
+            void* dataPtr = luaL_checkudata(L, 1, W_MT_MESH);
+            MeshContainer* container = (MeshContainer*) dataPtr;
+            container->mesh.reset();
             return 0;
         }
 
         static int mesh_m_tostring(lua_State* L)
         {
-            Mesh* mesh = luaW_checkmesh(L, 1);
+            MeshPtr mesh = luaW_checkmesh(L, 1);
 
             std::stringstream ss;
             ss << "Mesh[" << mesh->getVertices().size() << "," << mesh->getIndices().size() << "]";
@@ -346,9 +350,10 @@ namespace wake
         W_REGISTER_MODULE(luaopen_vertex);
     }
 
-    void pushValue(lua_State* L, Mesh* value)
+    void pushValue(lua_State* L, MeshPtr value)
     {
         auto* container = (binding::MeshContainer*) lua_newuserdata(L, sizeof(binding::MeshContainer));
+        memset(container, 0, sizeof(binding::MeshContainer));
         container->mesh = value;
         luaL_getmetatable(L, W_MT_MESH);
         lua_setmetatable(L, -2);
@@ -362,7 +367,7 @@ namespace wake
         lua_setmetatable(L, -2);
     }
 
-    Mesh* luaW_checkmesh(lua_State* L, int narg)
+    MeshPtr luaW_checkmesh(lua_State* L, int narg)
     {
         void* dataPtr = luaL_checkudata(L, narg, W_MT_MESH);
         luaL_argcheck(L, dataPtr != nullptr, narg, "'Mesh' expected");

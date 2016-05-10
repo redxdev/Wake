@@ -11,7 +11,7 @@
 
 namespace wake
 {
-    bool saveWMDL(const char* path, const std::vector<Mesh*>& meshes, bool compress = true);
+    bool saveWMDL(const char* path, const std::vector<MeshPtr>& meshes, bool compress = true);
 
-    bool loadWMDL(const char* path, std::vector<Mesh*>& meshes);
+    bool loadWMDL(const char* path, std::vector<MeshPtr>& meshes);
 }

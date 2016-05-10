@@ -74,6 +74,7 @@ set(SOURCE_FILES
         "src/luautil.cpp"
         "src/wmdl.cpp"
         "src/texture.cpp"
+        "src/material.cpp"
         "src/bindings/luawake.cpp"
         "src/bindings/luaengine.cpp"
         "src/bindings/luaevent.cpp"

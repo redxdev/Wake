@@ -1,14 +1,19 @@
 #pragma once
 
 #include "glutil.h"
+#include "engineptr.h"
 
 namespace wake
 {
+    class Texture;
+
+    typedef SharedPtr<Texture> TexturePtr;
+
     // RGBA texture
     class Texture
     {
     public:
-        static Texture* load(const char* path);
+        static TexturePtr load(const char* path);
 
     public:
         Texture(unsigned char* data, int width, int height, int comp);

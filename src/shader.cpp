@@ -8,15 +8,30 @@
 namespace wake
 {
     Uniform::Uniform()
-        : shaderProgram(0), uniformLocation(-1)
+            : shaderProgram(0), uniformLocation(-1)
+    {
+    }
+
+    Uniform::Uniform(GLuint shaderProgram, GLint location)
+            : shaderProgram(shaderProgram), uniformLocation(location)
+    {
+    }
+
+    Uniform::Uniform(const Uniform& other)
+            : shaderProgram(other.shaderProgram), uniformLocation(other.uniformLocation)
+    {
+    }
+
+    Uniform::~Uniform()
     {
 
     }
 
-    Uniform::Uniform(GLuint shaderProgram, GLint location)
-        : shaderProgram(shaderProgram), uniformLocation(location)
+    Uniform& Uniform::operator=(const Uniform& other)
     {
-
+        shaderProgram = other.shaderProgram;
+        uniformLocation = other.uniformLocation;
+        return *this;
     }
 
     GLuint Uniform::getProgram() const
@@ -154,7 +169,7 @@ namespace wake
         glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(m44));
     }
 
-    Shader* Shader::compile(const char* vertexSource, const char* fragmentSource)
+    ShaderPtr Shader::compile(const char* vertexSource, const char* fragmentSource)
     {
         bool ok = true;
 
@@ -199,7 +214,7 @@ namespace wake
         glAttachShader(shaderProgram, fragmentShader);
         glLinkProgram(shaderProgram);
 
-        return new Shader(shaderProgram, vertexShader, fragmentShader);
+        return ShaderPtr(new Shader(shaderProgram, vertexShader, fragmentShader));
     }
 
     void Shader::reset()
@@ -208,12 +223,12 @@ namespace wake
     }
 
     Shader::Shader(GLuint shaderProgram, GLuint vertexShader, GLuint fragmentShader)
-        : shaderProgram(shaderProgram), vertexShader(vertexShader), fragmentShader(fragmentShader)
+            : shaderProgram(shaderProgram), vertexShader(vertexShader), fragmentShader(fragmentShader)
     {
     }
 
     Shader::Shader(const Shader& other)
-        : vertexShader(other.vertexShader), fragmentShader(other.fragmentShader)
+            : vertexShader(other.vertexShader), fragmentShader(other.fragmentShader)
     {
         shaderProgram = glCreateProgram();
         glAttachShader(shaderProgram, vertexShader);
@@ -230,7 +245,7 @@ namespace wake
         glAttachShader(shaderProgram, vertexShader);
         glAttachShader(shaderProgram, fragmentShader);
         glLinkProgram(shaderProgram);
-        
+
         return *this;
     }
 

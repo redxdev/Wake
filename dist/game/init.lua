@@ -35,10 +35,10 @@ void main()
 {
     vec4 texColor = texture(tex1, outTexCoords);
     vec3 lightColor = vec3(0.8, 0.8, 0.8);
-    vec3 lightDirection = normalize(vec3(1.0, -1.0, 0.4));
+    vec3 lightDirection = normalize(vec3(1.0, -1.0, 0.6));
     float lightAmbience = 0.8;
 
-    float diffuseIntensity = max(0.0, dot(normalize(outNormal), -lightDirection));
+    float diffuseIntensity = max(0.3, dot(normalize(outNormal), -lightDirection));
     outColor = vec4(lightColor, 1.0) * vec4(lightColor * (lightAmbience * diffuseIntensity) * texColor.rgb, 1.0);
 }
 ]]
@@ -59,7 +59,7 @@ local tex = assets.loadTexture("assets/textures/default.png")
 
 engine.setClearColor(1, 1, 1, 1)
 
-local cam = Camera.new(Vector3.new(-2.5, 0.5, 0))
+local cam = Camera.new(Vector3.new(-2.5, 0, 0))
 local speed = 1
 local fastSpeed= 2
 

@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "glutil.h"
+#include "engineptr.h"
 
 namespace wake
 {
@@ -44,8 +45,6 @@ namespace wake
 
         Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices);
 
-        // This will send data to the graphics card immediately if and
-        // only if the other mesh doesn't need to be updated as well.
         Mesh(const Mesh& other);
 
         ~Mesh();
@@ -76,4 +75,6 @@ namespace wake
 
         void updateElementBuffer();
     };
+
+    typedef SharedPtr<Mesh> MeshPtr;
 }

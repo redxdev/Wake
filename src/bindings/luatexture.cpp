@@ -2,6 +2,7 @@
 #include "moduleregistry.h"
 
 #include <sstream>
+#include <cstring>
 
 namespace wake
 {
@@ -9,12 +10,12 @@ namespace wake
     {
         struct TextureContainer
         {
-            Texture* texture;
+            TexturePtr texture;
         };
 
         static int getSize(lua_State* L)
         {
-            Texture* texture = luaW_checktexture(L, 1);
+            TexturePtr texture = luaW_checktexture(L, 1);
             lua_pushinteger(L, (lua_Integer) texture->getWidth());
             lua_pushinteger(L, (lua_Integer) texture->getHeight());
             return 2;
@@ -22,21 +23,21 @@ namespace wake
 
         static int getComponentsPerPixel(lua_State* L)
         {
-            Texture* texture = luaW_checktexture(L, 1);
+            TexturePtr texture = luaW_checktexture(L, 1);
             lua_pushinteger(L, (lua_Integer) texture->getComponentsPerPixel());
             return 1;
         }
 
         static int generateMipMaps(lua_State* L)
         {
-            Texture* texture = luaW_checktexture(L, 1);
+            TexturePtr texture = luaW_checktexture(L, 1);
             texture->generateMipMaps();
             return 0;
         }
 
         static int activate(lua_State* L)
         {
-            Texture* texture = luaW_checktexture(L, 1);
+            TexturePtr texture = luaW_checktexture(L, 1);
             GLuint unit = (GLuint) luaL_checkinteger(L, 2);
 
             texture->activate(unit);
@@ -45,7 +46,7 @@ namespace wake
 
         static int m_tostring(lua_State* L)
         {
-            Texture* texture = luaW_checktexture(L, 1);
+            TexturePtr texture = luaW_checktexture(L, 1);
             std::stringstream ss;
             ss << "Texture(" << texture->getWidth() << "," << texture->getHeight() << ","
             << texture->getComponentsPerPixel() << ")";
@@ -56,7 +57,9 @@ namespace wake
 
         static int m_gc(lua_State* L)
         {
-            delete luaW_checktexture(L, 1);
+            void* dataPtr = luaL_checkudata(L, 1, W_MT_TEXTURE);
+            TextureContainer* container = (TextureContainer*) dataPtr;
+            container->texture.reset();
             return 0;
         }
 
@@ -95,15 +98,16 @@ namespace wake
         W_REGISTER_MODULE(luaopen_texture);
     }
 
-    void pushValue(lua_State* L, Texture* value)
+    void pushValue(lua_State* L, TexturePtr value)
     {
         auto* container = (binding::TextureContainer*) lua_newuserdata(L, sizeof(binding::TextureContainer));
+        memset(container, 0, sizeof(binding::TextureContainer));
         container->texture = value;
         luaL_getmetatable(L, W_MT_TEXTURE);
         lua_setmetatable(L, -2);
     }
 
-    Texture* luaW_checktexture(lua_State* L, int narg)
+    TexturePtr luaW_checktexture(lua_State* L, int narg)
     {
         void* dataPtr = luaL_checkudata(L, narg, W_MT_TEXTURE);
         luaL_argcheck(L, dataPtr != nullptr, narg, "'Texture' expected");

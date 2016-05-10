@@ -106,14 +106,14 @@ namespace wake
         }
     }
 
-    bool saveWMDL(const char* path, const std::vector<Mesh*>& meshes, bool compress)
+    bool saveWMDL(const char* path, const std::vector<MeshPtr>& meshes, bool compress)
     {
         std::stringstream data;
 
         try
         {
             writeUInt32(data, meshes.size());
-            for (auto* mesh : meshes)
+            for (auto mesh : meshes)
             {
                 auto& vertices = mesh->getVertices();
                 writeUInt32(data, vertices.size());
@@ -197,7 +197,7 @@ namespace wake
         }
     }
 
-    bool loadWMDL(const char* path, std::vector<Mesh*>& meshes)
+    bool loadWMDL(const char* path, std::vector<MeshPtr>& meshes)
     {
         std::fstream f(path, std::ios::in | std::ios::binary);
         if (!f.is_open())
@@ -278,7 +278,7 @@ namespace wake
                     indices.push_back(readUInt32(data));
                 }
 
-                Mesh* mesh = new Mesh(vertices, indices);
+                MeshPtr mesh = MeshPtr(new Mesh(vertices, indices));
                 meshes.push_back(mesh);
             }
         }

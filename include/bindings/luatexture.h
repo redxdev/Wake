@@ -13,7 +13,7 @@ namespace wake
         int luaopen_texture(lua_State* L);
     }
 
-    void pushValue(lua_State* L, Texture* value);
+    void pushValue(lua_State* L, TexturePtr value);
 
-    Texture* luaW_checktexture(lua_State* L, int narg);
+    TexturePtr luaW_checktexture(lua_State* L, int narg);
 }

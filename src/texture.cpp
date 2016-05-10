@@ -9,7 +9,7 @@
 
 namespace wake
 {
-    Texture* Texture::load(const char* path)
+    TexturePtr Texture::load(const char* path)
     {
         int width;
         int height;
@@ -23,7 +23,7 @@ namespace wake
             return nullptr;
         }
 
-        return new Texture(data, width, height, comp);
+        return TexturePtr(new Texture(data, width, height, comp));
     }
 
     Texture::Texture(unsigned char* data, int width, int height, int comp)

@@ -82,7 +82,7 @@ namespace wake
 
         static int loadWakeModel(lua_State* L, const char* path)
         {
-            std::vector<Mesh*> meshes;
+            std::vector<MeshPtr> meshes;
             bool result = loadWMDL(path, meshes);
             if (!result)
             {
@@ -122,12 +122,12 @@ namespace wake
             const char* path = luaL_checkstring(L, 1);
 
             luaL_checktype(L, 2, LUA_TTABLE);
-            std::vector<Mesh*> meshes;
+            std::vector<MeshPtr> meshes;
             lua_pushnil(L);
             while (lua_next(L, 2) != 0)
             {
                 luaL_argcheck(L, lua_isnumber(L, -2), 1, "expected number index");
-                Mesh* mesh = luaW_checkmesh(L, -1);
+                MeshPtr mesh = luaW_checkmesh(L, -1);
                 meshes.push_back(mesh);
                 lua_pop(L, 1);
             }
@@ -147,7 +147,7 @@ namespace wake
         static int loadTexture(lua_State* L)
         {
             const char* path = luaL_checkstring(L, 1);
-            Texture* texture = Texture::load(path);
+            TexturePtr texture = Texture::load(path);
             if (texture == nullptr)
             {
                 lua_pushnil(L);

@@ -2,20 +2,22 @@
 #include "bindings/luamatrix.h"
 #include "moduleregistry.h"
 
+#include <cstring>
+
 namespace wake
 {
     namespace binding
     {
         struct ShaderContainer
         {
-            Shader* shader;
+            ShaderPtr shader;
         };
 
         static int shader_new(lua_State* L)
         {
             const char* vertexSource = luaL_checkstring(L, 1);
             const char* fragmentSource = luaL_checkstring(L, 2);
-            Shader* shader = Shader::compile(vertexSource, fragmentSource);
+            ShaderPtr shader = Shader::compile(vertexSource, fragmentSource);
             if (shader == nullptr)
             {
                 lua_pushnil(L);
@@ -34,14 +36,14 @@ namespace wake
 
         static int shader_use(lua_State* L)
         {
-            Shader* shader = luaW_checkshader(L, 1);
+            ShaderPtr shader = luaW_checkshader(L, 1);
             shader->use();
             return 0;
         }
 
         static int shader_get_uniform(lua_State* L)
         {
-            Shader* shader = luaW_checkshader(L, 1);
+            ShaderPtr shader = luaW_checkshader(L, 1);
             const char* name = luaL_checkstring(L, 2);
             Uniform uniform = shader->getUniform(name);
             if (uniform.isError())
@@ -56,7 +58,9 @@ namespace wake
 
         static int shader_m_gc(lua_State* L)
         {
-            delete luaW_checkshader(L, 1);
+            void* dataPtr = luaL_checkudata(L, 1, W_MT_SHADER);
+            ShaderContainer* container = (ShaderContainer*) dataPtr;
+            container->shader.reset();
             return 0;
         }
 
@@ -458,9 +462,10 @@ namespace wake
         W_REGISTER_MODULE(luaopen_uniform);
     }
 
-    void pushValue(lua_State* L, Shader* value)
+    void pushValue(lua_State* L, ShaderPtr value)
     {
         auto* container = (binding::ShaderContainer*) lua_newuserdata(L, sizeof(binding::ShaderContainer));
+        memset(container, 0, sizeof(binding::ShaderContainer));
         container->shader = value;
         luaL_getmetatable(L, W_MT_SHADER);
         lua_setmetatable(L, -2);
@@ -474,7 +479,7 @@ namespace wake
         lua_setmetatable(L, -2);
     }
 
-    Shader* luaW_checkshader(lua_State* L, int narg)
+    ShaderPtr luaW_checkshader(lua_State* L, int narg)
     {
         void* dataPtr = luaL_checkudata(L, narg, W_MT_SHADER);
         luaL_argcheck(L, dataPtr != nullptr, narg, "'Shader' expected");
