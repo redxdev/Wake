@@ -1,7 +1,7 @@
 local Camera = require('camera')
-local config = require('config/cfg')
+local config = require('config.cfg')
 
-local material = require('materials/demo_lighting'):clone()
+local material = require('materials.demo_lighting'):clone()
 material:setFloat('minBrightness', 0.15)
 
 local shader = material:getShader()

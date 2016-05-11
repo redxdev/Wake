@@ -1,4 +1,5 @@
 #include "shader.h"
+#include "wake.h"
 
 #include <iostream>
 
@@ -171,6 +172,11 @@ namespace wake
 
     ShaderPtr Shader::compile(const char* vertexSource, const char* fragmentSource)
     {
+        if (getEngineMode() != EngineMode::Normal)
+        {
+            return ShaderPtr(new Shader(0, 0, 0));
+        }
+
         bool ok = true;
 
         GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
