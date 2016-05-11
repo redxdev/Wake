@@ -71,7 +71,7 @@ namespace wake
             for (auto entry : textures)
             {
                 lua_pushstring(L, entry.first.data());
-                pushValue(L, entry.second);
+                pushValue(L, entry.second.texture);
                 lua_settable(L, -3);
             }
 

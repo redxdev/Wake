@@ -15,7 +15,6 @@
 
 namespace wake
 {
-    // TODO: Cache uniform locations
     struct MaterialParameter
     {
         static MaterialParameter NullParameter;
@@ -24,6 +23,7 @@ namespace wake
         {
             type = Null;
             i = 0;
+            uniform = Uniform();
         }
 
         enum
@@ -46,6 +46,20 @@ namespace wake
             glm::vec3 v3;
             glm::vec4 v4;
         };
+
+        Uniform uniform;
+    };
+
+    struct MaterialTexParameter
+    {
+        MaterialTexParameter()
+        {
+            texture = nullptr;
+            uniform = Uniform();
+        }
+
+        TexturePtr texture;
+        Uniform uniform;
     };
 
     class Material
@@ -69,7 +83,7 @@ namespace wake
 
         TexturePtr getTexture(const std::string& name);
 
-        const std::map<std::string, TexturePtr>& getTextures() const;
+        const std::map<std::string, MaterialTexParameter>& getTextures() const;
 
         void setParameter(const std::string& name, GLint i);
 
@@ -91,10 +105,14 @@ namespace wake
 
         void activate();
 
+        void resetUniformCache();
+
     private:
         ShaderPtr shader;
-        std::map<std::string, TexturePtr> textures;
+        std::map<std::string, MaterialTexParameter> textures;
         std::map<std::string, MaterialParameter> parameters;
+
+        bool needsUniformUpdates = false;
     };
 
     typedef SharedPtr<Material> MaterialPtr;

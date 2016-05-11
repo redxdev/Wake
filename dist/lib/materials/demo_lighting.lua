@@ -50,6 +50,6 @@ material:setTexture('tex1', tex)
 material:setVec3('lightColor', {1, 1, 1})
 material:setVec3('lightDirection', {1, -1, 0.6})
 material:setFloat('lightAmbience', 0.8)
-material:setFloat('minBrightness', 0.2)
+material:setFloat('minBrightness', 0)
 
 return material

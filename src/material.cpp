@@ -7,6 +7,7 @@ namespace wake
     Material::Material()
     {
         shader = nullptr;
+        needsUniformUpdates = true;
     }
 
     Material::Material(const Material& other)
@@ -14,6 +15,7 @@ namespace wake
         shader = other.shader;
         textures = other.textures;
         parameters = other.parameters;
+        needsUniformUpdates = true;
     }
 
     Material::~Material()
@@ -25,12 +27,14 @@ namespace wake
         shader = other.shader;
         textures = other.textures;
         parameters = other.parameters;
+        needsUniformUpdates = true;
         return *this;
     }
 
     void Material::setShader(ShaderPtr shader)
     {
         this->shader = shader;
+        needsUniformUpdates = true;
     }
 
     ShaderPtr Material::getShader() const
@@ -40,7 +44,9 @@ namespace wake
 
     void Material::setTexture(const std::string& name, TexturePtr texture)
     {
-        textures[name] = texture;
+        MaterialTexParameter param;
+        param.texture = texture;
+        textures[name] = param;
     }
 
     void Material::removeTexture(const std::string& name)
@@ -54,10 +60,10 @@ namespace wake
         if (found == textures.end())
             return nullptr;
 
-        return found->second;
+        return found->second.texture;
     }
 
-    const std::map<std::string, TexturePtr>& Material::getTextures() const
+    const std::map<std::string, MaterialTexParameter>& Material::getTextures() const
     {
         return textures;
     }
@@ -136,11 +142,16 @@ namespace wake
         for (auto entry : textures)
         {
             const std::string& name = entry.first;
-            TexturePtr texture = entry.second;
+            TexturePtr texture = entry.second.texture;
             if (texture.get() == nullptr)
                 continue;
 
-            Uniform uniform = shader->getUniform(name.data());
+            if (needsUniformUpdates || entry.second.uniform.isError())
+            {
+                entry.second.uniform = shader->getUniform(name.data());
+            }
+
+            Uniform& uniform = entry.second.uniform;
             if (uniform.isError())
                 continue;
 
@@ -154,7 +165,12 @@ namespace wake
             const std::string& name = entry.first;
             MaterialParameter& param = entry.second;
 
-            Uniform uniform = shader->getUniform(name.data());
+            if (needsUniformUpdates || param.uniform.isError())
+            {
+                param.uniform = shader->getUniform(name.data());
+            }
+
+            Uniform& uniform = param.uniform;
             if (uniform.isError())
                 continue;
 
@@ -189,5 +205,12 @@ namespace wake
                     break;
             }
         }
+
+        needsUniformUpdates = false;
+    }
+
+    void Material::resetUniformCache()
+    {
+        needsUniformUpdates = true;
     }
 }
