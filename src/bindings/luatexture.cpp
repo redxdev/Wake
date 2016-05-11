@@ -67,7 +67,7 @@ namespace wake
                 {"getSize",               getSize},
                 {"getComponentsPerPixel", getComponentsPerPixel},
                 {"generateMipMaps",       generateMipMaps},
-                {"activate",              activate},
+                {"use",              activate},
                 {NULL, NULL}
         };
 
@@ -75,7 +75,7 @@ namespace wake
                 {"getSize",               getSize},
                 {"getComponentsPerPixel", getComponentsPerPixel},
                 {"generateMipMaps",       generateMipMaps},
-                {"activate",              activate},
+                {"use",              activate},
                 {"__gc",                  m_gc},
                 {"__tostring",            m_tostring},
                 {NULL, NULL}

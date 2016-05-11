@@ -103,7 +103,7 @@ namespace wake
 
         const std::map<std::string, MaterialParameter>& getParameters() const;
 
-        void activate();
+        void use();
 
         void resetUniformCache();
 

@@ -229,10 +229,10 @@ namespace wake
             return 1;
         }
 
-        static int activate(lua_State* L)
+        static int use(lua_State* L)
         {
             MaterialPtr material = luaW_checkmaterial(L, 1);
-            material->activate();
+            material->use();
             return 0;
         }
 
@@ -274,7 +274,7 @@ namespace wake
                 {"removeParameter", removeParameter},
                 {"getParameter",    getParameter},
                 {"getParameters",   getParameters},
-                {"activate",        activate},
+                {"use",             use},
                 {"clone",           clone},
                 {NULL, NULL}
         };
@@ -295,7 +295,7 @@ namespace wake
                 {"removeParameter", removeParameter},
                 {"getParameter",    getParameter},
                 {"getParameters",   getParameters},
-                {"activate",        activate},
+                {"use",             use},
                 {"clone",           clone},
                 {"__tostring",      m_tostring},
                 {"__gc",            m_gc},

@@ -20,7 +20,7 @@ engine.setClearColor(1, 1, 1, 1)
 
 local cam = Camera.new(Vector3.new(-2.5, 0, 0))
 local speed = 1
-local fastSpeed= 2
+local fastSpeed = 2
 
 engine.tick:bind(function(dt)
     local moveSpeed = speed
@@ -44,7 +44,7 @@ engine.tick:bind(function(dt)
         cam:moveRight(moveSpeed * dt)
     end
 
-    material:activate()
+    material:use()
 
     local mat = math.scale{1, 1, 1}
     shaderModel:setMatrix4(mat)

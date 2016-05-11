@@ -134,7 +134,7 @@ namespace wake
         return parameters;
     }
 
-    void Material::activate()
+    void Material::use()
     {
         shader->use();
 
