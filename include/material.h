@@ -16,8 +16,15 @@ namespace wake
 {
     struct MaterialParameter
     {
+        MaterialParameter()
+        {
+            type = Null;
+            i = 0;
+        }
+
         enum
         {
+            Null,
             Int,
             UInt,
             Float,
@@ -42,7 +49,21 @@ namespace wake
     public:
         ShaderPtr getShader() const;
 
+        void setTexture(const std::string& name, TexturePtr texture);
+
         const std::unordered_map<std::string, TexturePtr>& getTextures() const;
+
+        void setParameter(const std::string& name, GLint i);
+
+        void setParameter(const std::string& name, GLuint u);
+
+        void setParameter(const std::string& name, GLfloat f);
+
+        void setParameter(const std::string& name, const glm::vec2& v2);
+
+        void setParameter(const std::string& name, const glm::vec3& v3);
+
+        void setParameter(const std::string& name, const glm::vec4& v4);
 
         const std::unordered_map<std::string, MaterialParameter> getParameters() const;
 

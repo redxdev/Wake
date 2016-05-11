@@ -7,9 +7,62 @@ namespace wake
         return shader;
     }
 
+    void Material::setTexture(const std::string& name, TexturePtr texture)
+    {
+        textures[name] = texture;
+    }
+
     const std::unordered_map<std::string, TexturePtr>& Material::getTextures() const
     {
         return textures;
+    }
+
+    void Material::setParameter(const std::string& name, GLint i)
+    {
+        MaterialParameter param;
+        param.type = MaterialParameter::Int;
+        param.i = i;
+        parameters[name] = param;
+    }
+
+    void Material::setParameter(const std::string& name, GLuint u)
+    {
+        MaterialParameter param;
+        param.type = MaterialParameter::UInt;
+        param.u = u;
+        parameters[name] = param;
+    }
+
+    void Material::setParameter(const std::string& name, GLfloat f)
+    {
+        MaterialParameter param;
+        param.type = MaterialParameter::Float;
+        param.f = f;
+        parameters[name] = param;
+    }
+
+    void Material::setParameter(const std::string& name, const glm::vec2& v2)
+    {
+        MaterialParameter param;
+        param.type = MaterialParameter::Vec2;
+        param.v2 = v2;
+        parameters[name] = param;
+    }
+
+    void Material::setParameter(const std::string& name, const glm::vec3& v3)
+    {
+        MaterialParameter param;
+        param.type = MaterialParameter::Vec3;
+        param.v3 = v3;
+        parameters[name] = param;
+    }
+
+    void Material::setParameter(const std::string& name, const glm::vec4& v4)
+    {
+        MaterialParameter param;
+        param.type = MaterialParameter::Vec4;
+        param.v4 = v4;
+        parameters[name] = param;
     }
 
     const std::unordered_map<std::string, MaterialParameter> Material::getParameters() const
