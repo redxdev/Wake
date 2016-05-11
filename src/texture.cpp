@@ -116,7 +116,7 @@ namespace wake
 
     void Texture::activate(GLuint unit)
     {
-        if (unit < 0 || unit >= GL_MAX_TEXTURE_UNITS - GL_TEXTURE0)
+        if (unit >= GL_MAX_TEXTURE_UNITS - GL_TEXTURE0)
         {
             std::cout << "Texture::use error: unit id is out of range - " << unit << std::endl;
             return;

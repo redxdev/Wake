@@ -45,7 +45,7 @@ namespace wake
 
     const ModelComponent& Model::getComponent(size_t index) const
     {
-        if (index < 0 || index >= components.size())
+        if (index >= components.size())
             return ModelComponent::Invalid;
 
         return components[index];
@@ -61,7 +61,7 @@ namespace wake
 
     void Model::setMesh(size_t index, MeshPtr mesh)
     {
-        if (index < 0 || index >= components.size())
+        if (index >= components.size())
             return;
 
         components[index].mesh = mesh;
@@ -69,7 +69,7 @@ namespace wake
 
     void Model::setMaterial(size_t index, MaterialPtr material)
     {
-        if (index < 0 || index >= components.size())
+        if (index >= components.size())
             return;
 
         components[index].material = material;

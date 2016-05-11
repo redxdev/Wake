@@ -245,7 +245,7 @@ namespace wake
         if (!f.is_open())
         {
             std::cout << "loadWMDL error: unable to open file \"" << path << "\" for reading." << std::endl;
-            return false;
+            return ModelPtr(nullptr);
         }
 
         char* code = new char[strlen(W_MDL_CODE) + 1];
@@ -257,7 +257,7 @@ namespace wake
             delete[] code;
             f.close();
             std::cout << "loadWMDL error: bad header, expected " << W_MDL_CODE << ", got " << code << std::endl;
-            return false;
+            return ModelPtr(nullptr);
         }
 
         delete[] code;
@@ -272,7 +272,7 @@ namespace wake
                 std::cout << "loadWMDL error: version mismatch, version must be at least " << W_MDL_MIN_VERSION <<
                 " but the file is version " << version << std::endl;
                 f.close();
-                return false;
+                return ModelPtr(nullptr);
             }
 
             if (version > W_MDL_MAX_VERSION)
@@ -280,7 +280,7 @@ namespace wake
                 std::cout << "loadWMDL error: version mismatch, version must be at most " << W_MDL_MAX_VERSION <<
                 " but the file is version " << version << std::endl;
                 f.close();
-                return false;
+                return ModelPtr(nullptr);
             }
 
             uint64 flags = readUInt64(f);
