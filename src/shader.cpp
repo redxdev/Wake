@@ -257,7 +257,8 @@ namespace wake
 
     Shader::~Shader()
     {
-        glDeleteProgram(shaderProgram);
+        if (getEngineMode() == EngineMode::Normal)
+            glDeleteProgram(shaderProgram);
     }
 
     void Shader::use()
