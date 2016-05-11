@@ -2,6 +2,37 @@
 
 namespace wake
 {
+    MaterialParameter MaterialParameter::NullParameter = MaterialParameter();
+
+    Material::Material()
+    {
+        shader = nullptr;
+    }
+
+    Material::Material(const Material& other)
+    {
+        shader = other.shader;
+        textures = other.textures;
+        parameters = other.parameters;
+    }
+
+    Material::~Material()
+    {
+    }
+
+    Material& Material::operator=(const Material& other)
+    {
+        shader = other.shader;
+        textures = other.textures;
+        parameters = other.parameters;
+        return *this;
+    }
+
+    void Material::setShader(ShaderPtr shader)
+    {
+        this->shader = shader;
+    }
+
     ShaderPtr Material::getShader() const
     {
         return shader;
@@ -12,7 +43,21 @@ namespace wake
         textures[name] = texture;
     }
 
-    const std::unordered_map<std::string, TexturePtr>& Material::getTextures() const
+    void Material::removeTexture(const std::string& name)
+    {
+        textures.erase(name);
+    }
+
+    TexturePtr Material::getTexture(const std::string& name)
+    {
+        auto found = textures.find(name);
+        if (found == textures.end())
+            return nullptr;
+
+        return found->second;
+    }
+
+    const std::map<std::string, TexturePtr>& Material::getTextures() const
     {
         return textures;
     }
@@ -65,7 +110,20 @@ namespace wake
         parameters[name] = param;
     }
 
-    const std::unordered_map<std::string, MaterialParameter> Material::getParameters() const
+    void Material::removeParameter(const std::string& name)
+    {
+        parameters.erase(name);
+    }
+
+    const MaterialParameter& Material::getParameter(const std::string& name) const
+    {
+        auto found = parameters.find(name);
+        if (found == parameters.end())
+            return MaterialParameter::NullParameter;
+        return found->second;
+    }
+
+    const std::map<std::string, MaterialParameter>& Material::getParameters() const
     {
         return parameters;
     }
@@ -79,6 +137,8 @@ namespace wake
         {
             const std::string& name = entry.first;
             TexturePtr texture = entry.second;
+            if (texture.get() == nullptr)
+                continue;
 
             Uniform uniform = shader->getUniform(name.data());
             if (uniform.isError())
@@ -101,6 +161,7 @@ namespace wake
             switch (param.type)
             {
                 default:
+                case MaterialParameter::Null:
                     continue;
 
                 case MaterialParameter::Int:

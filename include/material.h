@@ -6,8 +6,9 @@
 #include "luautil.h"
 #include "util.h"
 #include "shader.h"
+#include "engineptr.h"
 
-#include <unordered_map>
+#include <map>
 #include <string>
 #include <vector>
 #include <glm/glm.hpp>
@@ -16,6 +17,8 @@ namespace wake
 {
     struct MaterialParameter
     {
+        static MaterialParameter NullParameter;
+
         MaterialParameter()
         {
             type = Null;
@@ -47,11 +50,25 @@ namespace wake
     class Material
     {
     public:
+        Material();
+
+        Material(const Material& other);
+
+        ~Material();
+
+        Material& operator=(const Material& other);
+
+        void setShader(ShaderPtr shader);
+
         ShaderPtr getShader() const;
 
         void setTexture(const std::string& name, TexturePtr texture);
 
-        const std::unordered_map<std::string, TexturePtr>& getTextures() const;
+        void removeTexture(const std::string& name);
+
+        TexturePtr getTexture(const std::string& name);
+
+        const std::map<std::string, TexturePtr>& getTextures() const;
 
         void setParameter(const std::string& name, GLint i);
 
@@ -65,13 +82,19 @@ namespace wake
 
         void setParameter(const std::string& name, const glm::vec4& v4);
 
-        const std::unordered_map<std::string, MaterialParameter> getParameters() const;
+        void removeParameter(const std::string& name);
+
+        const MaterialParameter& getParameter(const std::string& name) const;
+
+        const std::map<std::string, MaterialParameter>& getParameters() const;
 
         void activate();
 
     private:
         ShaderPtr shader;
-        std::unordered_map<std::string, TexturePtr> textures;
-        std::unordered_map<std::string, MaterialParameter> parameters;
+        std::map<std::string, TexturePtr> textures;
+        std::map<std::string, MaterialParameter> parameters;
     };
+
+    typedef SharedPtr<Material> MaterialPtr;
 }

@@ -18,28 +18,28 @@ find_package(Snappy REQUIRED)
 
 if (WIN32 AND NOT CYGWIN)
     find_package(GLFW REQUIRED)
-else()
+else ()
     find_package(PkgConfig REQUIRED)
     pkg_search_module(GLFW REQUIRED glfw3)
     set(GLFW_LIBRARIES ${GLFW_STATIC_LIBRARIES})
-endif()
+endif ()
 
-if(MSVC)
+if (MSVC)
     if (CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
         string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-    else()
+    else ()
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
-    endif()
-else()
+    endif ()
+else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-endif()
+endif ()
 
-if(MINGW)
-    if(CMAKE_BUILD_TYPE MATCHES Release)
+if (MINGW)
+    if (CMAKE_BUILD_TYPE MATCHES Release)
         # Due to a bug in MinGW, we need to define this in release mode.
         add_definitions(-D__NO_INLINE__)
-    endif()
-endif()
+    endif ()
+endif ()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -86,6 +86,7 @@ set(SOURCE_FILES
         "src/bindings/luaassets.cpp"
         "src/bindings/luainput.cpp"
         "src/bindings/luatexture.cpp"
+        "src/bindings/luamaterial.cpp"
 
         "deps/stb/stb_image.c"
         )

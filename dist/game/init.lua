@@ -1,48 +1,8 @@
 local Camera = require('camera')
 local config = require('config/cfg')
+local material = require('materials/demo_lighting'):clone()
 
-local shader = Shader.new(
-[[
-#version 330 core
-layout (location = 0) in vec3 position;
-layout (location = 1) in vec3 normal;
-layout (location = 2) in vec2 texCoords;
-
-uniform mat4 view;
-uniform mat4 projection;
-uniform mat4 model;
-
-out vec3 outNormal;
-out vec2 outTexCoords;
-
-void main()
-{
-    gl_Position = projection * view * model * vec4(position, 1.0);
-    outNormal = normal;
-    outTexCoords = texCoords;
-}
-]],
-[[
-#version 330 core
-in vec3 outNormal;
-in vec2 outTexCoords;
-
-out vec4 outColor;
-
-uniform sampler2D tex1;
-
-void main()
-{
-    vec4 texColor = texture(tex1, outTexCoords);
-    vec3 lightColor = vec3(0.8, 0.8, 0.8);
-    vec3 lightDirection = normalize(vec3(1.0, -1.0, 0.6));
-    float lightAmbience = 0.8;
-
-    float diffuseIntensity = max(0.3, dot(normalize(outNormal), -lightDirection));
-    outColor = vec4(lightColor, 1.0) * vec4(lightColor * (lightAmbience * diffuseIntensity) * texColor.rgb, 1.0);
-}
-]]
-)
+local shader = material:getShader()
 
 local shaderView = shader:getUniform("view")
 local shaderProj = shader:getUniform("projection")
@@ -54,8 +14,6 @@ if obj == nil then
     print("Unable to load model.")
     return
 end
-
-local tex = assets.loadTexture("assets/textures/default.png")
 
 engine.setClearColor(1, 1, 1, 1)
 
@@ -85,15 +43,13 @@ engine.tick:bind(function(dt)
         cam:moveRight(moveSpeed * dt)
     end
 
-    shader:use()
-    shaderView:setMatrix4(cam:getViewMatrix())
-    shaderProj:setMatrix4(cam.projection)
+    material:activate()
 
     local mat = math.scale{1, 1, 1}
     shaderModel:setMatrix4(mat)
 
-    tex:activate(0)
-    shaderTex:set1i(0)
+    shaderView:setMatrix4(cam:getViewMatrix())
+    shaderProj:setMatrix4(cam.projection)
 
     for _,v in ipairs(obj) do
         v:draw()

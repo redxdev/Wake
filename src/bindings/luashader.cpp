@@ -464,6 +464,12 @@ namespace wake
 
     void pushValue(lua_State* L, ShaderPtr value)
     {
+        if (value.get() == nullptr)
+        {
+            lua_pushnil(L);
+            return;
+        }
+
         auto* container = (binding::ShaderContainer*) lua_newuserdata(L, sizeof(binding::ShaderContainer));
         memset(container, 0, sizeof(binding::ShaderContainer));
         container->shader = value;

@@ -100,6 +100,12 @@ namespace wake
 
     void pushValue(lua_State* L, TexturePtr value)
     {
+        if (value.get() == nullptr)
+        {
+            lua_pushnil(L);
+            return;
+        }
+
         auto* container = (binding::TextureContainer*) lua_newuserdata(L, sizeof(binding::TextureContainer));
         memset(container, 0, sizeof(binding::TextureContainer));
         container->texture = value;

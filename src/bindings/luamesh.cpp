@@ -352,6 +352,12 @@ namespace wake
 
     void pushValue(lua_State* L, MeshPtr value)
     {
+        if (value.get() == nullptr)
+        {
+            lua_pushnil(L);
+            return;
+        }
+
         auto* container = (binding::MeshContainer*) lua_newuserdata(L, sizeof(binding::MeshContainer));
         memset(container, 0, sizeof(binding::MeshContainer));
         container->mesh = value;
