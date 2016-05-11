@@ -32,7 +32,7 @@ namespace wake
                 return 1;
             }
 
-            std::vector<Mesh*> meshes;
+            std::vector<MeshPtr> meshes;
             for (size_t i = 0; i < scene->mNumMeshes; ++i)
             {
                 aiMesh* mesh = scene->mMeshes[i];
@@ -66,7 +66,7 @@ namespace wake
                     }
                 }
 
-                meshes.push_back(new Mesh(vertices, indices));
+                meshes.push_back(MeshPtr(new Mesh(vertices, indices)));
             }
 
             lua_newtable(L);

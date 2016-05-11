@@ -25,7 +25,7 @@ namespace wake
                     return 0;
 
                 case 0:
-                    pushValue(L, new Mesh());
+                    pushValue(L, MeshPtr(new Mesh()));
                     return 1;
 
                 case 1:
@@ -41,7 +41,7 @@ namespace wake
                         lua_pop(L, 1);
                     }
 
-                    pushValue(L, new Mesh(vertices));
+                    pushValue(L, MeshPtr(new Mesh(vertices)));
                     return 1;
                 }
 
@@ -68,7 +68,7 @@ namespace wake
                         lua_pop(L, 1);
                     }
 
-                    pushValue(L, new Mesh(vertices, indices));
+                    pushValue(L, MeshPtr(new Mesh(vertices, indices)));
                     return 1;
                 }
             }
