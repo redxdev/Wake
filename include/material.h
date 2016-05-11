@@ -15,6 +15,7 @@
 
 namespace wake
 {
+    // TODO: Cache uniform locations
     struct MaterialParameter
     {
         static MaterialParameter NullParameter;

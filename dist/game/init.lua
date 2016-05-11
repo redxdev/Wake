@@ -7,7 +7,6 @@ local shader = material:getShader()
 local shaderView = shader:getUniform("view")
 local shaderProj = shader:getUniform("projection")
 local shaderModel = shader:getUniform("model")
-local shaderTex = shader:getUniform("tex1")
 
 local obj = assets.loadModel("assets/models/cube.wmdl")
 if obj == nil then
