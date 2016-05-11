@@ -36,7 +36,7 @@ namespace wake
                     lua_pushnil(L);
                     while (lua_next(L, 1) != 0)
                     {
-                        luaL_argcheck(L, lua_isnumber(L, -2), 1, "expected number index");
+                        luaL_checktype(L, -2, LUA_TNUMBER);
                         vertices.push_back(*luaW_checkvertex(L, -1));
                         lua_pop(L, 1);
                     }
@@ -54,7 +54,7 @@ namespace wake
                     lua_pushnil(L);
                     while (lua_next(L, 1) != 0)
                     {
-                        luaL_argcheck(L, lua_isnumber(L, -2), 1, "expected number index");
+                        luaL_checktype(L, -2, LUA_TNUMBER);
                         vertices.push_back(*luaW_checkvertex(L, -1));
                         lua_pop(L, 1);
                     }
@@ -63,7 +63,7 @@ namespace wake
                     lua_pushnil(L);
                     while (lua_next(L, 2) != 0)
                     {
-                        luaL_argcheck(L, lua_isnumber(L, -2), 1, "expected number index");
+                        luaL_checktype(L, -2, LUA_TNUMBER);
                         indices.push_back((GLuint) luaL_checkinteger(L, -1));
                         lua_pop(L, 1);
                     }
@@ -93,14 +93,14 @@ namespace wake
         static int mesh_set_vertices(lua_State* L)
         {
             MeshPtr mesh = luaW_checkmesh(L, 1);
-            luaL_argcheck(L, lua_istable(L, 2), 2, "expected table");
+            luaL_checktype(L, 2, LUA_TTABLE);
             bool updateIndices = (lua_gettop(L) >= 3) ? (lua_toboolean(L, 3) == 1) : false;
 
             std::vector<Vertex> vertices;
             lua_pushnil(L);
             while (lua_next(L, 2) != 0)
             {
-                luaL_argcheck(L, lua_isnumber(L, -2), 2, "expected number index");
+                luaL_checktype(L, -2, LUA_TNUMBER);
                 vertices.push_back(*luaW_checkvertex(L, -1));
                 lua_pop(L, 1);
             }
@@ -128,13 +128,13 @@ namespace wake
         static int mesh_set_indices(lua_State* L)
         {
             MeshPtr mesh = luaW_checkmesh(L, 1);
-            luaL_argcheck(L, lua_istable(L, 2), 2, "expected table");
+            luaL_checktype(L, 2, LUA_TTABLE);
 
             std::vector<GLuint> indices;
             lua_pushnil(L);
             while (lua_next(L, 2) != 0)
             {
-                luaL_argcheck(L, lua_isnumber(L, -2), 2, "expected number index");
+                luaL_checktype(L, -2, LUA_TNUMBER);
                 indices.push_back((GLuint) luaL_checkinteger(L, -1));
                 lua_pop(L, 1);
             }
@@ -153,6 +153,7 @@ namespace wake
         static int mesh_m_gc(lua_State* L)
         {
             void* dataPtr = luaL_checkudata(L, 1, W_MT_MESH);
+            luaL_argcheck(L, dataPtr != nullptr, 1, "'Mesh' expected");
             MeshContainer* container = (MeshContainer*) dataPtr;
             container->mesh.reset();
             return 0;

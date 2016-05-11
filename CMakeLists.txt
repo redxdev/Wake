@@ -86,6 +86,7 @@ set(SOURCE_FILES
         "src/bindings/luamath.cpp"
         "src/bindings/luamatrix.cpp"
         "src/bindings/luamesh.cpp"
+        "src/bindings/luamodel.cpp"
         "src/bindings/luaquat.cpp"
         "src/bindings/luashader.cpp"
         "src/bindings/luatexture.cpp"

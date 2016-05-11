@@ -252,6 +252,7 @@ namespace wake
         static int m_gc(lua_State* L)
         {
             void* dataPtr = luaL_checkudata(L, 1, W_MT_MATERIAL);
+            luaL_argcheck(L, dataPtr != nullptr, 1, "'Material' expected");
             MaterialContainer* container = (MaterialContainer*) dataPtr;
             container->material.reset();
             return 0;

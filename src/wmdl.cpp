@@ -106,29 +106,71 @@ namespace wake
         }
     }
 
-    bool saveWMDL(const char* path, const std::vector<MeshPtr>& meshes, bool compress)
+    glm::vec2 readVec2(std::istream& in)
+    {
+        glm::vec2 val;
+        val.x = readFloat(in);
+        val.y = readFloat(in);
+        return val;
+    }
+
+    void writeVec2(std::ostream& out, const glm::vec2& val)
+    {
+        writeFloat(out, val.x);
+        writeFloat(out, val.y);
+    }
+
+    glm::vec3 readVec3(std::istream& in)
+    {
+        glm::vec3 val;
+        val.x = readFloat(in);
+        val.y = readFloat(in);
+        val.z = readFloat(in);
+        return val;
+    }
+
+    void writeVec3(std::ostream& out, const glm::vec3& val)
+    {
+        writeFloat(out, val.x);
+        writeFloat(out, val.y);
+        writeFloat(out, val.z);
+    }
+
+    glm::vec4 readVec4(std::istream& in)
+    {
+        glm::vec4 val;
+        val.x = readFloat(in);
+        val.y = readFloat(in);
+        val.z = readFloat(in);
+        val.w = readFloat(in);
+        return val;
+    }
+
+    void writeVec4(std::ostream& out, const glm::vec4& val)
+    {
+        writeFloat(out, val.x);
+        writeFloat(out, val.y);
+        writeFloat(out, val.z);
+        writeFloat(out, val.w);
+    }
+
+    bool saveWMDL(const char* path, ModelPtr model, bool compress)
     {
         std::stringstream data;
 
         try
         {
-            writeUInt32(data, meshes.size());
-            for (auto mesh : meshes)
+            writeUInt32(data, model->getComponentCount());
+            for (auto& component : model->getComponents())
             {
+                auto& mesh = component.mesh;
                 auto& vertices = mesh->getVertices();
                 writeUInt32(data, vertices.size());
                 for (auto& vertex : vertices)
                 {
-                    writeFloat(data, vertex.position.x);
-                    writeFloat(data, vertex.position.y);
-                    writeFloat(data, vertex.position.z);
-
-                    writeFloat(data, vertex.normal.x);
-                    writeFloat(data, vertex.normal.y);
-                    writeFloat(data, vertex.normal.z);
-
-                    writeFloat(data, vertex.texCoords.x);
-                    writeFloat(data, vertex.texCoords.y);
+                    writeVec3(data, vertex.position);
+                    writeVec3(data, vertex.normal);
+                    writeVec2(data, vertex.texCoords);
                 }
 
                 auto& indices = mesh->getIndices();
@@ -197,7 +239,7 @@ namespace wake
         }
     }
 
-    bool loadWMDL(const char* path, std::vector<MeshPtr>& meshes)
+    ModelPtr loadWMDL(const char* path)
     {
         std::fstream f(path, std::ios::in | std::ios::binary);
         if (!f.is_open())
@@ -219,6 +261,8 @@ namespace wake
         }
 
         delete[] code;
+
+        ModelPtr model(new Model());
 
         try
         {
@@ -253,7 +297,6 @@ namespace wake
             std::stringstream data(raw);
 
             uint32 meshCount = readUInt32(data);
-            meshes.reserve(meshCount + meshes.size());
             for (uint32 m = 0; m < meshCount; ++m)
             {
                 std::vector<Vertex> vertices;
@@ -262,17 +305,9 @@ namespace wake
                 for (uint32 v = 0; v < vertexCount; ++v)
                 {
                     Vertex vertex;
-
-                    vertex.position.x = readFloat(data);
-                    vertex.position.y = readFloat(data);
-                    vertex.position.z = readFloat(data);
-
-                    vertex.normal.x = readFloat(data);
-                    vertex.normal.y = readFloat(data);
-                    vertex.normal.z = readFloat(data);
-
-                    vertex.texCoords.x = readFloat(data);
-                    vertex.texCoords.y = readFloat(data);
+                    vertex.position = readVec3(data);
+                    vertex.normal = readVec3(data);
+                    vertex.texCoords = readVec2(data);
 
                     vertices.push_back(vertex);
                 }
@@ -286,7 +321,10 @@ namespace wake
                 }
 
                 MeshPtr mesh = MeshPtr(new Mesh(vertices, indices));
-                meshes.push_back(mesh);
+
+                ModelComponent component;
+                component.mesh = mesh;
+                model->addComponent(component);
             }
         }
         catch (std::exception& e)
@@ -296,9 +334,9 @@ namespace wake
                 f.close();
             }
 
-            return false;
+            return ModelPtr(nullptr);
         }
 
-        return true;
+        return model;
     }
 }

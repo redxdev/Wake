@@ -58,6 +58,7 @@ namespace wake
         static int m_gc(lua_State* L)
         {
             void* dataPtr = luaL_checkudata(L, 1, W_MT_TEXTURE);
+            luaL_argcheck(L, dataPtr != nullptr, 1, "'Texture' expected");
             TextureContainer* container = (TextureContainer*) dataPtr;
             container->texture.reset();
             return 0;

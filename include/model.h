@@ -23,6 +23,7 @@ namespace wake
         MaterialPtr material;
     };
 
+    // TODO: Sort components by material (and shader?) and draw them in batches
     class Model
     {
     public:

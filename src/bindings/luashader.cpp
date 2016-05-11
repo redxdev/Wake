@@ -59,6 +59,7 @@ namespace wake
         static int shader_m_gc(lua_State* L)
         {
             void* dataPtr = luaL_checkudata(L, 1, W_MT_SHADER);
+            luaL_argcheck(L, dataPtr != nullptr, 1, "'Shader' expected");
             ShaderContainer* container = (ShaderContainer*) dataPtr;
             container->shader.reset();
             return 0;

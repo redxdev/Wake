@@ -1,6 +1,6 @@
 #include "bindings/luaassets.h"
-#include "bindings/luamesh.h"
 #include "bindings/luatexture.h"
+#include "bindings/luamodel.h"
 #include "moduleregistry.h"
 #include "wmdl.h"
 
@@ -32,7 +32,7 @@ namespace wake
                 return 1;
             }
 
-            std::vector<MeshPtr> meshes;
+            ModelPtr model(new Model());
             for (size_t i = 0; i < scene->mNumMeshes; ++i)
             {
                 aiMesh* mesh = scene->mMeshes[i];
@@ -66,38 +66,20 @@ namespace wake
                     }
                 }
 
-                meshes.push_back(MeshPtr(new Mesh(vertices, indices)));
+                ModelComponent component;
+                component.mesh = MeshPtr(new Mesh(vertices, indices));
+                model->addComponent(component);
             }
 
-            lua_newtable(L);
-            for (size_t i = 0; i < meshes.size(); ++i)
-            {
-                lua_pushnumber(L, i + 1);
-                pushValue(L, meshes[i]);
-                lua_settable(L, -3);
-            }
+            pushValue(L, model);
 
             return 1;
         }
 
         static int loadWakeModel(lua_State* L, const char* path)
         {
-            std::vector<MeshPtr> meshes;
-            bool result = loadWMDL(path, meshes);
-            if (!result)
-            {
-                lua_pushnil(L);
-                return 1;
-            }
-
-            lua_newtable(L);
-            for (size_t i = 0; i < meshes.size(); ++i)
-            {
-                lua_pushnumber(L, i + 1);
-                pushValue(L, meshes[i]);
-                lua_settable(L, -3);
-            }
-
+            ModelPtr model = loadWMDL(path);
+            pushValue(L, model);
             return 1;
         }
 
@@ -120,18 +102,7 @@ namespace wake
         static int saveModel(lua_State* L)
         {
             const char* path = luaL_checkstring(L, 1);
-
-            luaL_checktype(L, 2, LUA_TTABLE);
-            std::vector<MeshPtr> meshes;
-            lua_pushnil(L);
-            while (lua_next(L, 2) != 0)
-            {
-                luaL_argcheck(L, lua_isnumber(L, -2), 1, "expected number index");
-                MeshPtr mesh = luaW_checkmesh(L, -1);
-                meshes.push_back(mesh);
-                lua_pop(L, 1);
-            }
-
+            ModelPtr model = luaW_checkmodel(L, 2);
 
             bool compress = true;
             if (lua_gettop(L) >= 3)
@@ -139,7 +110,7 @@ namespace wake
                 compress = lua_toboolean(L, 3) != 0;
             }
 
-            lua_pushboolean(L, saveWMDL(path, meshes, compress) ? 1 : 0);
+            lua_pushboolean(L, saveWMDL(path, model, compress) ? 1 : 0);
 
             return 1;
         }

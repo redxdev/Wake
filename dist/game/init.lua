@@ -10,10 +10,14 @@ local shaderView = shader:getUniform("view")
 local shaderProj = shader:getUniform("projection")
 local shaderModel = shader:getUniform("model")
 
-local obj = assets.loadModel("assets/models/cube.wmdl")
+local obj = assets.loadModel("assets/models/sponza.wmdl")
 if obj == nil then
     print("Unable to load model.")
     return
+end
+
+for i=1,obj:getComponentCount() do
+    obj:setMaterial(i, material)
 end
 
 engine.setClearColor(1, 1, 1, 1)
@@ -46,15 +50,13 @@ engine.tick:bind(function(dt)
 
     material:use()
 
-    local mat = math.scale{1, 1, 1}
+    local mat = math.scale{0.002, 0.002, 0.002}
     shaderModel:setMatrix4(mat)
 
     shaderView:setMatrix4(cam:getViewMatrix())
     shaderProj:setMatrix4(cam.projection)
 
-    for _,v in ipairs(obj) do
-        v:draw()
-    end
+    obj:draw()
 end)
 
 engine.quit:bind(function()

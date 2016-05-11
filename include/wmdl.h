@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mesh.h"
+#include "model.h"
 #include "util.h"
 
 #define W_MDL_CODE "WMDL3"
@@ -13,7 +13,7 @@
 
 namespace wake
 {
-    bool saveWMDL(const char* path, const std::vector<MeshPtr>& meshes, bool compress = true);
+    bool saveWMDL(const char* path, ModelPtr model, bool compress = true);
 
-    bool loadWMDL(const char* path, std::vector<MeshPtr>& meshes);
+    ModelPtr loadWMDL(const char* path);
 }
