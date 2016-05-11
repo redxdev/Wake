@@ -186,7 +186,7 @@ namespace wake
             f.close();
             return true;
         }
-        catch(std::exception& e)
+        catch (std::exception& e)
         {
             if (f.is_open())
             {
@@ -223,16 +223,23 @@ namespace wake
         try
         {
             uint32 version = readUInt32(f);
-            if (version != W_MDL_VERSION)
+            if (version < W_MDL_MIN_VERSION)
             {
-                std::cout << "loadWMDL error: version mismatch, expected " << W_MDL_VERSION << ", got " << version << std::endl;
+                std::cout << "loadWMDL error: version mismatch, version must be at least " << W_MDL_MIN_VERSION <<
+                " but the file is version " << version << std::endl;
                 f.close();
                 return false;
             }
 
-            // no need to check bitflags yet, we only have one so we can do simple comparison
-            uint64 flags = readUInt64(f);
+            if (version > W_MDL_MAX_VERSION)
+            {
+                std::cout << "loadWMDL error: version mismatch, version must be at most " << W_MDL_MAX_VERSION <<
+                " but the file is version " << version << std::endl;
+                f.close();
+                return false;
+            }
 
+            uint64 flags = readUInt64(f);
             std::string raw((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
             f.close();
 
