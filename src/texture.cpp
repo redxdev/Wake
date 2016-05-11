@@ -26,6 +26,16 @@ namespace wake
         return TexturePtr(new Texture(data, width, height, comp));
     }
 
+    Texture::Texture()
+    {
+        data = nullptr;
+        width = 0;
+        height = 0;
+        comp = 0;
+
+        initializeData();
+    }
+
     Texture::Texture(unsigned char* data, int width, int height, int comp)
     {
         this->data = data;
@@ -145,7 +155,8 @@ namespace wake
 
         W_GL_CHECK();
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        if (data)
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
         W_GL_CHECK();
     }

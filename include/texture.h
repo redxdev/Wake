@@ -18,6 +18,8 @@ namespace wake
     public:
         Texture(unsigned char* data, int width, int height, int comp);
 
+        Texture();
+
         Texture(const Texture& other);
 
         ~Texture();
