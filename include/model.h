@@ -23,6 +23,26 @@ namespace wake
         MaterialPtr material;
     };
 
+    struct ModelMetadata
+    {
+        ModelMetadata()
+        {
+            source = Unknown;
+            version = 0;
+        }
+
+        enum
+        {
+            Unknown,
+            WMDL,
+            Assimp
+        } source;
+
+        uint32 version;
+
+        std::string path;
+    };
+
     // TODO: Sort components by material (and shader?) and draw them in batches
     class Model
     {
@@ -57,8 +77,13 @@ namespace wake
 
         void draw();
 
+        const ModelMetadata& getMetadata();
+
+        void setMetadata(const ModelMetadata& metadata);
+
     private:
         std::vector<ModelComponent> components;
+        ModelMetadata metadata;
     };
 
     typedef SharedPtr<Model> ModelPtr;

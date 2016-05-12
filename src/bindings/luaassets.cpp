@@ -71,6 +71,12 @@ namespace wake
                 model->addComponent(component);
             }
 
+            ModelMetadata metadata;
+            metadata.source = ModelMetadata::Assimp;
+            metadata.path = path;
+
+            model->setMetadata(metadata);
+
             pushValue(L, model);
 
             return 1;

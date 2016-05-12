@@ -99,4 +99,14 @@ namespace wake
             component.mesh->draw();
         }
     }
+
+    const ModelMetadata& Model::getMetadata()
+    {
+        return metadata;
+    }
+
+    void Model::setMetadata(const ModelMetadata& metadata)
+    {
+        this->metadata = metadata;
+    }
 }

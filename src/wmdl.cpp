@@ -325,6 +325,14 @@ namespace wake
                 ModelComponent component;
                 component.mesh = mesh;
                 model->addComponent(component);
+
+
+                ModelMetadata metadata;
+                metadata.source = ModelMetadata::WMDL;
+                metadata.version = version;
+                metadata.path = path;
+
+                model->setMetadata(metadata);
             }
         }
         catch (std::exception& e)

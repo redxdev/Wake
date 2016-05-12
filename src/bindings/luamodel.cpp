@@ -207,6 +207,43 @@ namespace wake
             return 0;
         }
 
+        static int getMetadata(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            auto& metadata = model->getMetadata();
+
+            lua_newtable(L);
+
+            lua_pushstring(L, "source");
+
+            switch (metadata.source)
+            {
+                default:
+                    lua_pushstring(L, "unknown");
+                    break;
+
+                case ModelMetadata::WMDL:
+                    lua_pushstring(L, "wmdl");
+                    break;
+
+                case ModelMetadata::Assimp:
+                    lua_pushstring(L, "assimp");
+                    break;
+            }
+
+            lua_settable(L, -3);
+
+            lua_pushstring(L, "version");
+            lua_pushnumber(L, (lua_Number) metadata.version);
+            lua_settable(L, -3);
+
+            lua_pushstring(L, "path");
+            lua_pushstring(L, metadata.path.data());
+            lua_settable(L, -3);
+
+            return 1;
+        }
+
         static int m_tostring(lua_State* L)
         {
             ModelPtr model = luaW_checkmodel(L, 1);
@@ -238,6 +275,7 @@ namespace wake
                 {"removeComponent",   removeComponent},
                 {"addComponent",      addComponent},
                 {"draw",              draw},
+                {"getMetadata",       getMetadata},
                 {NULL, NULL}
         };
 
@@ -252,6 +290,7 @@ namespace wake
                 {"removeComponent",   removeComponent},
                 {"addComponent",      addComponent},
                 {"draw",              draw},
+                {"getMetadata",       getMetadata},
                 {"__tostring",        m_tostring},
                 {"__gc",              m_gc},
                 {NULL, NULL}
