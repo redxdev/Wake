@@ -53,7 +53,7 @@ namespace wake
 
     void Model::setComponent(size_t index, const ModelComponent& component)
     {
-        if (index < 0 || index >= components.size())
+        if (index >= components.size())
             return;
 
         components[index] = component;
@@ -77,7 +77,7 @@ namespace wake
 
     void Model::removeComponent(size_t index)
     {
-        if (index < 0 || index >= components.size())
+        if (index >= components.size())
             return;
 
         components.erase(components.begin() + index);
