@@ -17,194 +17,8 @@ namespace wake
 
         static int model_new(lua_State* L)
         {
-            if (lua_gettop(L) == 0)
-            {
-                pushValue(L, ModelPtr(new Model()));
-            }
-            else
-            {
-                luaL_checktype(L, 1, LUA_TTABLE);
-                std::vector<ModelComponent> components;
-                lua_pushnil(L);
-                while (lua_next(L, 1) != 0)
-                {
-                    luaL_checktype(L, -1, LUA_TTABLE);
-                    lua_pushstring(L, "mesh");
-                    lua_gettable(L, -2);
-
-                    MeshPtr mesh = luaW_checkmesh(L, -1);
-                    lua_pop(L, 1);
-
-                    lua_pushstring(L, "material");
-                    lua_gettable(L, -2);
-
-                    MaterialPtr material = luaW_checkmaterial(L, -1);
-                    lua_pop(L, 1);
-
-                    ModelComponent component;
-                    component.mesh = mesh;
-                    component.material = material;
-                    components.push_back(component);
-                }
-
-                pushValue(L, ModelPtr(new Model(components)));
-            }
-
+            pushValue(L, ModelPtr(new Model()));
             return 1;
-        }
-
-        static int setComponents(lua_State* L)
-        {
-            ModelPtr model = luaW_checkmodel(L, 1);
-            luaL_checktype(L, 2, LUA_TTABLE);
-
-            std::vector<ModelComponent> components;
-            lua_pushnil(L);
-            while (lua_next(L, 1) != 0)
-            {
-                luaL_checktype(L, -1, LUA_TTABLE);
-                lua_pushstring(L, "mesh");
-                lua_gettable(L, -2);
-
-                MeshPtr mesh = luaW_checkmesh(L, -1);
-                lua_pop(L, 1);
-
-                lua_pushstring(L, "material");
-                lua_gettable(L, -2);
-
-                MaterialPtr material = luaW_checkmaterial(L, -1);
-                lua_pop(L, 1);
-
-                ModelComponent component;
-                component.mesh = mesh;
-                component.material = material;
-                components.push_back(component);
-            }
-
-            model->setComponents(components);
-            return 0;
-        }
-
-        static int getComponents(lua_State* L)
-        {
-            ModelPtr model = luaW_checkmodel(L, 1);
-            auto& components = model->getComponents();
-
-            lua_newtable(L);
-            for (size_t i = 0; i < components.size(); ++i)
-            {
-                auto& component = components[i];
-
-                lua_pushnumber(L, i + 1);
-                lua_newtable(L);
-
-                lua_pushstring(L, "mesh");
-                pushValue(L, component.mesh);
-                lua_settable(L, -3);
-
-                lua_pushstring(L, "material");
-                pushValue(L, component.material);
-                lua_settable(L, -3);
-
-                lua_settable(L, -3);
-            }
-
-            return 1;
-        }
-
-        static int getComponentCount(lua_State* L)
-        {
-            ModelPtr model = luaW_checkmodel(L, 1);
-            lua_pushinteger(L, (lua_Integer) model->getComponentCount());
-            return 1;
-        }
-
-        static int getComponent(lua_State* L)
-        {
-            ModelPtr model = luaW_checkmodel(L, 1);
-            lua_Integer index = luaL_checkinteger(L, 2);
-            luaL_argcheck(L, index > 0 && (size_t) index <= model->getComponentCount(), 2, "index out of range");
-
-            auto& component = model->getComponent((size_t) index - 1);
-
-            pushValue(L, component.mesh);
-            pushValue(L, component.material);
-
-            return 2;
-        }
-
-        static int setComponent(lua_State* L)
-        {
-            ModelPtr model = luaW_checkmodel(L, 1);
-            lua_Integer index = luaL_checkinteger(L, 2);
-            luaL_argcheck(L, index > 0 && (size_t) index <= model->getComponentCount(), 2, "index out of range");
-            MeshPtr mesh = luaW_checkmesh(L, 3);
-            MaterialPtr material = luaW_checkmaterial(L, 4);
-
-            ModelComponent component;
-            component.mesh = mesh;
-            component.material = material;
-
-            model->setComponent((size_t) index - 1, component);
-
-            return 0;
-        }
-
-        static int setMesh(lua_State* L)
-        {
-            ModelPtr model = luaW_checkmodel(L, 1);
-            lua_Integer index = luaL_checkinteger(L, 2);
-            luaL_argcheck(L, index > 0 && (size_t) index <= model->getComponentCount(), 2, "index out of range");
-            MeshPtr mesh = luaW_checkmesh(L, 3);
-
-            model->setMesh((size_t) index - 1, mesh);
-
-            return 0;
-        }
-
-        static int setMaterial(lua_State* L)
-        {
-            ModelPtr model = luaW_checkmodel(L, 1);
-            lua_Integer index = luaL_checkinteger(L, 2);
-            luaL_argcheck(L, index > 0 && (size_t) index <= model->getComponentCount(), 2, "index out of range");
-            MaterialPtr material = luaW_checkmaterial(L, 3);
-
-            model->setMaterial((size_t) index - 1, material);
-
-            return 0;
-        }
-
-        static int removeComponent(lua_State* L)
-        {
-            ModelPtr model = luaW_checkmodel(L, 1);
-            lua_Integer index = luaL_checkinteger(L, 2);
-            luaL_argcheck(L, index > 0 && (size_t) index <= model->getComponentCount(), 2, "index out of range");
-
-            model->removeComponent((size_t) index - 1);
-
-            return 0;
-        }
-
-        static int addComponent(lua_State* L)
-        {
-            ModelPtr model = luaW_checkmodel(L, 1);
-            MeshPtr mesh = luaW_checkmesh(L, 2);
-            MaterialPtr material = luaW_checkmaterial(L, 3);
-
-            ModelComponent component;
-            component.mesh = mesh;
-            component.material = material;
-
-            model->addComponent(component);
-
-            return 0;
-        }
-
-        static int draw(lua_State* L)
-        {
-            ModelPtr model = luaW_checkmodel(L, 1);
-            model->draw();
-            return 0;
         }
 
         static int getMetadata(lua_State* L)
@@ -244,11 +58,277 @@ namespace wake
             return 1;
         }
 
+        static int getMaterialCount(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            lua_pushinteger(L, (lua_Integer) model->getMaterialCount());
+            return 1;
+        }
+
+        static int getMaterials(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            auto& materials = model->getMaterials();
+
+            lua_newtable(L);
+            for (size_t i = 0; i < materials.size(); ++i)
+            {
+                auto& matInfo = materials[i];
+
+                lua_pushnumber(L, i + 1);
+                lua_newtable(L);
+
+                lua_pushstring(L, "material");
+                pushValue(L, matInfo.material);
+                lua_settable(L, -3);
+
+                lua_pushstring(L, "name");
+                lua_pushstring(L, matInfo.name.data());
+                lua_settable(L, -3);
+
+                lua_settable(L, -3);
+            }
+
+            return 1;
+        }
+
+        static int getMaterial(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            int32 index = (int32) luaL_checkinteger(L, 2);
+
+            auto& matInfo = model->getMaterial(index);
+            if (matInfo.material.get() == nullptr)
+            {
+                lua_pushnil(L);
+                return 1;
+            }
+
+            lua_newtable(L);
+
+            lua_pushstring(L, "material");
+            pushValue(L, matInfo.material);
+            lua_settable(L, -3);
+
+            lua_pushstring(L, "name");
+            lua_pushstring(L, matInfo.name.data());
+            lua_settable(L, -3);
+
+            return 1;
+        }
+
+        static int getMaterialByName(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            const char* name = luaL_checkstring(L, 2);
+
+            auto& matInfo = model->getMaterialByName(name);
+            if (matInfo.material.get() == nullptr)
+            {
+                lua_pushnil(L);
+                return 1;
+            }
+
+            lua_newtable(L);
+
+            lua_pushstring(L, "material");
+            pushValue(L, matInfo.material);
+            lua_settable(L, -3);
+
+            lua_pushstring(L, "name");
+            lua_pushstring(L, matInfo.name.data());
+            lua_settable(L, -3);
+
+            return 1;
+        }
+
+        static int getMaterialIndex(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            const char* name = luaL_checkstring(L, 2);
+
+            lua_pushinteger(L, (lua_Integer) model->getMaterialIndex(name));
+            return 1;
+        }
+
+        static int setMaterial(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            int32 index = (int32) luaL_checkinteger(L, 2);
+            MaterialPtr mat = luaW_checkmaterial(L, 3);
+
+            lua_pushboolean(L, model->setMaterial(index, mat) ? 1 : 0);
+            return 1;
+        }
+
+        static int setMaterialByName(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            const char* name = luaL_checkstring(L, 2);
+            MaterialPtr mat = luaW_checkmaterial(L, 3);
+
+            lua_pushboolean(L, model->setMaterialByName(name, mat) ? 1 : 0);
+            return 1;
+        }
+
+        static int addMaterial(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            const char* name = luaL_checkstring(L, 2);
+            MaterialPtr mat = luaW_checkmaterial(L, 3);
+
+            lua_pushboolean(L, model->addMaterial(name, mat) ? 1 : 0);
+            return 1;
+        }
+
+        static int hasMaterialName(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            const char* name = luaL_checkstring(L, 2);
+
+            lua_pushboolean(L, model->hasMaterialName(name) ? 1 : 0);
+            return 1;
+        }
+
+        static int removeMaterial(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            int32 index = (int32) luaL_checkinteger(L, 2);
+
+            lua_pushboolean(L, model->removeMaterial(index) ? 1 : 0);
+            return 1;
+        }
+
+        static int removeMaterialByName(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            const char* name = luaL_checkstring(L, 2);
+
+            lua_pushboolean(L, model->removeMaterialByName(name) ? 1 : 0);
+            return 1;
+        }
+
+        static int getMeshCount(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            lua_pushinteger(L, (lua_Integer) model->getMeshCount());
+            return 1;
+        }
+
+        static int getMeshes(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+
+            auto& meshes = model->getMeshes();
+
+            lua_newtable(L);
+            for (size_t i = 0; i < meshes.size(); ++i)
+            {
+                auto& meshInfo = meshes[i];
+
+                lua_pushnumber(L, i + 1);
+                lua_newtable(L);
+
+                lua_pushstring(L, "mesh");
+                pushValue(L, meshInfo.mesh);
+                lua_settable(L, -3);
+
+                lua_pushstring(L, "materialIndex");
+                lua_pushinteger(L, (lua_Integer) meshInfo.materialIndex);
+                lua_settable(L, -3);
+
+                lua_settable(L, -3);
+            }
+
+            return 1;
+        }
+
+        static int getMesh(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            int32 index = (int32) luaL_checkinteger(L, 2);
+
+            auto& meshInfo = model->getMesh(index);
+            if (meshInfo.mesh.get() == nullptr)
+            {
+                lua_pushnil(L);
+                return 1;
+            }
+
+            lua_newtable(L);
+
+            lua_pushstring(L, "mesh");
+            pushValue(L, meshInfo.mesh);
+            lua_settable(L, -3);
+
+            lua_pushstring(L, "materialIndex");
+            lua_pushinteger(L, (lua_Integer) meshInfo.materialIndex);
+            lua_settable(L, -3);
+
+            return 1;
+        }
+
+        static int setMesh(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            int32 index = (int32) luaL_checkinteger(L, 2);
+            MeshPtr mesh = luaW_checkmesh(L, 3);
+
+            lua_pushboolean(L, model->setMesh(index, mesh) ? 1 : 0);
+            return 1;
+        }
+
+        static int setMeshMaterial(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            int32 index = (int32) luaL_checkinteger(L, 2);
+            int32 materialIndex = (int32) luaL_checkinteger(L, 3);
+
+            lua_pushboolean(L, model->setMeshMaterial(index, materialIndex) ? 1 : 0);
+            return 1;
+        }
+
+        static int setMeshMaterialByName(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            int32 index = (int32) luaL_checkinteger(L, 2);
+            const char* name = luaL_checkstring(L, 1);
+
+            lua_pushboolean(L, model->setMeshMaterialByName(index, name) ? 1 : 0);
+            return 1;
+        }
+
+        static int addMesh(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            MeshPtr mesh = luaW_checkmesh(L, 2);
+            int32 materialIndex = (int32) luaL_checkinteger(L, 3);
+
+            model->addMesh(mesh, materialIndex);
+            return 0;
+        }
+
+        static int removeMesh(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            int32 index = (int32) luaL_checkinteger(L, 2);
+
+            lua_pushboolean(L, model->removeMesh(index) ? 1 : 0);
+            return 1;
+        }
+
+        static int draw(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            model->draw();
+            return 0;
+        }
+
         static int m_tostring(lua_State* L)
         {
             ModelPtr model = luaW_checkmodel(L, 1);
             std::stringstream ss;
-            ss << "Model(" << model->getComponentCount() << ")";
+            ss << "Model(" << model->getMeshCount() << ")";
             std::string str = ss.str();
             lua_pushstring(L, str.c_str());
             return 1;
@@ -264,35 +344,55 @@ namespace wake
         }
 
         static const struct luaL_reg modellib_f[] = {
-                {"new",               model_new},
-                {"setComponents",     setComponents},
-                {"getComponents",     getComponents},
-                {"getComponentCount", getComponentCount},
-                {"getComponent",      getComponent},
-                {"setComponent",      setComponent},
-                {"setMesh",           setMesh},
-                {"setMaterial",       setMaterial},
-                {"removeComponent",   removeComponent},
-                {"addComponent",      addComponent},
-                {"draw",              draw},
-                {"getMetadata",       getMetadata},
+                {"new",                   model_new},
+                {"getMetadata",           getMetadata},
+                {"getMaterialCount",      getMaterialCount},
+                {"getMaterials",          getMaterials},
+                {"getMaterial",           getMaterial},
+                {"getMaterialByName",     getMaterialByName},
+                {"getMaterialIndex",      getMaterialIndex},
+                {"setMaterial",           setMaterial},
+                {"setMaterialByName",     setMaterialByName},
+                {"addMaterial",           addMaterial},
+                {"hasMaterialName",       hasMaterialName},
+                {"removeMaterial",        removeMaterial},
+                {"removeMaterialByName",  removeMaterialByName},
+                {"getMeshCount",          getMeshCount},
+                {"getMeshes",             getMeshes},
+                {"getMesh",               getMesh},
+                {"setMesh",               setMesh},
+                {"setMeshMaterial",       setMeshMaterial},
+                {"setMeshMaterialByName", setMeshMaterialByName},
+                {"addMesh",               addMesh},
+                {"removeMesh",            removeMesh},
+                {"draw",                  draw},
                 {NULL, NULL}
         };
 
         static const struct luaL_reg modellib_m[] = {
-                {"setComponents",     setComponents},
-                {"getComponents",     getComponents},
-                {"getComponentCount", getComponentCount},
-                {"getComponent",      getComponent},
-                {"setComponent",      setComponent},
-                {"setMesh",           setMesh},
-                {"setMaterial",       setMaterial},
-                {"removeComponent",   removeComponent},
-                {"addComponent",      addComponent},
-                {"draw",              draw},
-                {"getMetadata",       getMetadata},
-                {"__tostring",        m_tostring},
-                {"__gc",              m_gc},
+                {"getMetadata",           getMetadata},
+                {"getMaterialCount",      getMaterialCount},
+                {"getMaterials",          getMaterials},
+                {"getMaterial",           getMaterial},
+                {"getMaterialByName",     getMaterialByName},
+                {"getMaterialIndex",      getMaterialIndex},
+                {"setMaterial",           setMaterial},
+                {"setMaterialByName",     setMaterialByName},
+                {"addMaterial",           addMaterial},
+                {"hasMaterialName",       hasMaterialName},
+                {"removeMaterial",        removeMaterial},
+                {"removeMaterialByName",  removeMaterialByName},
+                {"getMeshCount",          getMeshCount},
+                {"getMeshes",             getMeshes},
+                {"getMesh",               getMesh},
+                {"setMesh",               setMesh},
+                {"setMeshMaterial",       setMeshMaterial},
+                {"setMeshMaterialByName", setMeshMaterialByName},
+                {"addMesh",               addMesh},
+                {"removeMesh",            removeMesh},
+                {"draw",                  draw},
+                {"__tostring",            m_tostring},
+                {"__gc",                  m_gc},
                 {NULL, NULL}
         };
 

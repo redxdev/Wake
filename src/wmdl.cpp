@@ -160,10 +160,10 @@ namespace wake
 
         try
         {
-            writeUInt32(data, model->getComponentCount());
-            for (auto& component : model->getComponents())
+            writeUInt32(data, (size_t) model->getMeshCount());
+            for (auto& meshInfo : model->getMeshes())
             {
-                auto& mesh = component.mesh;
+                auto& mesh = meshInfo.mesh;
                 auto& vertices = mesh->getVertices();
                 writeUInt32(data, vertices.size());
                 for (auto& vertex : vertices)
@@ -321,11 +321,7 @@ namespace wake
                 }
 
                 MeshPtr mesh = MeshPtr(new Mesh(vertices, indices));
-
-                ModelComponent component;
-                component.mesh = mesh;
-                model->addComponent(component);
-
+                model->addMesh(mesh, 0);
 
                 ModelMetadata metadata;
                 metadata.source = ModelMetadata::WMDL;

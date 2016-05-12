@@ -2,27 +2,16 @@
 
 #include <glm/glm.hpp>
 #include <vector>
+#include <map>
+#include <string>
 
 #include "mesh.h"
 #include "material.h"
 #include "engineptr.h"
+#include "util.h"
 
 namespace wake
 {
-    struct ModelComponent
-    {
-        static ModelComponent Invalid;
-
-        ModelComponent()
-        {
-            mesh = nullptr;
-            material = nullptr;
-        }
-
-        MeshPtr mesh;
-        MaterialPtr material;
-    };
-
     struct ModelMetadata
     {
         ModelMetadata()
@@ -47,9 +36,35 @@ namespace wake
     class Model
     {
     public:
-        Model();
+        struct MaterialInfo
+        {
+            static MaterialInfo Invalid;
 
-        Model(const std::vector<ModelComponent> components);
+            MaterialInfo()
+            {
+                material = nullptr;
+                name = "";
+            }
+
+            MaterialPtr material;
+            std::string name;
+        };
+
+        struct MeshInfo
+        {
+            static MeshInfo Invalid;
+
+            MeshInfo()
+            {
+                mesh = nullptr;
+                materialIndex = -1;
+            }
+
+            MeshPtr mesh;
+            int32 materialIndex;
+        };
+    public:
+        Model();
 
         Model(const Model& other);
 
@@ -57,32 +72,53 @@ namespace wake
 
         Model& operator=(const Model& other);
 
-        void setComponents(const std::vector<ModelComponent> components);
-
-        const std::vector<ModelComponent>& getComponents() const;
-
-        size_t getComponentCount() const;
-
-        const ModelComponent& getComponent(size_t index) const;
-
-        void setComponent(size_t index, const ModelComponent& component);
-
-        void setMesh(size_t index, MeshPtr mesh);
-
-        void setMaterial(size_t index, MaterialPtr material);
-
-        void removeComponent(size_t index);
-
-        void addComponent(const ModelComponent& component);
-
-        void draw();
-
         const ModelMetadata& getMetadata();
 
         void setMetadata(const ModelMetadata& metadata);
 
+        int32 getMaterialCount() const;
+
+        const std::vector<MaterialInfo>& getMaterials() const;
+
+        const MaterialInfo& getMaterial(int32 index) const;
+
+        const MaterialInfo& getMaterialByName(const std::string& name) const;
+
+        int32 getMaterialIndex(const std::string& name) const;
+
+        bool setMaterial(int32 index, MaterialPtr material);
+
+        bool setMaterialByName(const std::string& name, MaterialPtr material);
+
+        bool addMaterial(const std::string& name, MaterialPtr material);
+
+        bool hasMaterialName(const std::string& name) const;
+
+        bool removeMaterial(int32 index);
+
+        bool removeMaterialByName(const std::string& name);
+
+        int32 getMeshCount() const;
+
+        const std::vector<MeshInfo>& getMeshes() const;
+
+        const MeshInfo& getMesh(int32 index) const;
+
+        bool setMesh(int32 index, MeshPtr mesh);
+
+        bool setMeshMaterial(int32 index, int32 materialIndex);
+
+        bool setMeshMaterialByName(int32 index, const std::string& name);
+
+        void addMesh(MeshPtr mesh, int32 materialIndex);
+
+        bool removeMesh(int32 index);
+
+        void draw();
+
     private:
-        std::vector<ModelComponent> components;
+        std::vector<MaterialInfo> materials;
+        std::vector<MeshInfo> meshes;
         ModelMetadata metadata;
     };
 

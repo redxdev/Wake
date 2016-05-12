@@ -16,9 +16,7 @@ if obj == nil then
     return
 end
 
-for i=1,obj:getComponentCount() do
-    obj:setMaterial(i, material)
-end
+obj:addMaterial("default", material)
 
 engine.setClearColor(1, 1, 1, 1)
 

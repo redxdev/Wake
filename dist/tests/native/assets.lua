@@ -7,8 +7,8 @@ test.test('loadModel', function()
     local model = assets.loadModel('assets/models/teapot.obj')
     test.assert_not_equal(model, nil)
 
-    test.expect_equal(model:getComponentCount(), 2)
-    local components = model:getComponents()
+    test.expect_equal(model:getMeshCount(), 2)
+    local components = model:getMeshes()
     for _,component in ipairs(components) do
         local mesh = component.mesh
         test.expect_equal(type(mesh), 'userdata')
@@ -16,12 +16,11 @@ test.test('loadModel', function()
         test.expect(#mesh:getIndices() > 0)
     end
 
-
     model = assets.loadModel('assets/models/teapot.wmdl')
     test.assert_not_equal(model, nil)
 
-    test.expect_equal(model:getComponentCount(), 2)
-    local components = model:getComponents()
+    test.expect_equal(model:getMeshCount(), 2)
+    local components = model:getMeshes()
     for _,component in ipairs(components) do
         local mesh = component.mesh
         test.expect_equal(type(mesh), 'userdata')

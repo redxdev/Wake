@@ -66,9 +66,7 @@ namespace wake
                     }
                 }
 
-                ModelComponent component;
-                component.mesh = MeshPtr(new Mesh(vertices, indices));
-                model->addComponent(component);
+                model->addMesh(MeshPtr(new Mesh(vertices, indices)), 0);
             }
 
             ModelMetadata metadata;

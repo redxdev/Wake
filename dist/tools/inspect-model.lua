@@ -21,12 +21,13 @@ function hook_engine_tool()
 	print("\tVersion: " .. metadata.version)
 	print("\tPath: " .. metadata.path)
 
-	print("Components: " .. input:getComponentCount())
+	print("Materials: " .. input:getMaterialCount())
+    print("Meshes: " .. input:getMeshCount())
 
     local indices = 0
     local vertices = 0
-    local components = input:getComponents()
-    for _,c in ipairs(components) do
+    local meshes = input:getMeshes()
+    for _,c in ipairs(meshes) do
         local mesh = c.mesh
         if mesh ~= nil then
             indices = indices + #mesh:getIndices()
