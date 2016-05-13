@@ -519,6 +519,8 @@ namespace wake
             uint32 meshCount = readUInt32(data);
             for (uint32 m = 0; m < meshCount; ++m)
             {
+                int32 materialIndex = readInt32(data);
+
                 std::vector<Vertex> vertices;
                 uint32 vertexCount = readUInt32(data);
                 vertices.reserve(vertexCount);
@@ -541,7 +543,7 @@ namespace wake
                 }
 
                 MeshPtr mesh = MeshPtr(new Mesh(vertices, indices));
-                model->addMesh(mesh, 0);
+                model->addMesh(mesh, materialIndex);
 
                 ModelMetadata metadata;
                 metadata.source = ModelMetadata::WMDL;
