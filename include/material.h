@@ -26,7 +26,7 @@ namespace wake
             uniform = Uniform();
         }
 
-        enum
+        enum : uint8
         {
             Null,
             Int,
