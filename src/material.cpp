@@ -12,6 +12,7 @@ namespace wake
 
     Material::Material(const Material& other)
     {
+        typeName = other.typeName;
         shader = other.shader;
         textures = other.textures;
         parameters = other.parameters;
@@ -24,11 +25,22 @@ namespace wake
 
     Material& Material::operator=(const Material& other)
     {
+        typeName = other.typeName;
         shader = other.shader;
         textures = other.textures;
         parameters = other.parameters;
         needsUniformUpdates = true;
         return *this;
+    }
+
+    const std::string& Material::getTypeName() const
+    {
+        return typeName;
+    }
+
+    void Material::setTypeName(const std::string& name)
+    {
+        typeName = name;
     }
 
     void Material::setShader(ShaderPtr shader)
@@ -136,6 +148,9 @@ namespace wake
 
     void Material::use()
     {
+        if (shader.get() == nullptr)
+            return;
+        
         shader->use();
 
         uint32 texUnit = 0;

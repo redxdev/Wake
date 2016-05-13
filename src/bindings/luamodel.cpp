@@ -95,7 +95,7 @@ namespace wake
         static int getMaterial(lua_State* L)
         {
             ModelPtr model = luaW_checkmodel(L, 1);
-            int32 index = (int32) luaL_checkinteger(L, 2);
+            int32 index = (int32) luaL_checkinteger(L, 2) - 1;
 
             auto& matInfo = model->getMaterial(index);
             if (matInfo.material.get() == nullptr)
@@ -147,14 +147,14 @@ namespace wake
             ModelPtr model = luaW_checkmodel(L, 1);
             const char* name = luaL_checkstring(L, 2);
 
-            lua_pushinteger(L, (lua_Integer) model->getMaterialIndex(name));
+            lua_pushinteger(L, (lua_Integer) model->getMaterialIndex(name) + 1);
             return 1;
         }
 
         static int setMaterial(lua_State* L)
         {
             ModelPtr model = luaW_checkmodel(L, 1);
-            int32 index = (int32) luaL_checkinteger(L, 2);
+            int32 index = (int32) luaL_checkinteger(L, 2) - 1;
             MaterialPtr mat = luaW_checkmaterial(L, 3);
 
             lua_pushboolean(L, model->setMaterial(index, mat) ? 1 : 0);
@@ -190,10 +190,20 @@ namespace wake
             return 1;
         }
 
+        static int renameMaterial(lua_State* L)
+        {
+            ModelPtr model = luaW_checkmodel(L, 1);
+            int32 index = (int32) luaL_checkinteger(L, 2) - 1;
+            const char* newName = luaL_checkstring(L, 3);
+
+            lua_pushboolean(L, model->renameMaterial(index, newName) ? 1 : 0);
+            return 1;
+        }
+
         static int removeMaterial(lua_State* L)
         {
             ModelPtr model = luaW_checkmodel(L, 1);
-            int32 index = (int32) luaL_checkinteger(L, 2);
+            int32 index = (int32) luaL_checkinteger(L, 2) - 1;
 
             lua_pushboolean(L, model->removeMaterial(index) ? 1 : 0);
             return 1;
@@ -246,7 +256,7 @@ namespace wake
         static int getMesh(lua_State* L)
         {
             ModelPtr model = luaW_checkmodel(L, 1);
-            int32 index = (int32) luaL_checkinteger(L, 2);
+            int32 index = (int32) luaL_checkinteger(L, 2) - 1;
 
             auto& meshInfo = model->getMesh(index);
             if (meshInfo.mesh.get() == nullptr)
@@ -271,7 +281,7 @@ namespace wake
         static int setMesh(lua_State* L)
         {
             ModelPtr model = luaW_checkmodel(L, 1);
-            int32 index = (int32) luaL_checkinteger(L, 2);
+            int32 index = (int32) luaL_checkinteger(L, 2) - 1;
             MeshPtr mesh = luaW_checkmesh(L, 3);
 
             lua_pushboolean(L, model->setMesh(index, mesh) ? 1 : 0);
@@ -281,8 +291,8 @@ namespace wake
         static int setMeshMaterial(lua_State* L)
         {
             ModelPtr model = luaW_checkmodel(L, 1);
-            int32 index = (int32) luaL_checkinteger(L, 2);
-            int32 materialIndex = (int32) luaL_checkinteger(L, 3);
+            int32 index = (int32) luaL_checkinteger(L, 2) - 1;
+            int32 materialIndex = (int32) luaL_checkinteger(L, 3) - 1;
 
             lua_pushboolean(L, model->setMeshMaterial(index, materialIndex) ? 1 : 0);
             return 1;
@@ -291,7 +301,7 @@ namespace wake
         static int setMeshMaterialByName(lua_State* L)
         {
             ModelPtr model = luaW_checkmodel(L, 1);
-            int32 index = (int32) luaL_checkinteger(L, 2);
+            int32 index = (int32) luaL_checkinteger(L, 2) - 1;
             const char* name = luaL_checkstring(L, 1);
 
             lua_pushboolean(L, model->setMeshMaterialByName(index, name) ? 1 : 0);
@@ -302,7 +312,7 @@ namespace wake
         {
             ModelPtr model = luaW_checkmodel(L, 1);
             MeshPtr mesh = luaW_checkmesh(L, 2);
-            int32 materialIndex = (int32) luaL_checkinteger(L, 3);
+            int32 materialIndex = (int32) luaL_checkinteger(L, 3) - 1;
 
             model->addMesh(mesh, materialIndex);
             return 0;
@@ -311,7 +321,7 @@ namespace wake
         static int removeMesh(lua_State* L)
         {
             ModelPtr model = luaW_checkmodel(L, 1);
-            int32 index = (int32) luaL_checkinteger(L, 2);
+            int32 index = (int32) luaL_checkinteger(L, 2) - 1;
 
             lua_pushboolean(L, model->removeMesh(index) ? 1 : 0);
             return 1;
@@ -355,6 +365,7 @@ namespace wake
                 {"setMaterialByName",     setMaterialByName},
                 {"addMaterial",           addMaterial},
                 {"hasMaterialName",       hasMaterialName},
+                {"renameMaterial",        renameMaterial},
                 {"removeMaterial",        removeMaterial},
                 {"removeMaterialByName",  removeMaterialByName},
                 {"getMeshCount",          getMeshCount},
@@ -380,6 +391,7 @@ namespace wake
                 {"setMaterialByName",     setMaterialByName},
                 {"addMaterial",           addMaterial},
                 {"hasMaterialName",       hasMaterialName},
+                {"renameMaterial",        renameMaterial},
                 {"removeMaterial",        removeMaterial},
                 {"removeMaterialByName",  removeMaterialByName},
                 {"getMeshCount",          getMeshCount},

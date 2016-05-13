@@ -16,6 +16,10 @@ if obj == nil then
     return
 end
 
+if obj:getMaterialCount() > 0 then
+    obj:removeMaterial(1)
+end
+
 obj:addMaterial("default", material)
 
 engine.setClearColor(1, 1, 1, 1)

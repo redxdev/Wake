@@ -21,6 +21,21 @@ namespace wake
             return 1;
         }
 
+        static int getTypeName(lua_State* L)
+        {
+            MaterialPtr material = luaW_checkmaterial(L, 1);
+            lua_pushstring(L, material->getTypeName().data());
+            return 1;
+        }
+
+        static int setTypeName(lua_State* L)
+        {
+            MaterialPtr material = luaW_checkmaterial(L, 1);
+            const char* name = luaL_checkstring(L, 2);
+            material->setTypeName(name);
+            return 1;
+        }
+
         static int getShader(lua_State* L)
         {
             MaterialPtr material = luaW_checkmaterial(L, 1);
@@ -260,6 +275,8 @@ namespace wake
 
         static const struct luaL_reg materiallib_f[] = {
                 {"new",             material_new},
+                {"getTypeName",     getTypeName},
+                {"setTypeName",     setTypeName},
                 {"getShader",       getShader},
                 {"setShader",       setShader},
                 {"setTexture",      setTexture},
@@ -281,6 +298,8 @@ namespace wake
         };
 
         static const struct luaL_reg materiallib_m[] = {
+                {"getTypeName",     getTypeName},
+                {"setTypeName",     setTypeName},
                 {"getShader",       getShader},
                 {"setShader",       setShader},
                 {"setTexture",      setTexture},

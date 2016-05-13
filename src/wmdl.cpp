@@ -253,6 +253,7 @@ namespace wake
             for (auto& matInfo : model->getMaterials())
             {
                 writeString(data, matInfo.name);
+                writeString(data, matInfo.material->getTypeName());
 
                 // Textures
                 auto& textures = matInfo.material->getTextures();
@@ -461,6 +462,12 @@ namespace wake
                 {
                     std::string matName = readString(data);
                     MaterialPtr mat(new Material());
+
+                    if (version >= 5)
+                    {
+                        std::string matType = readString(data);
+                        mat->setTypeName(matType);
+                    }
 
                     uint32 textureCount = readUInt32(data);
                     for (uint32 t = 0; t < textureCount; ++t)

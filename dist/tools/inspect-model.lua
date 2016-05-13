@@ -22,6 +22,14 @@ function hook_engine_tool()
 	print("\tPath: " .. metadata.path)
 
 	print("Materials: " .. input:getMaterialCount())
+
+    local materials = input:getMaterials()
+    for _,m in ipairs(materials) do
+        if m ~= nil then
+            print("\t" .. m.name .. " - " .. m.material:getTypeName())
+        end
+    end
+
     print("Meshes: " .. input:getMeshCount())
 
     local indices = 0

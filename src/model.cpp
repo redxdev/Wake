@@ -128,6 +128,20 @@ namespace wake
         return found != materials.end();
     }
 
+    bool Model::renameMaterial(int32 index, const std::string& newName)
+    {
+        if (index < 0 || (size_t) index >= materials.size())
+            return false;
+
+        if (hasMaterialName(newName))
+            return false;
+
+        auto& oldMatInfo = materials[index];
+        oldMatInfo.name = newName;
+
+        return true;
+    }
+
     bool Model::removeMaterial(int32 index)
     {
         if (index < 0 || (size_t) index >= materials.size())

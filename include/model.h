@@ -94,6 +94,8 @@ namespace wake
 
         bool hasMaterialName(const std::string& name) const;
 
+        bool renameMaterial(int32 index, const std::string& newName);
+
         bool removeMaterial(int32 index);
 
         bool removeMaterialByName(const std::string& name);

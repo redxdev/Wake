@@ -73,6 +73,10 @@ namespace wake
 
         Material& operator=(const Material& other);
 
+        const std::string& getTypeName() const;
+
+        void setTypeName(const std::string& name);
+
         void setShader(ShaderPtr shader);
 
         ShaderPtr getShader() const;
@@ -108,6 +112,8 @@ namespace wake
         void resetUniformCache();
 
     private:
+        std::string typeName = "default";
+
         ShaderPtr shader;
         std::map<std::string, MaterialTexParameter> textures;
         std::map<std::string, MaterialParameter> parameters;
