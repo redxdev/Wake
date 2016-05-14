@@ -13,20 +13,20 @@ function hook_engine_tool()
     if input == nil then
         print("Unable to load input model.")
         return false
-	end
+    end
 
-	local metadata = input:getMetadata()
-	print("Metadata:")
-	print("\tSource: " .. metadata.source)
-	print("\tVersion: " .. metadata.version)
-	print("\tPath: " .. metadata.path)
+    local metadata = input:getMetadata()
+    print("Metadata:")
+    print("\tSource: " .. metadata.source)
+    print("\tVersion: " .. metadata.version)
+    print("\tPath: " .. metadata.path)
 
-	print("Materials: " .. input:getMaterialCount())
+    print("Materials: " .. input:getMaterialCount())
 
     local materials = input:getMaterials()
-    for _,m in ipairs(materials) do
+    for _, m in ipairs(materials) do
         if m ~= nil then
-            print("\t" .. m.name .. " - " .. m.material:getTypeName())
+            print("\t" .. m.name .. " - " .. m.material:getTypeName() .. " - " .. m.material:getTextureCount() .. " textures, " .. m.material:getParameterCount() .. " parameters")
         end
     end
 
@@ -35,7 +35,7 @@ function hook_engine_tool()
     local indices = 0
     local vertices = 0
     local meshes = input:getMeshes()
-    for _,c in ipairs(meshes) do
+    for _, c in ipairs(meshes) do
         local mesh = c.mesh
         if mesh ~= nil then
             indices = indices + #mesh:getIndices()
@@ -46,6 +46,6 @@ function hook_engine_tool()
     print("Indices: " .. indices)
     print("Triangles: " .. (indices / 3))
     print("Vertices: " .. vertices)
-	
+
     return true
 end

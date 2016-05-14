@@ -93,6 +93,13 @@ namespace wake
             return 1;
         }
 
+        static int getTextureCount(lua_State* L)
+        {
+            MaterialPtr material = luaW_checkmaterial(L, 1);
+            lua_pushinteger(L, (lua_Integer) material->getTextureCount());
+            return 1;
+        }
+
         static int setInt(lua_State* L)
         {
             MaterialPtr material = luaW_checkmaterial(L, 1);
@@ -244,6 +251,13 @@ namespace wake
             return 1;
         }
 
+        static int getParameterCount(lua_State* L)
+        {
+            MaterialPtr material = luaW_checkmaterial(L, 1);
+            lua_pushinteger(L, (lua_Integer) material->getParameterCount());
+            return 1;
+        }
+
         static int copyFrom(lua_State* L)
         {
             MaterialPtr material = luaW_checkmaterial(L, 1);
@@ -291,6 +305,7 @@ namespace wake
                 {"removeTexture",     removeTexture},
                 {"getTexture",        getTexture},
                 {"getTextures",       getTextures},
+                {"getTextureCount",   getTextureCount},
                 {"setInt",            setInt},
                 {"setUInt",           setUInt},
                 {"setFloat",          setFloat},
@@ -300,6 +315,7 @@ namespace wake
                 {"removeParameter",   removeParameter},
                 {"getParameter",      getParameter},
                 {"getParameters",     getParameters},
+                {"getParameterCount", getParameterCount},
                 {"copyFrom",          copyFrom},
                 {"use",               use},
                 {"clone",             clone},
@@ -307,28 +323,30 @@ namespace wake
         };
 
         static const struct luaL_reg materiallib_m[] = {
-                {"getTypeName",     getTypeName},
-                {"setTypeName",     setTypeName},
-                {"getShader",       getShader},
-                {"setShader",       setShader},
-                {"setTexture",      setTexture},
-                {"removeTexture",   removeTexture},
-                {"getTexture",      getTexture},
-                {"getTextures",     getTextures},
-                {"setInt",          setInt},
-                {"setUInt",         setUInt},
-                {"setFloat",        setFloat},
-                {"setVec2",         setVec2},
-                {"setVec3",         setVec3},
-                {"setVec4",         setVec4},
-                {"removeParameter", removeParameter},
-                {"getParameter",    getParameter},
-                {"getParameters",   getParameters},
-                {"copyFrom",        copyFrom},
-                {"use",             use},
-                {"clone",           clone},
-                {"__tostring",      m_tostring},
-                {"__gc",            m_gc},
+                {"getTypeName",       getTypeName},
+                {"setTypeName",       setTypeName},
+                {"getShader",         getShader},
+                {"setShader",         setShader},
+                {"setTexture",        setTexture},
+                {"removeTexture",     removeTexture},
+                {"getTexture",        getTexture},
+                {"getTextures",       getTextures},
+                {"getTextureCount",   getTextureCount},
+                {"setInt",            setInt},
+                {"setUInt",           setUInt},
+                {"setFloat",          setFloat},
+                {"setVec2",           setVec2},
+                {"setVec3",           setVec3},
+                {"setVec4",           setVec4},
+                {"removeParameter",   removeParameter},
+                {"getParameter",      getParameter},
+                {"getParameters",     getParameters},
+                {"getParameterCount", getParameterCount},
+                {"copyFrom",          copyFrom},
+                {"use",               use},
+                {"clone",             clone},
+                {"__tostring",        m_tostring},
+                {"__gc",              m_gc},
                 {NULL, NULL}
         };
 

@@ -80,6 +80,11 @@ namespace wake
         return textures;
     }
 
+    size_t Material::getTextureCount() const
+    {
+        return textures.size();
+    }
+
     void Material::setParameter(const std::string& name, GLint i)
     {
         MaterialParameter param;
@@ -144,6 +149,11 @@ namespace wake
     const std::map<std::string, MaterialParameter>& Material::getParameters() const
     {
         return parameters;
+    }
+
+    size_t Material::getParameterCount() const
+    {
+        return parameters.size();
     }
 
     void Material::copyFrom(wake::MaterialPtr other)

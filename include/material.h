@@ -91,6 +91,8 @@ namespace wake
 
         const std::map<std::string, MaterialTexParameter>& getTextures() const;
 
+        size_t getTextureCount() const;
+
         void setParameter(const std::string& name, GLint i);
 
         void setParameter(const std::string& name, GLuint u);
@@ -108,6 +110,8 @@ namespace wake
         const MaterialParameter& getParameter(const std::string& name) const;
 
         const std::map<std::string, MaterialParameter>& getParameters() const;
+
+        size_t getParameterCount() const;
 
         void copyFrom(MaterialPtr other);
 
