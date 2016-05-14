@@ -3,15 +3,7 @@ require('asset_ext')
 local Camera = require('camera')
 local config = require('config.cfg')
 
-local material = require('materials.demo_lighting')
-
-local shader = material:getShader()
-
-local shaderView = shader:getUniform("view")
-local shaderProj = shader:getUniform("projection")
-local shaderModel = shader:getUniform("model")
-
-local obj = assets.loadModel("assets/models/teapot.wmdl")
+local obj = assets.loadModel("assets/models/sponza.wmdl")
 if obj == nil then
     print("Unable to load model.")
     return
@@ -46,8 +38,6 @@ engine.tick:bind(function(dt)
     if input.getKey(input.key.D) == input.action.Press then
         cam:moveRight(moveSpeed * dt)
     end
-
-    shader:use()
 
     local transform = cam.projection * cam:getViewMatrix() * math.scale{0.002, 0.002, 0.002}
     obj:draw(transform)
