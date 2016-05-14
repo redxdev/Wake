@@ -5,8 +5,8 @@
 
 #define W_MDL_CODE "WMDL3"
 #define W_MDL_MIN_VERSION ((wake::uint32) 3)
-#define W_MDL_MAX_VERSION ((wake::uint32) 5)
-#define W_MDL_VERSION ((wake::uint32) 5)
+#define W_MDL_MAX_VERSION ((wake::uint32) 6)
+#define W_MDL_VERSION ((wake::uint32) 6)
 
 #define W_MDL_FLAG_NONE ((wake::uint64) 0)
 #define W_MDL_FLAG_COMPRESS ((wake::uint64) 0x01)

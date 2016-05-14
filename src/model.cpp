@@ -219,7 +219,7 @@ namespace wake
         return true;
     }
 
-    void Model::draw()
+    void Model::draw(const glm::mat4& transform)
     {
         for (auto& meshInfo : meshes)
         {
@@ -229,6 +229,11 @@ namespace wake
             auto& materialInfo = materials[meshInfo.materialIndex];
 
             materialInfo.material->use();
+
+            auto uniform = materialInfo.material->getShader()->getUniform("transform");
+            if (!uniform.isError())
+                uniform.setMatrix4(transform);
+
             meshInfo.mesh->draw();
         }
     }

@@ -34,4 +34,8 @@ function Camera:moveRight(amount)
     self.position = self.position + amount * self:getFrontVector():cross(self.up)
 end
 
+function Camera:use(mat)
+    mat = mat or Material.getGlobalMaterial()
+end
+
 return Camera

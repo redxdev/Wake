@@ -5,16 +5,14 @@ layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 normal;
 layout (location = 2) in vec2 texCoords;
 
-uniform mat4 view;
-uniform mat4 projection;
-uniform mat4 model;
+uniform mat4 transform;
 
 out vec3 outNormal;
 out vec2 outTexCoords;
 
 void main()
 {
-    gl_Position = projection * view * model * vec4(position, 1.0);
+    gl_Position = transform * vec4(position, 1.0);
     outNormal = normal;
     outTexCoords = texCoords;
 }
@@ -42,14 +40,11 @@ void main()
 ]]
 )
 
-local tex = assets.loadTexture("assets/textures/default.png")
-
 local material = Material.new()
 material:setShader(shader)
-material:setTexture('tex1', tex)
 material:setVec3('lightColor', {1, 1, 1})
 material:setVec3('lightDirection', {1, -1, 0.6})
 material:setFloat('lightAmbience', 0.8)
-material:setFloat('minBrightness', 0)
+material:setFloat('minBrightness', 0.15)
 
 return material

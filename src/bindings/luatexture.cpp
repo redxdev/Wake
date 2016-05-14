@@ -28,6 +28,13 @@ namespace wake
             return 1;
         }
 
+        static int getPath(lua_State* L)
+        {
+            TexturePtr texture = luaW_checktexture(L, 1);
+            lua_pushstring(L, texture->getPath().data());
+            return 1;
+        }
+
         static int generateMipMaps(lua_State* L)
         {
             TexturePtr texture = luaW_checktexture(L, 1);
@@ -67,16 +74,18 @@ namespace wake
         static const struct luaL_reg texturelib_f[] = {
                 {"getSize",               getSize},
                 {"getComponentsPerPixel", getComponentsPerPixel},
+                {"getPath",               getPath},
                 {"generateMipMaps",       generateMipMaps},
-                {"use",              activate},
+                {"use",                   activate},
                 {NULL, NULL}
         };
 
         static const struct luaL_reg texturelib_m[] = {
                 {"getSize",               getSize},
                 {"getComponentsPerPixel", getComponentsPerPixel},
+                {"getPath",               getPath},
                 {"generateMipMaps",       generateMipMaps},
-                {"use",              activate},
+                {"use",                   activate},
                 {"__gc",                  m_gc},
                 {"__tostring",            m_tostring},
                 {NULL, NULL}

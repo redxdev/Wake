@@ -16,7 +16,7 @@ namespace wake
         static TexturePtr load(const char* path);
 
     public:
-        Texture(unsigned char* data, int width, int height, int comp);
+        Texture(unsigned char* data, int width, int height, int comp, const std::string& path);
 
         Texture();
 
@@ -34,6 +34,8 @@ namespace wake
 
         int getComponentsPerPixel() const;
 
+        const std::string& getPath() const;
+
         void bind();
 
         void generateMipMaps();
@@ -47,6 +49,7 @@ namespace wake
         int width;
         int height;
         int comp;
+        std::string path;
 
         GLuint texture = 0;
     };

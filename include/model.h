@@ -116,7 +116,8 @@ namespace wake
 
         bool removeMesh(int32 index);
 
-        void draw();
+        // TODO: Allow arbitrary parameters to draw.
+        void draw(const glm::mat4& transform);
 
     private:
         std::vector<MaterialInfo> materials;

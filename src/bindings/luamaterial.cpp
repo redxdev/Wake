@@ -244,6 +244,14 @@ namespace wake
             return 1;
         }
 
+        static int copyFrom(lua_State* L)
+        {
+            MaterialPtr material = luaW_checkmaterial(L, 1);
+            MaterialPtr other = luaW_checkmaterial(L, 2);
+            material->copyFrom(other);
+            return 0;
+        }
+
         static int use(lua_State* L)
         {
             MaterialPtr material = luaW_checkmaterial(L, 1);
@@ -274,26 +282,27 @@ namespace wake
         }
 
         static const struct luaL_reg materiallib_f[] = {
-                {"new",             material_new},
-                {"getTypeName",     getTypeName},
-                {"setTypeName",     setTypeName},
-                {"getShader",       getShader},
-                {"setShader",       setShader},
-                {"setTexture",      setTexture},
-                {"removeTexture",   removeTexture},
-                {"getTexture",      getTexture},
-                {"getTextures",     getTextures},
-                {"setInt",          setInt},
-                {"setUInt",         setUInt},
-                {"setFloat",        setFloat},
-                {"setVec2",         setVec2},
-                {"setVec3",         setVec3},
-                {"setVec4",         setVec4},
-                {"removeParameter", removeParameter},
-                {"getParameter",    getParameter},
-                {"getParameters",   getParameters},
-                {"use",             use},
-                {"clone",           clone},
+                {"new",               material_new},
+                {"getTypeName",       getTypeName},
+                {"setTypeName",       setTypeName},
+                {"getShader",         getShader},
+                {"setShader",         setShader},
+                {"setTexture",        setTexture},
+                {"removeTexture",     removeTexture},
+                {"getTexture",        getTexture},
+                {"getTextures",       getTextures},
+                {"setInt",            setInt},
+                {"setUInt",           setUInt},
+                {"setFloat",          setFloat},
+                {"setVec2",           setVec2},
+                {"setVec3",           setVec3},
+                {"setVec4",           setVec4},
+                {"removeParameter",   removeParameter},
+                {"getParameter",      getParameter},
+                {"getParameters",     getParameters},
+                {"copyFrom",          copyFrom},
+                {"use",               use},
+                {"clone",             clone},
                 {NULL, NULL}
         };
 
@@ -315,6 +324,7 @@ namespace wake
                 {"removeParameter", removeParameter},
                 {"getParameter",    getParameter},
                 {"getParameters",   getParameters},
+                {"copyFrom",        copyFrom},
                 {"use",             use},
                 {"clone",           clone},
                 {"__tostring",      m_tostring},

@@ -146,6 +146,32 @@ namespace wake
         return parameters;
     }
 
+    void Material::copyFrom(wake::MaterialPtr other)
+    {
+        if (shader.get() == nullptr)
+        {
+            shader = other->getShader();
+        }
+
+        for (auto& param : other->getTextures())
+        {
+            auto ours = getTexture(param.first);
+            if (ours.get() == nullptr)
+            {
+                setTexture(param.first, param.second.texture);
+            }
+        }
+
+        for (auto& param : other->getParameters())
+        {
+            auto& ours = getParameter(param.first);
+            if (ours.type == MaterialParameter::Null)
+            {
+                parameters[param.first] = param.second;
+            }
+        }
+    }
+
     void Material::use()
     {
         if (shader.get() == nullptr)

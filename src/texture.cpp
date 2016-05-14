@@ -23,7 +23,7 @@ namespace wake
             return nullptr;
         }
 
-        return TexturePtr(new Texture(data, width, height, comp));
+        return TexturePtr(new Texture(data, width, height, comp, path));
     }
 
     Texture::Texture()
@@ -36,12 +36,13 @@ namespace wake
         initializeData();
     }
 
-    Texture::Texture(unsigned char* data, int width, int height, int comp)
+    Texture::Texture(unsigned char* data, int width, int height, int comp, const std::string& path)
     {
         this->data = data;
         this->width = width;
         this->height = height;
         this->comp = comp;
+        this->path = path;
 
         initializeData();
     }
@@ -99,6 +100,11 @@ namespace wake
     int Texture::getComponentsPerPixel() const
     {
         return comp;
+    }
+
+    const std::string& Texture::getPath() const
+    {
+        return path;
     }
 
     void Texture::bind()

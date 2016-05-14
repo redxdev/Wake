@@ -1,6 +1,7 @@
 #include "bindings/luamodel.h"
 #include "bindings/luamesh.h"
 #include "bindings/luamaterial.h"
+#include "bindings/luamatrix.h"
 #include "moduleregistry.h"
 
 #include <sstream>
@@ -330,7 +331,12 @@ namespace wake
         static int draw(lua_State* L)
         {
             ModelPtr model = luaW_checkmodel(L, 1);
-            model->draw();
+
+            glm::mat4x4 transform;
+            if (lua_gettop(L) > 1)
+                transform = *luaW_checkmatrix4x4(L, 2);
+
+            model->draw(transform);
             return 0;
         }
 

@@ -62,6 +62,8 @@ namespace wake
         Uniform uniform;
     };
 
+    typedef SharedPtr<class Material> MaterialPtr;
+
     class Material
     {
     public:
@@ -107,6 +109,8 @@ namespace wake
 
         const std::map<std::string, MaterialParameter>& getParameters() const;
 
+        void copyFrom(MaterialPtr other);
+
         void use();
 
         void resetUniformCache();
@@ -120,6 +124,4 @@ namespace wake
 
         bool needsUniformUpdates = false;
     };
-
-    typedef SharedPtr<Material> MaterialPtr;
 }

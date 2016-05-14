@@ -1,8 +1,9 @@
+require('asset_ext')
+
 local Camera = require('camera')
 local config = require('config.cfg')
 
-local material = require('materials.demo_lighting'):clone()
-material:setFloat('minBrightness', 0.15)
+local material = require('materials.demo_lighting')
 
 local shader = material:getShader()
 
@@ -16,11 +17,7 @@ if obj == nil then
     return
 end
 
-if obj:getMaterialCount() > 0 then
-    obj:removeMaterial(1)
-end
-
-obj:addMaterial("default", material)
+assets.loadMaterials(obj)
 
 engine.setClearColor(1, 1, 1, 1)
 
@@ -50,15 +47,10 @@ engine.tick:bind(function(dt)
         cam:moveRight(moveSpeed * dt)
     end
 
-    material:use()
+    shader:use()
 
-    local mat = math.scale{0.002, 0.002, 0.002}
-    shaderModel:setMatrix4(mat)
-
-    shaderView:setMatrix4(cam:getViewMatrix())
-    shaderProj:setMatrix4(cam.projection)
-
-    obj:draw()
+    local transform = cam.projection * cam:getViewMatrix() * math.scale{0.002, 0.002, 0.002}
+    obj:draw(transform)
 end)
 
 engine.quit:bind(function()

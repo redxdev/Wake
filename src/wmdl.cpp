@@ -261,6 +261,10 @@ namespace wake
                 for (auto& texEntry : textures)
                 {
                     writeString(data, texEntry.first);
+                    if (texEntry.second.texture.get() == nullptr)
+                        writeString(data, "");
+                    else
+                        writeString(data, texEntry.second.texture->getPath());
                 }
 
                 // Parameters
@@ -472,8 +476,17 @@ namespace wake
                     uint32 textureCount = readUInt32(data);
                     for (uint32 t = 0; t < textureCount; ++t)
                     {
+                        TexturePtr texture(nullptr);
                         std::string textureName = readString(data);
-                        mat->setTexture(textureName, TexturePtr());
+
+                        if (version >= 6)
+                        {
+                            std::string texturePath = readString(data);
+                            if (texturePath != "")
+                                texture = Texture::load(texturePath.data());
+                        }
+
+                        mat->setTexture(textureName, texture);
                     }
 
                     uint32 paramCount = readUInt32(data);

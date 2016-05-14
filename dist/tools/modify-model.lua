@@ -21,6 +21,25 @@ local function cmd_set_material_type(model, matName, typeName)
     return true
 end
 
+local function cmd_set_texture_path(model, matName, texName, texPath)
+    local mat = model:getMaterialByName(matName)
+    if mat == nil then
+        print("Unknown material name " .. matName)
+        return false
+    end
+
+    print("Loading " .. texPath .. "...")
+    local tex = assets.loadTexture(texPath)
+    if tex == nil then
+        print("Unable to load texture " .. texPath)
+        return false
+    end
+
+    mat.material:setTexture(texName, tex)
+    print("Set material " .. matName .. " texture " .. texName .. " to " .. texPath)
+    return true
+end
+
 function hook_engine_tool()
     local args = wake.getArguments()
     if #args < 2 then
@@ -31,6 +50,7 @@ function hook_engine_tool()
         print("Commands:")
         print("             add-material <name>")
         print("             set-material-type <name> <type_name>")
+        print("             set-texture-path <mat-name> <tex-name> <tex-path>")
         return false
     end
 
@@ -63,6 +83,15 @@ function hook_engine_tool()
             return false
         end
         if not cmd_set_material_type(model, args[3], args[4]) then
+            return false
+        end
+    elseif command == "set-texture-path" then
+        if #args ~= 5 then
+            print("modify-model <input-model> set-texture-path <mat-name> <tex-name> <tex-path>")
+            return false
+        end
+
+        if not cmd_set_texture_path(model, args[3], args[4], args[5]) then
             return false
         end
     else
