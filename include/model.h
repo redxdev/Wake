@@ -116,7 +116,7 @@ namespace wake
 
         bool removeMesh(int32 index);
 
-        // TODO: Allow arbitrary parameters to draw.
+        // TODO: Allow arbitrary parameters to draw, and cache uniforms.
         void draw(const glm::mat4& transform);
 
     private:
