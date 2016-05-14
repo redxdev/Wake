@@ -227,11 +227,17 @@ namespace wake
                 continue;
 
             auto& materialInfo = materials[meshInfo.materialIndex];
+            if (materialInfo.material.get() == nullptr)
+                continue;
 
             materialInfo.material->use();
-            auto uniform = materialInfo.material->getShader()->getUniform("transform");
-            if (!uniform.isError())
-                uniform.setMatrix4(transform);
+
+            if (materialInfo.material->getShader().get() != nullptr)
+            {
+                auto uniform = materialInfo.material->getShader()->getUniform("transform");
+                if (!uniform.isError())
+                    uniform.setMatrix4(transform);
+            }
 
             meshInfo.mesh->draw();
         }

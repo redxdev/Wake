@@ -3,6 +3,7 @@ local function cmd_add_material(model, matName)
 
     if model:addMaterial(matName, mat) then
         print("Added material " .. matName)
+        return true
     else
         print("Unable to add material " .. matName .. ", does a material with that name already exist?")
         return false
@@ -47,6 +48,10 @@ function hook_engine_tool()
         print("Description: Modify a model on disk. The model must be in WMDL format (use the wmdl tool to create a")
         print("             model in this format). All save operations are done with default settings. If you want")
         print("             to change those options, use the wmdl tool to export the resulting model to itself.")
+        print()
+        print("             Any successful modifications will result in the model being saved in the latest WMDL")
+        print("             format.")
+        print()
         print("Commands:")
         print("             add-material <name>")
         print("             set-material-type <name> <type_name>")
