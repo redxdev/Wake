@@ -11,7 +11,7 @@ local shaderView = shader:getUniform("view")
 local shaderProj = shader:getUniform("projection")
 local shaderModel = shader:getUniform("model")
 
-local obj = assets.loadModel("assets/models/sponza.wmdl")
+local obj = assets.loadModel("assets/models/teapot.wmdl")
 if obj == nil then
     print("Unable to load model.")
     return

@@ -229,7 +229,6 @@ namespace wake
             auto& materialInfo = materials[meshInfo.materialIndex];
 
             materialInfo.material->use();
-
             auto uniform = materialInfo.material->getShader()->getUniform("transform");
             if (!uniform.isError())
                 uniform.setMatrix4(transform);
