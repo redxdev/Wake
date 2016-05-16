@@ -39,7 +39,9 @@ engine.tick:bind(function(dt)
         cam:moveRight(moveSpeed * dt)
     end
 
-    local transform = cam.projection * cam:getViewMatrix() * math.scale{0.002, 0.002, 0.002}
+    cam:use()
+
+    local transform = math.scale{0.002, 0.002, 0.002}
     obj:draw(transform)
 end)
 

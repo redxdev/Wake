@@ -15,6 +15,9 @@
 
 namespace wake
 {
+    // TODO: Support for all matrix types
+    // TODO: Don't use a union, having a single parameter always contain at least the size of a mat4 is incredibly
+    //       inefficient.
     struct MaterialParameter
     {
         static MaterialParameter NullParameter;
@@ -26,15 +29,21 @@ namespace wake
             uniform = Uniform();
         }
 
+        void setUniform(Uniform& uniform);
+
         enum : uint8
         {
-            Null,
-            Int,
-            UInt,
-            Float,
-            Vec2,
-            Vec3,
-            Vec4
+            Null = 0,
+
+            Int = 1,
+            UInt = 2,
+            Float = 3,
+
+            Vec2 = 4,
+            Vec3 = 5,
+            Vec4 = 6,
+
+            Mat4 = 7
         } type;
 
         union
@@ -42,9 +51,12 @@ namespace wake
             GLint i;
             GLuint u;
             GLfloat f;
+
             glm::vec2 v2;
             glm::vec3 v3;
             glm::vec4 v4;
+
+            glm::mat4 m4;
         };
 
         Uniform uniform;
@@ -66,6 +78,14 @@ namespace wake
 
     class Material
     {
+    public:
+        // Global material has parameters applied to all other materials.
+        // Textures are not supported for the global material at this time.
+        static MaterialPtr getGlobalMaterial();
+
+    private:
+        static MaterialPtr globalMaterial;
+
     public:
         Material();
 
@@ -105,6 +125,8 @@ namespace wake
 
         void setParameter(const std::string& name, const glm::vec4& v4);
 
+        void setParameter(const std::string& name, const glm::mat4& m4);
+
         void removeParameter(const std::string& name);
 
         const MaterialParameter& getParameter(const std::string& name) const;
@@ -125,6 +147,8 @@ namespace wake
         ShaderPtr shader;
         std::map<std::string, MaterialTexParameter> textures;
         std::map<std::string, MaterialParameter> parameters;
+
+        std::map<std::string, Uniform> globalCache;
 
         bool needsUniformUpdates = false;
     };

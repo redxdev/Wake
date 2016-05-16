@@ -15,6 +15,12 @@ namespace wake
             MaterialPtr material;
         };
 
+        static int getGlobal(lua_State* L)
+        {
+            pushValue(L, Material::getGlobalMaterial());
+            return 1;
+        }
+
         static int material_new(lua_State* L)
         {
             pushValue(L, MaterialPtr(new Material()));
@@ -154,6 +160,15 @@ namespace wake
             return 0;
         }
 
+        static int setMatrix4(lua_State* L)
+        {
+            MaterialPtr material = luaW_checkmaterial(L, 1);
+            const char* name = luaL_checkstring(L, 2);
+            auto& mat = *luaW_checkmatrix4x4(L, 3);
+            material->setParameter(name, mat);
+            return 0;
+        }
+
         static int removeParameter(lua_State* L)
         {
             MaterialPtr material = luaW_checkmaterial(L, 1);
@@ -196,6 +211,10 @@ namespace wake
 
                 case MaterialParameter::Vec4:
                     pushValue(L, parameter.v4);
+                    break;
+
+                case MaterialParameter::Mat4:
+                    pushValue(L, parameter.m4);
                     break;
             }
 
@@ -242,6 +261,10 @@ namespace wake
 
                     case MaterialParameter::Vec4:
                         pushValue(L, parameter.v4);
+                        break;
+
+                    case MaterialParameter::Mat4:
+                        pushValue(L, parameter.m4);
                         break;
                 }
 
@@ -296,6 +319,7 @@ namespace wake
         }
 
         static const struct luaL_reg materiallib_f[] = {
+                {"getGlobal",         getGlobal},
                 {"new",               material_new},
                 {"getTypeName",       getTypeName},
                 {"setTypeName",       setTypeName},
@@ -312,6 +336,7 @@ namespace wake
                 {"setVec2",           setVec2},
                 {"setVec3",           setVec3},
                 {"setVec4",           setVec4},
+                {"setMatrix4",        setMatrix4},
                 {"removeParameter",   removeParameter},
                 {"getParameter",      getParameter},
                 {"getParameters",     getParameters},
@@ -338,6 +363,7 @@ namespace wake
                 {"setVec2",           setVec2},
                 {"setVec3",           setVec3},
                 {"setVec4",           setVec4},
+                {"setMatrix4",        setMatrix4},
                 {"removeParameter",   removeParameter},
                 {"getParameter",      getParameter},
                 {"getParameters",     getParameters},

@@ -35,7 +35,9 @@ function Camera:moveRight(amount)
 end
 
 function Camera:use(mat)
-    mat = mat or Material.getGlobalMaterial()
+    mat = mat or Material.getGlobal()
+    mat:setMatrix4("projection", self.projection)
+    mat:setMatrix4("view", self:getViewMatrix())
 end
 
 return Camera

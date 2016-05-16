@@ -13,7 +13,7 @@
 
 namespace wake
 {
-    uint8 readUInt8(std::istream& in)
+    static uint8 readUInt8(std::istream& in)
     {
         uint8 val;
         in.read((char*) &val, sizeof(val));
@@ -33,7 +33,7 @@ namespace wake
         return val;
     }
 
-    void writeUInt8(std::ostream& out, uint32 val)
+    static void writeUInt8(std::ostream& out, uint32 val)
     {
         out.write((char*) &val, sizeof(val));
 
@@ -44,7 +44,7 @@ namespace wake
         }
     }
 
-    uint32 readUInt32(std::istream& in)
+    static uint32 readUInt32(std::istream& in)
     {
         uint32 val;
         in.read((char*) &val, sizeof(val));
@@ -64,7 +64,7 @@ namespace wake
         return val;
     }
 
-    void writeUInt32(std::ostream& out, uint32 val)
+    static void writeUInt32(std::ostream& out, uint32 val)
     {
         out.write((char*) &val, sizeof(val));
 
@@ -75,7 +75,7 @@ namespace wake
         }
     }
 
-    int32 readInt32(std::istream& in)
+    static int32 readInt32(std::istream& in)
     {
         int32 val;
         in.read((char*) &val, sizeof(val));
@@ -95,7 +95,7 @@ namespace wake
         return val;
     }
 
-    void writeInt32(std::ostream& out, int32 val)
+    static void writeInt32(std::ostream& out, int32 val)
     {
         out.write((char*) &val, sizeof(val));
 
@@ -106,7 +106,7 @@ namespace wake
         }
     }
 
-    uint64 readUInt64(std::istream& in)
+    static uint64 readUInt64(std::istream& in)
     {
         uint64 val;
         in.read((char*) &val, sizeof(val));
@@ -126,7 +126,7 @@ namespace wake
         return val;
     }
 
-    void writeUInt64(std::ostream& out, uint64 val)
+    static void writeUInt64(std::ostream& out, uint64 val)
     {
         out.write((char*) &val, sizeof(val));
 
@@ -137,7 +137,7 @@ namespace wake
         }
     }
 
-    float readFloat(std::istream& in)
+    static float readFloat(std::istream& in)
     {
         float val;
         in.read((char*) &val, sizeof(val));
@@ -157,7 +157,7 @@ namespace wake
         return val;
     }
 
-    void writeFloat(std::ostream& out, float val)
+    static void writeFloat(std::ostream& out, float val)
     {
         out.write((char*) &val, sizeof(val));
 
@@ -168,7 +168,7 @@ namespace wake
         }
     }
 
-    std::string readString(std::istream& in)
+    static std::string readString(std::istream& in)
     {
         uint32 len = readUInt32(in);
         char* data = new char[len + 1];
@@ -179,7 +179,7 @@ namespace wake
         return result;
     }
 
-    void writeString(std::ostream& out, const std::string& val)
+    static void writeString(std::ostream& out, const std::string& val)
     {
         writeUInt32(out, (uint32) val.size());
         const char* data = val.data();
@@ -192,7 +192,7 @@ namespace wake
         }
     }
 
-    glm::vec2 readVec2(std::istream& in)
+    static glm::vec2 readVec2(std::istream& in)
     {
         glm::vec2 val;
         val.x = readFloat(in);
@@ -200,13 +200,13 @@ namespace wake
         return val;
     }
 
-    void writeVec2(std::ostream& out, const glm::vec2& val)
+    static void writeVec2(std::ostream& out, const glm::vec2& val)
     {
         writeFloat(out, val.x);
         writeFloat(out, val.y);
     }
 
-    glm::vec3 readVec3(std::istream& in)
+    static glm::vec3 readVec3(std::istream& in)
     {
         glm::vec3 val;
         val.x = readFloat(in);
@@ -215,14 +215,14 @@ namespace wake
         return val;
     }
 
-    void writeVec3(std::ostream& out, const glm::vec3& val)
+    static void writeVec3(std::ostream& out, const glm::vec3& val)
     {
         writeFloat(out, val.x);
         writeFloat(out, val.y);
         writeFloat(out, val.z);
     }
 
-    glm::vec4 readVec4(std::istream& in)
+    static glm::vec4 readVec4(std::istream& in)
     {
         glm::vec4 val;
         val.x = readFloat(in);
@@ -232,12 +232,30 @@ namespace wake
         return val;
     }
 
-    void writeVec4(std::ostream& out, const glm::vec4& val)
+    static void writeVec4(std::ostream& out, const glm::vec4& val)
     {
         writeFloat(out, val.x);
         writeFloat(out, val.y);
         writeFloat(out, val.z);
         writeFloat(out, val.w);
+    }
+
+    static glm::mat4 readMatrix4(std::istream& in)
+    {
+        glm::mat4 val;
+        val[0] = readVec4(in);
+        val[1] = readVec4(in);
+        val[2] = readVec4(in);
+        val[3] = readVec4(in);
+        return val;
+    }
+
+    static void writeMatrix4(std::ostream& out, const glm::mat4& val)
+    {
+        writeVec4(out, val[0]);
+        writeVec4(out, val[1]);
+        writeVec4(out, val[2]);
+        writeVec4(out, val[3]);
     }
 
     bool saveWMDL(const char* path, ModelPtr model, bool compress)
@@ -306,6 +324,10 @@ namespace wake
 
                         case MaterialParameter::Vec4:
                             writeVec4(data, paramEntry.second.v4);
+                            break;
+
+                        case MaterialParameter::Mat4:
+                            writeMatrix4(data, paramEntry.second.m4);
                             break;
                     }
                 }
@@ -526,6 +548,10 @@ namespace wake
 
                             case MaterialParameter::Vec4:
                                 mat->setParameter(paramName, readVec4(data));
+                                break;
+
+                            case MaterialParameter::Mat4:
+                                mat->setParameter(paramName, readMatrix4(data));
                                 break;
                         }
                     }

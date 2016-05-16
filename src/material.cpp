@@ -4,6 +4,54 @@ namespace wake
 {
     MaterialParameter MaterialParameter::NullParameter = MaterialParameter();
 
+    void MaterialParameter::setUniform(Uniform& uniform)
+    {
+        if (uniform.isError())
+            return;
+
+        switch (type)
+        {
+            default:
+            case MaterialParameter::Null:
+                break;
+
+            case MaterialParameter::Int:
+                uniform.set1i(i);
+                break;
+
+            case MaterialParameter::UInt:
+                uniform.set1ui(u);
+                break;
+
+            case MaterialParameter::Float:
+                uniform.set1f(f);
+                break;
+
+            case MaterialParameter::Vec2:
+                uniform.setVec2(v2);
+                break;
+
+            case MaterialParameter::Vec3:
+                uniform.setVec3(v3);
+                break;
+
+            case MaterialParameter::Vec4:
+                uniform.setVec4(v4);
+                break;
+
+            case MaterialParameter::Mat4:
+                uniform.setMatrix4(m4);
+                break;
+        }
+    }
+
+    MaterialPtr Material::globalMaterial(new Material());
+
+    MaterialPtr Material::getGlobalMaterial()
+    {
+        return globalMaterial;
+    }
+
     Material::Material()
     {
         shader = nullptr;
@@ -133,6 +181,14 @@ namespace wake
         parameters[name] = param;
     }
 
+    void Material::setParameter(const std::string& name, const glm::mat4& m4)
+    {
+        MaterialParameter param;
+        param.type = MaterialParameter::Mat4;
+        param.m4 = m4;
+        parameters[name] = param;
+    }
+
     void Material::removeParameter(const std::string& name)
     {
         parameters.erase(name);
@@ -211,6 +267,31 @@ namespace wake
             ++texUnit;
         }
 
+        for (auto entry : globalMaterial->parameters)
+        {
+            const std::string& name = entry.first;
+            MaterialParameter param = entry.second; // copy this, we're going to use it
+
+            // local params override globals
+            if (parameters.find(name) != parameters.end())
+                continue;
+
+            Uniform uniform;
+            auto found = globalCache.find(name);
+            if (found == globalCache.end())
+            {
+                uniform = shader->getUniform(name.data());
+                if (!uniform.isError())
+                    globalCache[name] = uniform;
+            }
+            else
+            {
+                uniform = found->second;
+            }
+
+            param.setUniform(uniform);
+        }
+
         for (auto entry : parameters)
         {
             const std::string& name = entry.first;
@@ -222,39 +303,7 @@ namespace wake
             }
 
             Uniform& uniform = param.uniform;
-            if (uniform.isError())
-                continue;
-
-            switch (param.type)
-            {
-                default:
-                case MaterialParameter::Null:
-                    continue;
-
-                case MaterialParameter::Int:
-                    uniform.set1i(param.i);
-                    break;
-
-                case MaterialParameter::UInt:
-                    uniform.set1ui(param.u);
-                    break;
-
-                case MaterialParameter::Float:
-                    uniform.set1f(param.f);
-                    break;
-
-                case MaterialParameter::Vec2:
-                    uniform.setVec2(param.v2);
-                    break;
-
-                case MaterialParameter::Vec3:
-                    uniform.setVec3(param.v3);
-                    break;
-
-                case MaterialParameter::Vec4:
-                    uniform.setVec4(param.v4);
-                    break;
-            }
+            param.setUniform(uniform);
         }
 
         needsUniformUpdates = false;
