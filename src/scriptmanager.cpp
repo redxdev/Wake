@@ -51,7 +51,7 @@ namespace wake
 
     bool ScriptManager::initializeScripts()
     {
-        return doFile("config/cfg.lua");
+        return doFile("config/cfg.lua") && doFile("lib/init.lua");
 
     }
 

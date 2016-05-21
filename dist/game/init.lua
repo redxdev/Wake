@@ -1,5 +1,3 @@
-require('asset_ext')
-
 local Camera = require('camera')
 local config = require('config.cfg')
 
