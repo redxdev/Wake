@@ -93,6 +93,14 @@ namespace wake
             currentItr = delegates.end();
         }
 
+        ~Event()
+        {
+            for (auto delegate : delegates)
+            {
+                delete delegate;
+            }
+        }
+
         void bind(Delegate<Arguments...>* delegate)
         {
             delegates.push_back(delegate);
@@ -182,5 +190,8 @@ namespace wake
     private:
         std::list<Delegate<Arguments...>*> delegates;
         typename std::list<Delegate<Arguments...>*>::iterator currentItr;
+
+        Event(const Event& other) = delete;
+        Event* operator=(const Event& other) = delete;
     };
 }

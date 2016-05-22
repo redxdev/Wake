@@ -3,6 +3,7 @@
 #include "event.h"
 #include "luautil.h"
 #include "pushvalue.h"
+#include "scriptmanager.h"
 
 #include <iostream>
 
@@ -32,7 +33,8 @@ namespace wake
 
             virtual ~LuaDelegate()
             {
-                luaL_unref(L, LUA_REGISTRYINDEX, funcRef);
+                if (W_SCRIPT.getState())
+                    luaL_unref(L, LUA_REGISTRYINDEX, funcRef);
             }
 
             virtual void call(Arguments... args) override
@@ -91,8 +93,12 @@ namespace wake
 
             virtual ~LuaTableDelegate()
             {
-                luaL_unref(L, LUA_REGISTRYINDEX, funcRef);
-                luaL_unref(L, LUA_REGISTRYINDEX, tableRef);
+
+                if (W_SCRIPT.getState())
+                {
+                    luaL_unref(L, LUA_REGISTRYINDEX, funcRef);
+                    luaL_unref(L, LUA_REGISTRYINDEX, tableRef);
+                }
             }
 
             virtual void call(Arguments... args) override

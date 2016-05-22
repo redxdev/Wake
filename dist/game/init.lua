@@ -14,7 +14,6 @@ engine.setClearColor(1, 1, 1, 1)
 local cam = Camera.new(Vector3.new(-2.5, 0, 0))
 local speed = 1
 local fastSpeed = 2
-
 engine.tick:bind(function(dt)
     local moveSpeed = speed
     if input.getKey(input.key.LeftShift) == input.action.Press then
