@@ -53,6 +53,10 @@ function module.test(name, f)
     insert(current_suite.tests, test)
 end
 
+function module.suites()
+    return suites
+end
+
 function module.run_all()
     out:write('Engine ' .. wake.getVersion() .. ' running in ' .. wake.getEngineMode() .. ' mode.\n\n')
 
