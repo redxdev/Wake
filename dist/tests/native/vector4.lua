@@ -24,6 +24,8 @@ test.test('creation', function()
     test.expect_equal(v:get(2), 2)
     test.expect_equal(v:get(3), 3)
     test.expect_equal(v:get(4), 4)
+
+    test.expect_error(Vector4.new, 1, 2, 3, 4, 5, 6)
 end)
 
 test.test('equality', function()

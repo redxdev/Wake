@@ -18,6 +18,8 @@ test.test('creation', function()
     test.assert_equal(#v, 2)
     test.expect_equal(v:get(1), 1)
     test.expect_equal(v:get(2), 2)
+
+    test.expect_error(Vector2.new, 1, 2, 3, 4, 5, 6)
 end)
 
 test.test('equality', function()

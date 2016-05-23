@@ -37,6 +37,8 @@ test.test('creation', function()
     test.expect_equal(m:get(3, 2), 6)
     test.expect_equal(m:get(4, 1), 7)
     test.expect_equal(m:get(4, 2), 8)
+
+    test.expect_error(Matrix4x2.new, 1, 2)
 end)
 
 test.test('size', function()

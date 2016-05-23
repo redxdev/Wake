@@ -226,4 +226,32 @@ function module.expect_num_not_equal(a, b, precision, msg)
     end
 end
 
+--
+-- Do not use further assert/expect function inside of the "error" class of assertions/expectations
+--
+
+function module.assert_error(func, ...)
+    if pcall(func, ...) then
+        error("Assertion failed at " .. split_traceback(traceback()) .. " (error expected)")
+    end
+end
+
+function module.expect_error(func, ...)
+    if pcall(func, ...) then
+        insert(current_test.errors, "Assertion failed at " .. split_traceback(traceback()) .. " (error expected)")
+    end
+end
+
+function module.assert_no_error(func, ...)
+    if not pcall(func, ...) then
+        error("Assertion failed at " .. split_traceback(traceback()) .. " (no error expected)")
+    end
+end
+
+function module.expect_no_error(func, ...)
+    if not pcall(func, ...) then
+        insert(current_test.errors, "Assertion failed at " .. split_traceback(traceback()) .. " (no error expected)")
+    end
+end
+
 return module
