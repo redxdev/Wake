@@ -41,6 +41,15 @@ if (MINGW)
     endif ()
 endif ()
 
+if (WAKE_COVERAGE)
+    if (CMAKE_COMPILER_IS_GNUCXX)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage")
+        message("-- Building with gcov support")
+    endif ()
+endif ()
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(TCLAP_INCLUDE_DIR "deps/tclap-1.2.1/include")
