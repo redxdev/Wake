@@ -39,17 +39,29 @@ test.test('Addition', function()
     -- Numbers
     --
 
+    test.expect_equal(5 + v2, Vector2.new(6, 7))
+    test.expect_equal(5 + v3, Vector3.new(6, 7, 8))
+    test.expect_equal(5 + v4, Vector4.new(6, 7, 8, 9))
+
     test.expect_equal(v2 + 5, Vector2.new(6, 7))
     test.expect_equal(v3 + 5, Vector3.new(6, 7, 8))
     test.expect_equal(v4 + 5, Vector4.new(6, 7, 8, 9))
+
+
+    test.expect_equal(5 + m2x2, Matrix2x2.new(6, 7, 8, 9))
 
     test.expect_equal(m2x2 + 5, Matrix2x2.new(6, 7, 8, 9))
     test.expect_equal(m2x3 + 5, Matrix2x3.new(6, 7, 8, 9, 10, 11))
     test.expect_equal(m2x4 + 5, Matrix2x4.new(6, 7, 8, 9, 10, 11, 12, 13))
 
+
+    test.expect_equal(5 + m3x3, Matrix3x3.new(6, 7, 8, 9, 10, 11, 12, 13, 14))
+
     test.expect_equal(m3x2 + 5, Matrix3x2.new(6, 7, 8, 9, 10, 11))
     test.expect_equal(m3x3 + 5, Matrix3x3.new(6, 7, 8, 9, 10, 11, 12, 13, 14))
     test.expect_equal(m3x4 + 5, Matrix3x4.new(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17))
+
+    test.expect_equal(5 + m4x4, Matrix4x4.new(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21))
 
     test.expect_equal(m4x2 + 5, Matrix4x2.new(6, 7, 8, 9, 10, 11, 12, 13))
     test.expect_equal(m4x3 + 5, Matrix4x3.new(6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17))
@@ -74,6 +86,14 @@ test.test('Addition', function()
     test.expect_equal(m4x2 + m4x2, Matrix4x2.new(2, 4, 6, 8, 10, 12, 14, 16))
     test.expect_equal(m4x3 + m4x3, Matrix4x3.new(2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24))
     test.expect_equal(m4x4 + m4x4, Matrix4x4.new(2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32))
+
+    --
+    -- Errors
+    --
+
+    test.expect_error(function()
+        local r = m4x2 + m4x4
+    end)
 end)
 
 test.test('Subtraction', function()
@@ -81,17 +101,27 @@ test.test('Subtraction', function()
     -- Numbers
     --
 
+    test.expect_equal(5 - v2, Vector2.new(4, 3))
+    test.expect_equal(5 - v3, Vector3.new(4, 3, 2))
+    test.expect_equal(5 - v4, Vector4.new(4, 3, 2, 1))
+
     test.expect_equal(v2 - 5, Vector2.new(-4, -3))
     test.expect_equal(v3 - 5, Vector3.new(-4, -3, -2))
     test.expect_equal(v4 - 5, Vector4.new(-4, -3, -2, -1))
+
+    test.expect_equal(5 - m2x2, Matrix2x2.new(4, 3, 2, 1))
 
     test.expect_equal(m2x2 - 5, Matrix2x2.new(-4, -3, -2, -1))
     test.expect_equal(m2x3 - 5, Matrix2x3.new(-4, -3, -2, -1, 0, 1))
     test.expect_equal(m2x4 - 5, Matrix2x4.new(-4, -3, -2, -1, 0, 1, 2, 3))
 
+    test.expect_equal(5 - m3x3, Matrix3x3.new(4, 3, 2, 1, 0, -1, -2, -3, -4))
+
     test.expect_equal(m3x2 - 5, Matrix3x2.new(-4, -3, -2, -1, 0, 1))
     test.expect_equal(m3x3 - 5, Matrix3x3.new(-4, -3, -2, -1, 0, 1, 2, 3, 4))
     test.expect_equal(m3x4 - 5, Matrix3x4.new(-4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7))
+
+    test.expect_equal(5 - m4x4, Matrix4x4.new(4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11))
 
     test.expect_equal(m4x2 - 5, Matrix4x2.new(-4, -3, -2, -1, 0, 1, 2, 3))
     test.expect_equal(m4x3 - 5, Matrix4x3.new(-4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7))
@@ -116,20 +146,44 @@ test.test('Subtraction', function()
     test.expect_equal(m4x2 - m4x2, Matrix4x2.new(0, 0, 0, 0, 0, 0, 0, 0))
     test.expect_equal(m4x3 - m4x3, Matrix4x3.new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
     test.expect_equal(m4x4 - m4x4, Matrix4x4.new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+
+    --
+    -- Errors
+    --
+
+    test.expect_error(function()
+        local r = m3x3 - m2x4
+    end)
 end)
 
 test.test('Multiplication', function()
+    test.expect_equal(v2 * 2, Vector2.new(2, 4))
+    test.expect_equal(v3 * 2, Vector3.new(2, 4, 6))
+    test.expect_equal(v4 * 2, Vector4.new(2, 4, 6, 8))
+
     test.expect_equal(2 * v2, Vector2.new(2, 4))
     test.expect_equal(2 * v3, Vector3.new(2, 4, 6))
     test.expect_equal(2 * v4, Vector4.new(2, 4, 6, 8))
+
+    test.expect_equal(m2x2 * 2, Matrix2x2.new(2, 4, 6, 8))
+    test.expect_equal(m2x3 * 2, Matrix2x3.new(2, 4, 6, 8, 10, 12))
+    test.expect_equal(m2x4 * 2, Matrix2x4.new(2, 4, 6, 8, 10, 12, 14, 16))
 
     test.expect_equal(2 * m2x2, Matrix2x2.new(2, 4, 6, 8))
     test.expect_equal(2 * m2x3, Matrix2x3.new(2, 4, 6, 8, 10, 12))
     test.expect_equal(2 * m2x4, Matrix2x4.new(2, 4, 6, 8, 10, 12, 14, 16))
 
+    test.expect_equal(m3x2 * 2, Matrix3x2.new(2, 4, 6, 8, 10, 12))
+    test.expect_equal(m3x3 * 2, Matrix3x3.new(2, 4, 6, 8, 10, 12, 14, 16, 18))
+    test.expect_equal(m3x4 * 2, Matrix3x4.new(2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24))
+
     test.expect_equal(2 * m3x2, Matrix3x2.new(2, 4, 6, 8, 10, 12))
     test.expect_equal(2 * m3x3, Matrix3x3.new(2, 4, 6, 8, 10, 12, 14, 16, 18))
     test.expect_equal(2 * m3x4, Matrix3x4.new(2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24))
+
+    test.expect_equal(m4x2 * 2, Matrix4x2.new(2, 4, 6, 8, 10, 12, 14, 16))
+    test.expect_equal(m4x3 * 2, Matrix4x3.new(2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24))
+    test.expect_equal(m4x4 * 2, Matrix4x4.new(2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32))
 
     test.expect_equal(2 * m4x2, Matrix4x2.new(2, 4, 6, 8, 10, 12, 14, 16))
     test.expect_equal(2 * m4x3, Matrix4x3.new(2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24))
@@ -194,4 +248,8 @@ test.test('Multiplication', function()
     test.expect_equal(m4x4 * m2x4, Matrix2x4.new(90, 100, 110, 120, 202, 228, 254, 280))
     test.expect_equal(m4x4 * m3x4, Matrix3x4.new(90, 100, 110, 120, 202, 228, 254, 280, 314, 356, 398, 440))
     test.expect_equal(m4x4 * m4x4, Matrix4x4.new(90, 100, 110, 120, 202, 228, 254, 280, 314, 356, 398, 440, 426, 484, 542, 600))
+
+    test.expect_error(function()
+        local r = m2x3 * m4x4
+    end)
 end)
