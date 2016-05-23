@@ -30,9 +30,9 @@ namespace wake
 
     private:
         ModuleRegistry();
-        ModuleRegistry(const ModuleRegistry& other);
+        ModuleRegistry(const ModuleRegistry& other) = delete;
 
-        ModuleRegistry& operator=(const ModuleRegistry& other);
+        ModuleRegistry& operator=(const ModuleRegistry& other) = delete;
 
         ~ModuleRegistry();
 
