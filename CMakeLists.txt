@@ -96,19 +96,22 @@ set(SOURCE_FILES
         "src/bindings/luawake.cpp"
         )
 
-set (EXT_SOURCE_FILES
+set(EXT_SOURCE_FILES
         "deps/stb/stb_image.c"
         )
 
 if (COVERALLS)
-    include(Coveralls)
-    coveralls_turn_on_coverage()
-    coveralls_setup(
-            "${SOURCE_FILES}"
-            ${COVERALLS_UPLOAD}
-            "${CMAKE_CURRENT_SOURCE_DIR}/CMake"
-    )
-endif()
+    # Coverage only supported on GCC at this time.
+    if (CMAKE_COMPILER_IS_GNUCXX)
+        include(Coveralls)
+        coveralls_turn_on_coverage()
+        coveralls_setup(
+                "${SOURCE_FILES}"
+                ${COVERALLS_UPLOAD}
+                "${CMAKE_CURRENT_SOURCE_DIR}/CMake"
+        )
+    endif ()
+endif ()
 
 add_definitions(-DGLM_FORCE_RADIANS)
 
