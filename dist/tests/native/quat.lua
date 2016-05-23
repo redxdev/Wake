@@ -1,6 +1,7 @@
 local test = require('test')
 local Quat = Quat
 local math = math
+local Vector2 = Vector2
 local Vector3 = Vector3
 local Vector4 = Vector4
 local Matrix3x3 = Matrix3x3
@@ -29,6 +30,22 @@ test.test('creation', function()
     test.expect_num_equal(q:get(2), 0.310622, 0.000001)
     test.expect_num_equal(q:get(3), 0.444435, 0.000001)
     test.expect_num_equal(q:get(4), 0.435953, 0.000001)
+
+    local c = Quat.new(q)
+    test.assert_equal(#q, 4)
+    test.expect_num_equal(q:get(1), -0.718287, 0.000001)
+    test.expect_num_equal(q:get(2), 0.310622, 0.000001)
+    test.expect_num_equal(q:get(3), 0.444435, 0.000001)
+    test.expect_num_equal(q:get(4), 0.435953, 0.000001)
+
+    q = Quat.new({1, 0, 0}, {0, 1, 0})
+    test.assert_equal(#q, 4)
+    test.expect_num_equal(q:get(1), 0, 0.000001)
+    test.expect_num_equal(q:get(2), 0, 0.000001)
+    test.expect_num_equal(q:get(3), 0.707107, 0.000001)
+    test.expect_num_equal(q:get(4), 0.707107, 0.000001)
+
+    test.expect_error(Quat.new, 1, 2, 3, 4, 5, 6)
 end)
 
 test.test('equality', function()
@@ -36,7 +53,7 @@ test.test('equality', function()
     local b = Quat.new{4, 5, 6}
     test.assert_not_equal(a, b)
 
-    b = Quat.new{1, 2, 3 }
+    b = Quat.new{1, 2, 3}
     test.assert_equal(a, b)
 end)
 
@@ -178,6 +195,10 @@ test.test('operations', function()
     test.expect_num_equal(r:get(3), 0, 0.000001)
     test.expect_num_equal(r:get(4), 0.540302, 0.000001)
 
+    test.expect_error(function()
+        r = q * Vector2.new(1, 5)
+    end)
+
     r = v3 * q
     test.expect_num_equal(r:get(1), -1.984111, 0.000001)
     test.expect_num_equal(r:get(2), 2, 0.000001)
@@ -199,4 +220,10 @@ test.test('operations', function()
     test.expect_num_equal(r:get(2), 2, 0.000001)
     test.expect_num_equal(r:get(3), 0.779436, 0.000001)
     test.expect_num_equal(r:get(4), 4, 0.000001)
+
+    r = -q
+    test.expect_num_equal(r:get(1), 0, 0.000001)
+    test.expect_num_equal(r:get(2), -0.479426, 0.000001)
+    test.expect_num_equal(r:get(3), 0, 0.000001)
+    test.expect_num_equal(r:get(4), -0.877583, 0.000001)
 end)
