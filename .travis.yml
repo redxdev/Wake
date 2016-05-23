@@ -12,7 +12,7 @@ before_install:
     - bash ./ci-install-deps.sh
 
 before_script:
-    - cmake -DCOVERALLS=On -DCMAKE_BUILD_TYPE=Debug -Dassimp_INCLUDE_DIRS=/usr/local/include -Dassimp_LIBRARIES=/usr/local/lib/libassimp.so
+    - cmake -DCOVERALLS=On -DCOVERALLS_UPLOAD=On -DCMAKE_BUILD_TYPE=Debug -Dassimp_INCLUDE_DIRS=/usr/local/include -Dassimp_LIBRARIES=/usr/local/lib/libassimp.so
     - make
 
 script:
