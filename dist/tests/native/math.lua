@@ -1,5 +1,6 @@
 local test = require('test')
 local math = math
+local ipairs = ipairs
 local Vector2 = Vector2
 local Vector3 = Vector3
 local Vector4 = Vector4
@@ -8,10 +9,46 @@ test.suite('Math Extension Library')
 
 test.test('radians', function()
     test.expect_num_equal(math.radians(90), math.pi / 2)
+
+    local e = {math.pi / 2, math.pi / 4}
+    local v = math.radians(Vector2.new(90, 45)):table()
+    for k,v in ipairs(v) do
+        test.expect_num_equal(e[k], v, 0.000001)
+    end
+
+    e = {math.pi / 2, math.pi / 4, math.pi}
+    v = math.radians(Vector3.new(90, 45, 180)):table()
+    for k,v in ipairs(v) do
+        test.expect_num_equal(e[k], v, 0.000001)
+    end
+
+    e = {math.pi / 2, math.pi / 4, math.pi, 3 * math.pi / 2}
+    v = math.radians(Vector4.new(90, 45, 180, 270)):table()
+    for k,v in ipairs(v) do
+        test.expect_num_equal(e[k], v, 0.000001)
+    end
 end)
 
 test.test('degrees', function()
     test.expect_num_equal(math.degrees(math.pi / 2), 90)
+
+    local e = {90, 45}
+    local v = math.degrees(Vector2.new(math.pi / 2, math.pi / 4)):table()
+    for k,v in ipairs(v) do
+        test.expect_num_equal(e[k], v)
+    end
+
+    e = {90, 45, 180}
+    v = math.degrees(Vector3.new(math.pi / 2, math.pi / 4, math.pi)):table()
+    for k,v in ipairs(v) do
+        test.expect_num_equal(e[k], v)
+    end
+
+    e = {90, 45, 180, 270}
+    v = math.degrees(Vector4.new(math.pi / 2, math.pi / 4, math.pi, 3 * math.pi / 2)):table()
+    for k,v in ipairs(v) do
+        test.expect_num_equal(e[k], v)
+    end
 end)
 
 test.test('frustum', function()
@@ -122,9 +159,10 @@ test.test('abs', function()
     test.expect_equal(math.abs(Vector3.new(10, 20, 30)), Vector3.new(10, 20, 30))
     test.expect_equal(math.abs(Vector3.new(-10, -20, -30)), Vector3.new(10, 20, 30))
 
-
     test.expect_equal(math.abs(Vector4.new(10, 20, 30, 40)), Vector4.new(10, 20, 30, 40))
     test.expect_equal(math.abs(Vector4.new(-10, -20, -30, -40)), Vector4.new(10, 20, 30, 40))
+
+    test.expect_error(math.abs, "foo")
 end)
 
 test.test('ceil', function()
@@ -132,6 +170,8 @@ test.test('ceil', function()
     test.expect_equal(math.ceil(Vector2.new(1.2, 2.3)), Vector2.new(2, 3))
     test.expect_equal(math.ceil(Vector3.new(1.2, 2.3, 3.7)), Vector3.new(2, 3, 4))
     test.expect_equal(math.ceil(Vector4.new(1.2, 2.3, 3.7, 9.8)), Vector4.new(2, 3, 4, 10))
+
+    test.expect_error(math.ceil, "foo")
 end)
 
 test.test('clamp', function()
@@ -146,6 +186,8 @@ test.test('clamp', function()
 
     test.expect_equal(math.clamp(Vector4.new(1, 2, 3, 4), {2, 3, 4, 5}, {6, 7, 8, 9}), Vector4.new(2, 3, 4, 5))
     test.expect_equal(math.clamp(Vector4.new(8, 9, 10, 11), {2, 3, 4, 5}, {6, 7, 8, 9}), Vector4.new(6, 7, 8, 9))
+
+    test.expect_error(math.clamp, "foo")
 end)
 
 test.test('floor', function()
@@ -153,6 +195,8 @@ test.test('floor', function()
     test.expect_equal(math.floor(Vector2.new(1.2, 2.3)), Vector2.new(1, 2))
     test.expect_equal(math.floor(Vector3.new(1.2, 2.3, 3.7)), Vector3.new(1, 2, 3))
     test.expect_equal(math.floor(Vector4.new(1.2, 2.3, 3.7, 9.8)), Vector4.new(1, 2, 3, 9))
+
+    test.expect_error(math.floor, "foo")
 end)
 
 test.test('fract', function()
@@ -172,6 +216,8 @@ test.test('fract', function()
     test.expect_num_equal(r:get(2), 0.2345, 0.0001)
     test.expect_num_equal(r:get(3), 0.2345, 0.0001)
     test.expect_num_equal(r:get(4), 0.2345, 0.0001)
+
+    test.expect_error(math.fract, "foo")
 end)
 
 test.test('round', function()
@@ -180,4 +226,6 @@ test.test('round', function()
     test.expect_equal(math.round(Vector2.new(1.2, 2.6)), Vector2.new(1, 3))
     test.expect_equal(math.round(Vector3.new(1.2, 2.6, 3.7)), Vector3.new(1, 3, 4))
     test.expect_equal(math.round(Vector4.new(1.2, 2.7, 3.7, 9.8)), Vector4.new(1, 3, 4, 10))
+
+    test.expect_error(math.round, "foo")
 end)
