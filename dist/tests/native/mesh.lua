@@ -1,6 +1,7 @@
 local test = require('test')
 local Vertex = Vertex
 local Mesh = Mesh
+local tostring = tostring
 
 test.suite('Mesh Library')
 
@@ -25,6 +26,9 @@ test.test('creation', function()
     test.expect_equal(m:getIndices()[1], 1)
     test.expect_equal(m:getIndices()[2], 2)
     test.expect_equal(m:getIndices()[3], 3)
+
+    test.expect_error(Mesh.new, 1, 2, 3, 4, 5)
+    test.expect_error(Vertex.new, 1, 2, 3, 4, 5)
 end)
 
 test.test('setters', function()
@@ -58,4 +62,12 @@ test.test('setters', function()
     test.expect_equal(m:getIndices()[1], 1)
     test.expect_equal(m:getIndices()[2], 2)
     test.expect_equal(m:getIndices()[3], 3)
+end)
+
+test.test('tostring', function()
+    local m = Mesh.new({Vertex.new{1, 2, 3}, Vertex.new{4, 5, 6}}, {1, 2, 3})
+    test.expect_equal(tostring(m), "Mesh[2,3]")
+
+    local v = Vertex.new{1, 2, 3 }
+    test.expect_equal(tostring(v), "Vertex({1,2,3},{1,0,0},{0,0})")
 end)
