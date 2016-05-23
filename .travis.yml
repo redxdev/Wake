@@ -12,11 +12,8 @@ before_install:
     - bash ./ci-install-deps.sh
 
 before_script:
-    - cmake -Dassimp_INCLUDE_DIRS=/usr/local/include -Dassimp_LIBRARIES=/usr/local/lib/libassimp.so -DWAKE_COVERAGE=1 .
+    - cmake -DCOVERALLS=On -DCMAKE_BUILD_TYPE=Debug -Dassimp_INCLUDE_DIRS=/usr/local/include -Dassimp_LIBRARIES=/usr/local/lib/libassimp.so
     - make
 
 script:
-    - cd dist && ../Wake --testing
-
-after_success:
-    - coveralls --include . --gcov-options '\-lp'
+    - make coveralls

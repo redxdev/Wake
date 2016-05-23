@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.2)
 project(Wake)
 
+option(COVERALLS "Turn on coveralls support" OFF)
+option(COVERALLS_UPLOAD "Upload the generated coveralls json" ON)
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 set(WAKE_DISTRIBUTION_PATH "${CMAKE_CURRENT_SOURCE_DIR}/dist")
 
@@ -38,15 +41,6 @@ if (MINGW)
     if (CMAKE_BUILD_TYPE MATCHES Release)
         # Due to a bug in MinGW, we need to define this in release mode.
         add_definitions(-D__NO_INLINE__)
-    endif ()
-endif ()
-
-if (WAKE_COVERAGE)
-    if (CMAKE_COMPILER_IS_GNUCXX)
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
-        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage")
-        message("-- Building with gcov support")
     endif ()
 endif ()
 
@@ -100,14 +94,26 @@ set(SOURCE_FILES
         "src/bindings/luashader.cpp"
         "src/bindings/luatexture.cpp"
         "src/bindings/luawake.cpp"
+        )
 
+set (EXT_SOURCE_FILES
         "deps/stb/stb_image.c"
         )
+
+if (COVERALLS)
+    include(Coveralls)
+    coveralls_turn_on_coverage()
+    coveralls_setup(
+            "${SOURCE_FILES}"
+            ${COVERALLS_UPLOAD}
+            "${CMAKE_CURRENT_SOURCE_DIR}/CMake"
+    )
+endif()
 
 add_definitions(-DGLM_FORCE_RADIANS)
 
 include_directories(${INCLUDE_DIRECTORIES})
-add_executable(Wake ${SOURCE_FILES})
+add_executable(Wake ${SOURCE_FILES} ${EXT_SOURCE_FILES})
 target_link_libraries(Wake
         ${LUA_LIBRARIES}
         ${GLEW_LIBRARIES}
@@ -117,3 +123,8 @@ target_link_libraries(Wake
         ${assimp_LIBRARIES}
         ${SNAPPY_LIBRARIES}
         )
+
+enable_testing()
+add_test(NAME LuaTests
+        COMMAND Wake --testing
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/dist")
