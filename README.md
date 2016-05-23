@@ -1,6 +1,7 @@
 # Wake
 
 [![Build Status](https://travis-ci.org/redxdev/Wake.svg?branch=master)](https://travis-ci.org/redxdev/Wake)
+[![Coverage Status](https://coveralls.io/repos/github/redxdev/Wake/badge.svg?branch=coverage)](https://coveralls.io/github/redxdev/Wake?branch=coverage)
 
 Wake is a small game engine written in C++ and Lua.
 

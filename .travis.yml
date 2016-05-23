@@ -8,11 +8,12 @@ compiler:
 before_install:
     - sudo apt-get -qq update
     - sudo apt-get -qq install -y liblua5.1-0-dev libglew-dev xorg-dev libgl1-mesa-dev unzip
+    - pip install --user cpp-coveralls
     - bash ./ci-install-deps.sh
 
 before_script:
-    - cmake -Dassimp_INCLUDE_DIRS=/usr/local/include -Dassimp_LIBRARIES=/usr/local/lib/libassimp.so .
+    - cmake -DCOVERALLS=On -DCOVERALLS_UPLOAD=On -DCMAKE_BUILD_TYPE=Debug -Dassimp_INCLUDE_DIRS=/usr/local/include -Dassimp_LIBRARIES=/usr/local/lib/libassimp.so
     - make
 
 script:
-    - cd dist && ../Wake --testing
+    - make coveralls
