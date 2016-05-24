@@ -67,7 +67,7 @@ function hook_engine_tests()
                     print(arg .. " takes 1 argument")
                     return false
                 end
-                
+
                 local pattern = args[i]
                 test.filter_tests(pattern)
             else
