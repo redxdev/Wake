@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 
 #ifdef W_NO_GL_CHECKS
@@ -11,5 +11,7 @@
 
 namespace wake
 {
+    const char* getGLErrorString(GLenum err);
+
     bool checkGLErrors(const char* file, int line);
 }

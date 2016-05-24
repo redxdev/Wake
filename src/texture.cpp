@@ -120,14 +120,8 @@ namespace wake
         W_GL_CHECK();
     }
 
-    void Texture::activate(GLuint unit)
+    void Texture::activate(GLenum unit)
     {
-        if (unit >= GL_MAX_TEXTURE_UNITS - GL_TEXTURE0)
-        {
-            std::cout << "Texture::use error: unit id is out of range - " << unit << std::endl;
-            return;
-        }
-
         glActiveTexture(GL_TEXTURE0 + unit);
         bind();
 

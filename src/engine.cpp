@@ -43,18 +43,23 @@ namespace wake
 
         glfwMakeContextCurrent(window);
 
-        W_GL_CHECK();
-
-        glewExperimental = GL_TRUE;
-        if (glewInit() != GLEW_OK)
+        if (gl3wInit())
         {
-            std::cout << "Unable to initialize GLEW." << std::endl;
+            std::cout << "Unable to initialize GL3W." << std::endl;
             glfwTerminate();
 
             return false;
         }
 
         W_GL_CHECK();
+
+        if (!gl3wIsSupported(3, 3))
+        {
+            std::cout << "OpenGL 3.3 not supported on this system" << std::endl;
+            glfwTerminate();
+
+            return false;
+        }
 
         glViewport(0, 0, targetWidth, targetHeight);
 
