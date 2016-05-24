@@ -33,7 +33,7 @@ namespace wake
 
             virtual ~LuaDelegate()
             {
-                if (W_SCRIPT.getState())
+                if (W_SCRIPT.isActive())
                     luaL_unref(L, LUA_REGISTRYINDEX, funcRef);
             }
 
@@ -94,7 +94,7 @@ namespace wake
             virtual ~LuaTableDelegate()
             {
 
-                if (W_SCRIPT.getState())
+                if (W_SCRIPT.isActive())
                 {
                     luaL_unref(L, LUA_REGISTRYINDEX, funcRef);
                     luaL_unref(L, LUA_REGISTRYINDEX, tableRef);
