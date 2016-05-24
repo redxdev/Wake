@@ -21,3 +21,5 @@ build.wake.cpp
 /Release/
 
 /build/
+
+/dist/assets/models/test.wmdl

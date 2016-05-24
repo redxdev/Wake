@@ -29,6 +29,21 @@ test.test('loadModel', function()
     end
 end)
 
+test.test('saveModel', function()
+    local model = assets.loadModel('assets/models/teapot.obj')
+    test.assert_not_equal(model, nil)
+
+    assets.saveModel('assets/models/test.wmdl', model, false)
+    local model2 = assets.loadModel('assets/models/test.wmdl')
+
+    test.expect_equal(model:getMeshCount(), model2:getMeshCount())
+
+    assets.saveModel('assets/models/test.wmdl', model, true)
+    model2 = assets.loadModel('assets/models/test.wmdl')
+
+    test.expect_equal(model:getMeshCount(), model2:getMeshCount())
+end)
+
 test.test('loadTexture', function()
     local texture = assets.loadTexture('assets/textures/default.png')
     test.assert_not_equal(texture, null)
