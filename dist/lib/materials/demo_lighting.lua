@@ -44,6 +44,7 @@ void main()
 
 local material = Material.new()
 material:setShader(shader)
+material:setTypeName('materials.demo_lighting')
 material:setVec3('lightColor', {1, 1, 1})
 material:setVec3('lightDirection', {1, -1, 0.6})
 material:setFloat('lightAmbience', 0.8)
