@@ -19,6 +19,9 @@ local suites = {}
 local current_suite
 local current_test
 
+local suite_filters = {}
+local test_filters = {}
+
 local module = {}
 
 if wake.getEngineMode() ~= 'testing' then
@@ -34,6 +37,7 @@ function module.suite(name)
         name = name,
         success = {},
         fail = {},
+        skip = {},
         tests = {}
     }
     insert(suites, suite)
@@ -53,6 +57,14 @@ function module.test(name, f)
     insert(current_suite.tests, test)
 end
 
+function module.filter_suites(pattern)
+    insert(suite_filters, pattern)
+end
+
+function module.filter_tests(pattern)
+    insert(test_filters, pattern)
+end
+
 function module.suites()
     return suites
 end
@@ -60,10 +72,29 @@ end
 function module.run_all()
     out:write('Engine ' .. wake.getVersion() .. ' running in ' .. wake.getEngineMode() .. ' mode.\n\n')
 
+    if #suite_filters > 0 then
+        out:write("Suite Filters:\n")
+        for _,f in ipairs(suite_filters) do
+            out:write("- " .. f .. "\n")
+        end
+    end
+
+    if #test_filters > 0 then
+        out:write("Test Filters:\n")
+        for _,f in ipairs(test_filters) do
+            out:write("- " .. f .. "\n")
+        end
+    end
+
     local fail = 0
     local success = 0
+    local skipped = 0
     for _, v in ipairs(suites) do
-        if module.run_suite(v) then
+        local r = module.run_suite(v)
+
+        if r == "skipped" then
+            skipped = skipped + 1
+        elseif r then
             success = success + 1
         else
             fail = fail + 1
@@ -71,7 +102,7 @@ function module.run_all()
         out:write('\n')
     end
 
-    out:write('Results: ' .. success .. ' suites passed, ' .. fail .. ' suites failed\n')
+    out:write('Results: ' .. success .. ' suites passed, ' .. fail .. ' suites failed, ' .. skipped .. ' suites skipped\n')
 
     if fail > 0 then
         return false
@@ -81,48 +112,90 @@ function module.run_all()
 end
 
 function module.run_suite(suite)
-    current_suite = suite
-
-    out:write('== Suite "' .. suite.name .. '" ==\n')
-
-    for _, v in ipairs(suite.tests) do
-        if module.run_test(v) then
-            insert(current_suite.success, v)
-        else
-            insert(current_suite.fail, v)
+    local shouldRun = false
+    if #suite_filters == 0 then
+        shouldRun = true
+    else
+        for _,pattern in ipairs(suite_filters) do
+            if string.find(suite.name, pattern) then
+                shouldRun = true
+                break
+            end
         end
     end
 
-    if #(suite.fail) > 0 then
-        err:write('!! Suite "' .. suite.name .. '" failed with ' .. #(suite.fail) .. ' errors !!\n')
-        return false
+    if shouldRun then
+        current_suite = suite
+
+        out:write('== Suite "' .. suite.name .. '" ==\n')
+
+        for _, v in ipairs(suite.tests) do
+            local r = module.run_test(v)
+
+            if r == "skipped" then
+                insert(current_suite.skip, v)
+            elseif r then
+                insert(current_suite.success, v)
+            else
+                insert(current_suite.fail, v)
+            end
+        end
+
+        if #(suite.fail) > 0 then
+            err:write('!! Suite "' .. suite.name .. '" failed with ' .. #(suite.fail) .. ' errors !!\n')
+            return false
+        else
+            if #suite.skip > 0 then
+                err:write('== Suite "' .. suite.name .. '" succeeded (' .. #(suite.skip) .. ' tests skipped) ==\n')
+            else
+                err:write('== Suite "' .. suite.name .. '" succeeded ==\n')
+            end
+            return true
+        end
     else
-        err:write('== Suite "' .. suite.name .. '" succeeded ==\n')
-        return true
+        out:write('== Suite "' .. suite.name .. '" == SKIPPED\n')
+        return "skipped"
     end
 end
 
 function module.run_test(test)
-    current_test = test
-
-    out:write('  Test "' .. test.name .. '"... ')
-
-    local status, e = pcall(test.call)
-    if status and #(test.errors) == 0 then
-        out:write('passed\n')
-        return true
+    local shouldRun = false
+    if #test_filters == 0 then
+        shouldRun = true
     else
-        out:write('failed\n')
-
-        if not status then
-            err:write('-- ' .. e .. '\n')
+        for _,pattern in ipairs(test_filters) do
+            if string.find(test.name, pattern) then
+                shouldRun = true
+                break
+            end
         end
+    end
 
-        for _, v in ipairs(test.errors) do
-            err:write('-- ' .. v .. '\n')
+    if shouldRun then
+        current_test = test
+
+        out:write('  Test "' .. test.name .. '"... ')
+
+        local status, e = pcall(test.call)
+        if status and #(test.errors) == 0 then
+            out:write('passed\n')
+            return true
+        else
+            out:write('failed\n')
+
+            if not status then
+                err:write('-- ' .. e .. '\n')
+            end
+
+            for _, v in ipairs(test.errors) do
+                err:write('-- ' .. v .. '\n')
+            end
+
+            return false
         end
-
-        return false
+    else
+        out:write('  Test "' .. test.name .. '"... SKIPPED\n')
+        return "skipped"
     end
 end
 

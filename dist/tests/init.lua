@@ -37,6 +37,8 @@ require('tests.native.material')
 local test = require('test')
 
 function hook_engine_tests()
+    -- TODO: Allow specifying specific suites or tests to run
+
     local args = wake.getArguments()
     if #args > 0 then
         local i = 1
@@ -50,12 +52,25 @@ function hook_engine_tests()
                     end
                 end
                 return true
+            elseif arg == "--suite-filter" or arg == "-s" then
+                i = i + 1
+                local pattern = args[i]
+                test.filter_suites(pattern)
+            elseif arg == "--test-filter" or arg == "-t" then
+                i = i + 1
+                local pattern = args[i]
+                test.filter_tests(pattern)
             else
-                print("Usage: Wake -t -- [options]")
-                print("Options:")
-                print("--list-tests    -t    List all tests and suites.")
+                if arg ~= "--help" and arg ~= "-h" then
+                    print("Unknown argument " .. arg)
+                end
+
+                print("Usage: Wake -t -- [--list-tests|-l] [--suite-filter|-s <pattern>] [--test-filter|-t <pattern>]")
+                print("--suite-filter and --test-filter may be repeated")
                 return false
             end
+
+            i = i + 1
         end
     end
 
