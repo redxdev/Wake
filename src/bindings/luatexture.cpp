@@ -13,6 +13,13 @@ namespace wake
             TexturePtr texture;
         };
 
+        static int copy(lua_State* L)
+        {
+            TexturePtr texture = luaW_checktexture(L, 1);
+            pushValue(L, TexturePtr(new Texture(*texture.get())));
+            return 1;
+        }
+
         static int getSize(lua_State* L)
         {
             TexturePtr texture = luaW_checktexture(L, 1);
@@ -72,6 +79,7 @@ namespace wake
         }
 
         static const struct luaL_reg texturelib_f[] = {
+                {"copy",                  copy},
                 {"getSize",               getSize},
                 {"getComponentsPerPixel", getComponentsPerPixel},
                 {"getPath",               getPath},
@@ -81,6 +89,7 @@ namespace wake
         };
 
         static const struct luaL_reg texturelib_m[] = {
+                {"copy",                  copy},
                 {"getSize",               getSize},
                 {"getComponentsPerPixel", getComponentsPerPixel},
                 {"getPath",               getPath},
