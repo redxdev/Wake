@@ -1,6 +1,7 @@
 local test = require('test')
 local assets = assets
 local tostring = tostring
+local Texture = Texture
 
 test.suite('Assets Library')
 
@@ -56,7 +57,7 @@ test.test('loadTexture', function()
     test.expect_equal(texture:getPath(), 'assets/textures/default.png')
     test.expect_equal(tostring(texture), 'Texture[128,128,4]')
 
-    local c = texture:copy()
+    local c = Texture.new(texture)
     test.expect_equal(w, 128)
     test.expect_equal(h, 128)
     test.expect_equal(texture:getComponentsPerPixel(), 4)

@@ -30,19 +30,37 @@ namespace wake
 
                 case 1:
                 {
-                    luaL_checktype(L, 1, LUA_TTABLE);
-
-                    std::vector<Vertex> vertices;
-                    lua_pushnil(L);
-                    while (lua_next(L, 1) != 0)
+                    int type = lua_type(L, 1);
+                    switch (type)
                     {
-                        luaL_checktype(L, -2, LUA_TNUMBER);
-                        vertices.push_back(*luaW_checkvertex(L, -1));
-                        lua_pop(L, 1);
+                        default:
+                            luaL_error(L, "expected table or Mesh for argumnent #1 to Mesh.new");
+                            break;
+
+                        case LUA_TTABLE:
+                        {
+                            std::vector<Vertex> vertices;
+                            lua_pushnil(L);
+                            while (lua_next(L, 1) != 0)
+                            {
+                                luaL_checktype(L, -2, LUA_TNUMBER);
+                                vertices.push_back(*luaW_checkvertex(L, -1));
+                                lua_pop(L, 1);
+                            }
+
+                            pushValue(L, MeshPtr(new Mesh(vertices)));
+                            return 1;
+                        }
+
+                        case LUA_TUSERDATA:
+                        {
+                            MeshPtr mesh = luaW_checkmesh(L, 1);
+                            pushValue(L, MeshPtr(new Mesh(*mesh.get())));
+                            return 1;
+                        }
                     }
 
-                    pushValue(L, MeshPtr(new Mesh(vertices)));
-                    return 1;
+                    return 0;
                 }
 
                 case 2:

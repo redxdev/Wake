@@ -27,8 +27,18 @@ test.test('creation', function()
     test.expect_equal(m:getIndices()[2], 2)
     test.expect_equal(m:getIndices()[3], 3)
 
+    m = Mesh.new(m)
+    test.assert_equal(#m:getVertices(), 2)
+    test.assert_equal(#m:getIndices(), 3)
+    test.expect_equal(m:getVertices()[1], Vertex.new{1, 2, 3})
+    test.expect_equal(m:getVertices()[2], Vertex.new{4, 5, 6})
+    test.expect_equal(m:getIndices()[1], 1)
+    test.expect_equal(m:getIndices()[2], 2)
+    test.expect_equal(m:getIndices()[3], 3)
+
     test.expect_error(Mesh.new, 1, 2, 3, 4, 5)
     test.expect_error(Vertex.new, 1, 2, 3, 4, 5)
+
 end)
 
 test.test('setters', function()
