@@ -54,10 +54,20 @@ function hook_engine_tests()
                 return true
             elseif arg == "--suite-filter" or arg == "-s" then
                 i = i + 1
+                if i > #args then
+                    print(arg .. " takes 1 argument")
+                    return false
+                end
+
                 local pattern = args[i]
                 test.filter_suites(pattern)
             elseif arg == "--test-filter" or arg == "-t" then
                 i = i + 1
+                if i > #args then
+                    print(arg .. " takes 1 argument")
+                    return false
+                end
+                
                 local pattern = args[i]
                 test.filter_tests(pattern)
             else
