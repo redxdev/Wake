@@ -14,7 +14,6 @@ configure_file("src/build.cpp.in" "${CMAKE_CURRENT_BINARY_DIR}/build.wake.cpp" @
 
 find_package(OpenGL REQUIRED)
 find_package(Lua REQUIRED)
-find_package(GLEW REQUIRED)
 find_package(GLM REQUIRED)
 find_package(assimp REQUIRED)
 find_package(Snappy REQUIRED)
@@ -48,13 +47,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(TCLAP_INCLUDE_DIR "deps/tclap-1.2.1/include")
 set(STB_INCLUDE_DIR "deps/stb")
+set(GL3W_INCLUDE_DIR "deps/gl3w/include")
 
 set(INCLUDE_DIRECTORIES
         "include"
         ${TCLAP_INCLUDE_DIR}
         ${OBJLOADER_INCLUDE_DIR}
         ${LUA_INCLUDE_DIR}
-        ${GLEW_INCLUDE_DIRS}
+        ${GL3W_INCLUDE_DIR}
         ${GLFW_INCLUDE_DIRS}
         ${GLM_INCLUDE_DIR}
         ${assimp_INCLUDE_DIRS}
@@ -98,6 +98,7 @@ set(SOURCE_FILES
 
 set (EXT_SOURCE_FILES
         "deps/stb/stb_image.c"
+        "deps/gl3w/src/gl3w.c"
         )
 
 if (COVERALLS)
@@ -117,7 +118,6 @@ include_directories(${INCLUDE_DIRECTORIES})
 add_executable(Wake ${SOURCE_FILES} ${EXT_SOURCE_FILES})
 target_link_libraries(Wake
         ${LUA_LIBRARIES}
-        ${GLEW_LIBRARIES}
         ${GLFW_LIBRARIES}
         ${OPENGL_gl_LIBRARY}
         ${OPENGL_glu_LIBRARY}

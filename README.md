@@ -16,8 +16,8 @@ need to provide yourself:
 
 * [stb_image](https://github.com/nothings/stb) (provided)
 * [tclap](http://tclap.sourceforge.net/) (provided)
+* [gl3w](https://github.com/skaslev/gl3w) (provided)
 * [Lua 5.1](https://www.lua.org) or [LuaJIT](http://luajit.org/) (not provided)
-* [GLEW](http://glew.sourceforge.net/) (not provided)
 * [GLFW](http://www.glfw.org/) (not provided)
 * [GLM](http://glm.g-truc.net/) (not provided)
 * [Assimp](http://assimp.org/) (not provided)

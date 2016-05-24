@@ -40,7 +40,7 @@ namespace wake
 
         void generateMipMaps();
 
-        void activate(GLuint unit);
+        void activate(GLenum unit);
 
     private:
         void initializeData();
