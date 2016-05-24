@@ -55,8 +55,8 @@ namespace wake
         {
             TexturePtr texture = luaW_checktexture(L, 1);
             std::stringstream ss;
-            ss << "Texture(" << texture->getWidth() << "," << texture->getHeight() << ","
-            << texture->getComponentsPerPixel() << ")";
+            ss << "Texture[" << texture->getWidth() << "," << texture->getHeight() << ","
+            << texture->getComponentsPerPixel() << "]";
             auto str = ss.str();
             lua_pushstring(L, str.data());
             return 1;
