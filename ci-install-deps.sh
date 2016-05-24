@@ -3,8 +3,6 @@
 mkdir -p deps-install
 cd deps-install
 
-ls
-
 if [ ! -d cmake-3.4.3-Linux-x86_64 ]
 then
     echo "Downloading cmake..."
