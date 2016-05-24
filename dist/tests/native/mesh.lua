@@ -39,6 +39,7 @@ test.test('creation', function()
     test.expect_error(Mesh.new, 1, 2, 3, 4, 5)
     test.expect_error(Vertex.new, 1, 2, 3, 4, 5)
 
+    test.expect_error(Mesh.new, 123)
 end)
 
 test.test('setters', function()
