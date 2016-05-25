@@ -124,8 +124,8 @@ macro(coveralls_turn_on_coverage)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
 
 	if ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xclang -coverage-cfg-checksum -Xclang -coverage-no-function-names-in-data -Xclang -coverage-version='407*'")
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Xclang -coverage-cfg-checksum -Xclang -coverage-no-function-names-in-data -Xclang -coverage-version='407*'")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -Xclang -coverage-cfg-checksum -Xclang -coverage-no-function-names-in-data -Xclang -coverage-version='407*'")
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage -Xclang -coverage-cfg-checksum -Xclang -coverage-no-function-names-in-data -Xclang -coverage-version='407*'")
 	endif()
 endmacro()
 
