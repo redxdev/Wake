@@ -36,6 +36,14 @@ engine.tick:bind(function(dt)
         cam:moveRight(moveSpeed * dt)
     end
 
+    if input.getKey(input.key.Q) == input.action.Press then
+        cam:moveUp(-moveSpeed * dt)
+    end
+
+    if input.getKey(input.key.E) == input.action.Press then
+        cam:moveUp(moveSpeed * dt)
+    end
+
     cam:use()
 
     local transform = math.scale{0.002, 0.002, 0.002}

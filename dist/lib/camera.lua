@@ -34,6 +34,10 @@ function Camera:moveRight(amount)
     self.position = self.position + amount * self:getFrontVector():cross(self.up)
 end
 
+function Camera:moveUp(amount)
+    self.position = self.position + amount * Vector3.new(0, 1, 0)
+end
+
 function Camera:use(mat)
     mat = mat or Material.getGlobal()
     mat:setMatrix4("projection", self.projection)
