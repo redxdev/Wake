@@ -37,8 +37,6 @@ require('tests.native.material')
 local test = require('test')
 
 function hook_engine_tests()
-    -- TODO: Allow specifying specific suites or tests to run
-
     local args = wake.getArguments()
     if #args > 0 then
         local i = 1
