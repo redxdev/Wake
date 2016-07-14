@@ -4,7 +4,7 @@ namespace wake
 {
     MaterialParameter MaterialParameter::NullParameter = MaterialParameter();
 
-    void MaterialParameter::setUniform(Uniform& uniform)
+    void MaterialParameter::setUniform(Uniform& uniform) const
     {
         if (uniform.isError())
             return;
@@ -189,6 +189,27 @@ namespace wake
         parameters[name] = param;
     }
 
+    void Material::setTempParameter(const std::string& name, const MaterialParameter& param)
+    {
+        if (shader.get() == nullptr)
+            return;
+
+        Uniform uniform;
+
+        auto found = parameters.find(name);
+        if (found != parameters.end())
+        {
+            uniform = found->second.uniform;
+        }
+
+        if (uniform.isError())
+        {
+            uniform = shader->getUniform(name.c_str());
+        }
+
+        param.setUniform(uniform);
+    }
+
     void Material::removeParameter(const std::string& name)
     {
         parameters.erase(name);
@@ -255,7 +276,7 @@ namespace wake
 
             if (needsUniformUpdates || entry.second.uniform.isError())
             {
-                entry.second.uniform = shader->getUniform(name.data());
+                entry.second.uniform = shader->getUniform(name.c_str());
             }
 
             Uniform& uniform = entry.second.uniform;
@@ -280,7 +301,7 @@ namespace wake
             auto found = globalCache.find(name);
             if (found == globalCache.end())
             {
-                uniform = shader->getUniform(name.data());
+                uniform = shader->getUniform(name.c_str());
                 if (!uniform.isError())
                     globalCache[name] = uniform;
             }
@@ -299,7 +320,7 @@ namespace wake
 
             if (needsUniformUpdates || param.uniform.isError())
             {
-                param.uniform = shader->getUniform(name.data());
+                param.uniform = shader->getUniform(name.c_str());
             }
 
             Uniform& uniform = param.uniform;

@@ -219,7 +219,7 @@ namespace wake
         return true;
     }
 
-    void Model::draw(const glm::mat4& transform)
+    void Model::draw(MaterialPtr parameterData)
     {
         for (auto& meshInfo : meshes)
         {
@@ -232,11 +232,12 @@ namespace wake
 
             materialInfo.material->use();
 
-            if (materialInfo.material->getShader().get() != nullptr)
+            if (parameterData.get() != nullptr)
             {
-                auto uniform = materialInfo.material->getShader()->getUniform("transform");
-                if (!uniform.isError())
-                    uniform.setMatrix4(transform);
+                for (auto entry : parameterData->getParameters())
+                {
+                    materialInfo.material->setTempParameter(entry.first, entry.second);
+                }
             }
 
             meshInfo.mesh->draw();

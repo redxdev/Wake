@@ -331,12 +331,11 @@ namespace wake
         static int draw(lua_State* L)
         {
             ModelPtr model = luaW_checkmodel(L, 1);
-
-            glm::mat4x4 transform;
+            MaterialPtr material = nullptr;
             if (lua_gettop(L) > 1)
-                transform = *luaW_checkmatrix4x4(L, 2);
+                material = luaW_checkmaterial(L, 2);
 
-            model->draw(transform);
+            model->draw(material);
             return 0;
         }
 

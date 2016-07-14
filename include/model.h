@@ -116,8 +116,8 @@ namespace wake
 
         bool removeMesh(int32 index);
 
-        // TODO: Allow arbitrary parameters to draw, and cache uniforms.
-        void draw(const glm::mat4& transform);
+        // TODO: Pass a list (map?) of parameters instead of a Material, this is a bit hacky.
+        void draw(MaterialPtr parameterData);
 
     private:
         std::vector<MaterialInfo> materials;

@@ -49,5 +49,8 @@ material:setVec3('lightColor', {1, 1, 1})
 material:setVec3('lightDirection', {1, -1, 0.6})
 material:setFloat('lightAmbience', 0.8)
 material:setFloat('minBrightness', 0.15)
+material:setMatrix4('projection', Matrix4x4.new())
+material:setMatrix4('view', Matrix4x4.new())
+material:setMatrix4('transform', Matrix4x4.new())
 
 return material

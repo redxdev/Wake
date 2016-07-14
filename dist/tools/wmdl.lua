@@ -4,7 +4,8 @@ function hook_engine_tool()
         print("Usage: wmdl <input_model> <output_model> [compress=true]")
         print("Description: Converts models into the wake model format. The wake model format")
         print("             is faster for the engine to load than most formats, and is")
-        print("             compressed in order to save space.")
+        print("             compressed in order to save space. This may also be used to")
+        print("             upgrade old model files into a newer format.")
         return false
     end
 

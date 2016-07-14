@@ -44,10 +44,11 @@ engine.tick:bind(function(dt)
         cam:moveUp(moveSpeed * dt)
     end
 
-    cam:use()
+    local params = Material.new()
+    params:setMatrix4("transform", math.scale{0.002, 0.002, 0.002})
+    cam:use(params)
 
-    local transform = math.scale{0.002, 0.002, 0.002}
-    obj:draw(transform)
+    obj:draw(params)
 end)
 
 engine.quit:bind(function()

@@ -29,7 +29,7 @@ namespace wake
             uniform = Uniform();
         }
 
-        void setUniform(Uniform& uniform);
+        void setUniform(Uniform& uniform) const;
 
         enum : uint8
         {
@@ -126,6 +126,8 @@ namespace wake
         void setParameter(const std::string& name, const glm::vec4& v4);
 
         void setParameter(const std::string& name, const glm::mat4& m4);
+
+        void setTempParameter(const std::string& name, const MaterialParameter& param);
 
         void removeParameter(const std::string& name);
 
