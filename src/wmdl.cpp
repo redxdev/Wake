@@ -33,7 +33,7 @@ namespace wake
         return val;
     }
 
-    static void writeUInt8(std::ostream& out, uint32 val)
+    static void writeUInt8(std::ostream& out, uint8 val)
     {
         out.write((char*) &val, sizeof(val));
 
@@ -478,6 +478,7 @@ namespace wake
             }
 
             std::stringstream data(raw);
+            raw = "";
 
             // Material Section
             // Only valid in version 4+
@@ -604,6 +605,11 @@ namespace wake
             if (f.is_open())
             {
                 f.close();
+            }
+
+            if (strlen(e.what()) > 0)
+            {
+                std::cout << e.what() << std::endl;
             }
 
             return ModelPtr(nullptr);
