@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "glutil.h"
 #include "engineptr.h"
 
