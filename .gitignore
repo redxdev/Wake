@@ -8,6 +8,7 @@ build.wake.cpp
 /deps/external/
 
 /.vs/
+/.vscode/
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user

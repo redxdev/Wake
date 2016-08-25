@@ -43,7 +43,11 @@ if (MINGW)
     endif ()
 endif ()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+if (MINGW)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+else ()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif ()
 
 set(TCLAP_INCLUDE_DIR "deps/tclap-1.2.1/include")
 set(STB_INCLUDE_DIR "deps/stb")
