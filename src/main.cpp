@@ -17,7 +17,7 @@ int execute(bool testing, bool tool, const std::string& toolName, const std::vec
     }
     else if (tool)
     {
-        wake::setEngineMode(wake::EngineMode::Testing);
+        wake::setEngineMode(wake::EngineMode::Tool);
     }
     else
     {
