@@ -87,6 +87,14 @@ namespace wake
         {
             luaL_register(L, "engine", wakelib_f);
 
+            lua_pushstring(L, "earlyTick");
+            pushValue(L, W_ENGINE.EarlyTickEvent);
+            lua_settable(L, -3);
+
+            lua_pushstring(L, "lateTick");
+            pushValue(L, W_ENGINE.LateTickEvent);
+            lua_settable(L, -3);
+
             lua_pushstring(L, "tick");
             pushValue(L, W_ENGINE.TickEvent);
             lua_settable(L, -3);

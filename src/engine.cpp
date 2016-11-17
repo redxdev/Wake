@@ -118,7 +118,11 @@ namespace wake
             glClearColor(clearR, clearG, clearB, clearA);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+            EarlyTickEvent.call(frameTime);
+
             TickEvent.call(frameTime);
+
+            LateTickEvent.call(frameTime);
 
             glfwSwapBuffers(window);
         }

@@ -13,7 +13,9 @@ namespace wake
         static Engine& get();
 
     public:
+        Event<double> EarlyTickEvent;
 		Event<double> TickEvent;
+        Event<double> LateTickEvent;
         Event<> QuitEvent;
 
         bool startup();
