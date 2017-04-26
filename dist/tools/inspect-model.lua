@@ -27,6 +27,9 @@ function hook_engine_tool()
     for _, m in ipairs(materials) do
         if m ~= nil then
             print("\t" .. m.name .. " - " .. m.material:getTypeName() .. " - " .. m.material:getTextureCount() .. " textures, " .. m.material:getParameterCount() .. " parameters")
+            for tn, t in pairs(m.material:getTextures()) do
+                print("\t\t" .. tn .. " - " .. t:getPath())
+            end
         end
     end
 
