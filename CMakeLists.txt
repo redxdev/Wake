@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 3.2)
+
+# This is for CMakeTools support in VSCode
+include(CMakeToolsHelpers OPTIONAL)
+
 project(Wake)
 
 option(COVERALLS "Turn on coveralls support" OFF)
